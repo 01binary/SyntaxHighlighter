@@ -1,0 +1,43 @@
+﻿/*--------------------------------------------------------*\
+|   ______    __   |
+|  |  __  |  |  |  |
+|  | |  | |  |  |  |
+|  | !__! |  |  |  |
+|  !______!  !__!  |  binary : tech art
+|
+|  Test multi-line comments.
+|----------------------------------------------------------
+|  Copyright(C) 2016 Valeriy Novytskyy
+\*---------------------------------------------------------*/
+
+/// <summary>
+/// Configures the Yahoo external login provider.
+/// </summary>
+/// <param name="app">The application configuration.</param>
+private void ConfigureYahooAuthentication(IApplicationBuilder app)
+{
+    /* setup auth options from user secrets */
+    var yahooOptions = new YahooAuthenticationOptions()
+    {
+        ClientId = this.Configuration["yahooId"],
+        ClientSecret = this.Configuration["yahooSecret"]
+    };
+
+    // Ensure secrets have been loaded.
+    if (string.IsNullOrEmpty(yahooOptions.ClientId) ||
+        string.IsNullOrEmpty(yahooOptions.ClientSecret))
+    {
+        /* ignore the provider if secrets have not been setup */
+        return;
+    }
+
+    /* this is an entire block of commented out stuff.
+    helloWorld(3 + 5);
+    hackHack(); // TODO: this crashes!
+
+    // this was a comment before, but now it's nested.
+    // and another comment.
+    */
+
+    app.UseYahooAuthentication(yahooOptions);
+}

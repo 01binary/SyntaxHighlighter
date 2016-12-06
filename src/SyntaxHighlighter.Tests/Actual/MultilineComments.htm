@@ -1,0 +1,50 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="../Template/Styles.css">
+</head>
+<body>
+<pre><code><span class="pl-c">/*--------------------------------------------------------*\
+|   ______    __   |
+|  |  __  |  |  |  |
+|  | |  | |  |  |  |
+|  | !__! |  |  |  |
+|  !______!  !__!  |  binary : tech art
+|
+|  Test multi-line comments.
+|----------------------------------------------------------
+|  Copyright(C) 2016 Valeriy Novytskyy
+\*---------------------------------------------------------*/</span>
+
+<span class="pl-c">/// &lt;<span class="pl-ent">summary</span>&gt;</span>
+<span class="pl-c">/// Configures the Yahoo external login provider.</span>
+<span class="pl-c">/// &lt;/<span class="pl-ent">summary</span>&gt;</span>
+<span class="pl-c">/// &lt;<span class="pl-ent">param</span> <span class="pl-e">name</span>=<span class="pl-s">"app"</span>&gt;The application configuration.&lt;/<span class="pl-ent">param</span>&gt;</span>
+<span class="pl-k">private</span> <span class="pl-k">void</span> <span class="pl-e">ConfigureYahooAuthentication</span>(<span class="pl-en">IApplicationBuilder</span> <span class="pl-v">app</span>)
+{
+    <span class="pl-c">/* setup auth options from user secrets */</span>
+    <span class="pl-k">var</span> <span class="pl-v">yahooOptions</span> = <span class="pl-k">new</span> <span class="pl-e">YahooAuthenticationOptions</span>()
+    {
+        <span class="pl-v">ClientId</span> = <span class="pl-c1">this</span>.<span class="pl-v">Configuration</span>[<span class="pl-s">"yahooId"</span>],
+        <span class="pl-v">ClientSecret</span> = <span class="pl-c1">this</span>.<span class="pl-v">Configuration</span>[<span class="pl-s">"yahooSecret"</span>]
+    };
+
+    <span class="pl-c">// Ensure secrets have been loaded.</span>
+    <span class="pl-k">if</span> (<span class="pl-k">string</span>.<span class="pl-e">IsNullOrEmpty</span>(<span class="pl-v">yahooOptions</span>.<span class="pl-e">ClientId</span>) ||
+        <span class="pl-k">string</span>.<span class="pl-e">IsNullOrEmpty</span>(<span class="pl-v">yahooOptions</span>.<span class="pl-e">ClientSecret</span>))
+    {
+        <span class="pl-c">/* ignore the provider if secrets have not been setup */</span>
+        <span class="pl-k">return</span>;
+    }
+
+    <span class="pl-c">/* this is an entire block of commented out stuff.
+    helloWorld(3 + 5);
+    hackHack(); // TODO: this crashes!
+
+    // this was a comment before, but now it's nested.
+    // and another comment.
+    */</span>
+
+    <span class="pl-v">app</span>.<span class="pl-e">UseYahooAuthentication</span>(<span class="pl-v">yahooOptions</span>);
+}</code></pre>
+</body>
+</html>

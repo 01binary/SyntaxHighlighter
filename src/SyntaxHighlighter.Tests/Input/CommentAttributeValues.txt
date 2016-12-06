@@ -1,0 +1,23 @@
+﻿int firstVariable;
+
+/*
+<CommentList/>
+<UserList />
+
+<SomeTag>
+    <ChildTag>
+        <Child />
+    </ChildTag>
+</SomeTag>
+
+<WithAttribute One="hello" Two="world"/>
+*/
+
+string secondVariable;
+
+/// <summary>
+/// Initializes a new instance of the <see cref="NewsController"/> class.
+/// </summary>
+/// <param name="services">The application container.</param>
+
+bool thirdVariable;

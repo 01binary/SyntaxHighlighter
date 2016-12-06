@@ -1,0 +1,324 @@
+﻿//-----------------------------------------------------------------------
+// <copyright file="Buffer.cs" company="01 Binary">
+//     Copyright (C) 01 Binary.
+// </copyright>
+//-----------------------------------------------------------------------
+
+namespace SyntaxHighlighter
+{
+    using System.Text.RegularExpressions;
+
+    /// <summary>
+    /// The transform buffer.
+    /// </summary>
+    internal class Buffer
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Buffer"/> class.
+        /// </summary>
+        /// <param name="data">The initial data.</param>
+        /// <param name="tokenSeparators">The pattern used to detect token separators.</param>
+        public Buffer(string data, Regex tokenSeparators)
+        {
+            this.Data = data;
+            this.Separators = tokenSeparators;
+            this.PrevToken = string.Empty;
+            this.Next = this.FindLastSeparator();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Buffer"/> class.
+        /// </summary>
+        /// <param name="data">The initial data.</param>
+        /// <param name="tokenSeparators">The pattern used to detect token separators.</param>
+        /// <param name="debug">The debugging options.</param>
+        public Buffer(string data, Regex tokenSeparators, DebugOptions debug)
+        {
+            this.Data = data;
+            this.Separators = tokenSeparators;
+            this.PrevToken = string.Empty;
+            this.Next = this.FindLastSeparator();
+            this.Debug = debug;
+        }
+
+        /// <summary>
+        /// Gets or sets the text buffer being transformed.
+        /// </summary>
+        public string Data { get; set; }
+
+        /// <summary>
+        /// Gets or sets the current position in the buffer.
+        /// </summary>
+        public int Position { get; set; }
+
+        /// <summary>
+        /// Gets or sets the position of the next token separator.
+        /// </summary>
+        public int Next { get; set; }
+
+        /// <summary>
+        /// Gets or sets the previous token separator.
+        /// </summary>
+        public char PrevSeparator { get; set; }
+
+        /// <summary>
+        /// Gets or sets the next token separator.
+        /// </summary>
+        public char NextSeparator { get; set; }
+
+        /// <summary>
+        /// Gets or sets the last token parsed.
+        /// </summary>
+        public string PrevToken { get; set; }
+
+        /// <summary>
+        /// Gets or sets the last token class.
+        /// </summary>
+        public string PrevClass { get; set; }
+
+        /// <summary>
+        /// Gets or sets the pattern used to detect token separators.
+        /// </summary>
+        public Regex Separators { get; set; }
+
+        /// <summary>
+        /// Gets or sets the options for enabling verbose output and breaking on tokens.
+        /// </summary>
+        public DebugOptions Debug { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating whether the end of buffer was reached.
+        /// </summary>
+        /// <returns>Whether parsing is at the end of buffer.</returns>
+        public bool Eof
+        {
+            get
+            {
+                return this.Position >= this.Data.Length - 1;
+            }
+        }
+
+        /// <summary>
+        /// Extracts the explicit capture group value from a match.
+        /// </summary>
+        /// <param name="match">The match to examine.</param>
+        /// <returns>The explicit capture group value.</returns>
+        public static string ExplicitMatch(Match match)
+        {
+            for (int n = 1; n < match.Groups.Count; n++)
+            {
+                if (match.Groups[n].Length > 0)
+                {
+                    return match.Groups[n].Value;
+                }
+            }
+
+            return match.Groups[0].Value;
+        }
+
+        /// <summary>
+        /// Encodes special characters to HTML entities.
+        /// </summary>
+        /// <param name="content">The content to encode.</param>
+        /// <returns>The valid HTML.</returns>
+        public static string EncodeContent(string content)
+        {
+            return content
+                .Replace("&", "&amp;")
+                .Replace("<", "&lt;")
+                .Replace(">", "&gt;");
+        }
+
+        /// <summary>
+        /// Formats a token.
+        /// </summary>
+        /// <param name="tokenContent">The token content.</param>
+        /// <param name="tokenClass">The class of token to output.</param>
+        /// <param name="match">The entire match used to keep outer content, if specified.</param>
+        /// <returns>The formatted token.</returns>
+        public static string FormatToken(string tokenContent, string tokenClass, Match match = null)
+        {
+            string formatted = string.Format(
+                "<span class=\"{0}\">{1}</span>", tokenClass, tokenContent);
+
+            if (match != null && match.Length > tokenContent.Length)
+            {
+                formatted += match.Value.Substring(tokenContent.Length);
+            }
+
+            return formatted;
+        }
+
+        /// <summary>
+        /// Finds the beginning and the end of the next token to parse.
+        /// </summary>
+        /// <remarks>
+        /// Stores the preceding token separator unless it was a whitespace.
+        /// </remarks>
+        public void NextToken()
+        {
+            this.PrevSeparator = this.NextSeparator;
+            this.Next = this.FindLastSeparator();
+        }
+
+        /// <summary>
+        /// Moves past the current token without transforming it.
+        /// </summary>
+        public void SkipToken()
+        {
+            this.Position = this.Next;
+            this.PrevToken = string.Empty;
+            this.PrevClass = null;
+        }
+
+        /// <summary>
+        /// Finds the last token separator before the next token in the buffer.
+        /// </summary>
+        /// <returns>Index of the last token separator.</returns>
+        public int FindLastSeparator()
+        {
+            int start = this.FindNextSeparator(this.Position);
+            int length = 1;
+
+            while (start < this.Data.Length &&
+                   this.IsTokenSeparator(start, out length))
+            {
+                for (int n = start; n < start + length; n++)
+                {
+                    if (!char.IsWhiteSpace(this.Data[n]))
+                    {
+                        this.NextSeparator = this.Data[n];
+                    }
+                }
+
+                start += length;
+            }
+
+            return start;
+        }
+
+        /// <summary>
+        /// Finds the next token separator in the buffer and returns its index.
+        /// </summary>
+        /// <param name="start">Buffer position to search from.</param>
+        /// <returns>Index of the next token separator.</returns>
+        public int FindNextSeparator(int start)
+        {
+            int length = 1;
+
+            while (start < this.Data.Length &&
+                   !this.IsTokenSeparator(start, out length))
+            {
+                start += length;
+            }
+
+            return start + length - 1;
+        }
+
+        /// <summary>
+        /// Determines if the character at the specified position in the buffer is a token separator.
+        /// </summary>
+        /// <param name="pos">The position in the buffer.</param>
+        /// <param name="length">The length of the token separator.</param>
+        /// <returns>Whether the character (possibly including next character) is a token separator.</returns>
+        public bool IsTokenSeparator(int pos, out int length)
+        {
+            int maxLength = pos + 2 >= this.Data.Length ? 1 : 2;
+            Match match = this.Separators.Match(this.Data, pos, maxLength);
+
+            if (match.Success && match.Index == pos)
+            {
+                length = ExplicitMatch(match).Length;
+                return true;
+            }
+            else
+            {
+                length = 1;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Performs a transform replacement.
+        /// </summary>
+        /// <param name="match">The raw token to replace.</param>
+        /// <param name="token">The formatted token to replace with.</param>
+        /// <param name="length">The portion of the raw token to replace (all by default).</param>
+        public void ReplaceSpan(Match match, string token, int length = 0)
+        {
+            if (length == 0)
+            {
+                length = match.Length;
+            }
+
+            this.Data = string.Concat(
+                this.Data.Substring(0, match.Index),
+                token,
+                this.Data.Substring(match.Index + length));
+
+            this.Position = match.Index + token.Length +
+                match.Length - length;
+        }
+
+        /// <summary>
+        /// Breaks on the specified token and class if the debug options are turned on.
+        /// </summary>
+        /// <param name="match">Whether the token has the specified class name.</param>
+        /// <param name="className">The detected token class.</param>
+        /// <param name="token">The token to evaluate.</param>
+        public void Break(bool match, string className, string token = null)
+        {
+            if (this.Debug == null)
+            {
+                return;
+            }
+
+            if (string.IsNullOrEmpty(token))
+            {
+                token = this.Data.Substring(
+                    this.Position, this.Next - this.Position);
+            }
+
+            if (!string.IsNullOrEmpty(this.Debug.BreakOnToken) &&
+                token.StartsWith(this.Debug.BreakOnToken) &&
+                (this.Debug.BreakOnNotClass == null ||
+                    (match && this.Debug.BreakOnNotClass != className) ||
+                    (!match && this.Debug.BreakOnNotClass == className)))
+            {
+                if (this.Debug.BreakSkip > 0)
+                {
+                    this.Debug.BreakSkip--;
+                    return;
+                }
+
+                if (this.Debug.BreakOnNotClass != null)
+                {
+                    string reason = string.Empty;
+
+                    if (match && this.Debug.BreakOnNotClass != className)
+                    {
+                        reason = "matches unexpected class";
+                    }
+                    else
+                    {
+                        reason = "does not match expected class";
+                    }
+
+                    System.Diagnostics.Debug.WriteLine(
+                        "Breaking because '{0}' {1} {2}",
+                        this.Debug.BreakOnToken,
+                        reason,
+                        this.Debug.BreakOnNotClass.ToString());
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine(
+                        "Breaking on {0}",
+                        this.Debug.BreakOnToken);
+                }
+
+                System.Diagnostics.Debugger.Break();
+            }
+        }
+    }
+}

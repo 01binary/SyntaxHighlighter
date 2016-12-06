@@ -1,0 +1,12 @@
+<StyleCopSettings Version="105">
+  <GlobalSettings>
+    <CollectionProperty Name="RecognizedWords">
+      <Value>pl-c</Value>
+      <Value>pl-c1</Value>
+      <Value>pl-e</Value>
+      <Value>pl-en</Value>
+      <Value>pl-ent</Value>
+      <Value>pl-v</Value>
+    </CollectionProperty>
+  </GlobalSettings>
+</StyleCopSettings>

@@ -1,0 +1,149 @@
+﻿{
+  "patterns": {
+    "separators": "(\\s) | (;) | (:) | (=) | (-) | (\\+) | (\\/)[^\\/\\*] | (\\*) | (\\>) | (\\<) | (\\!) | (\\[) | (\\]) | ({) | (}) | (\\s\\() | (\\() | (\\)) | (\\.) | (,)",
+
+    "comments": "\\/\\/\\w*[^\\n\\r]* | \\/\\*[\\w\\W]+?\\*\\/",
+
+    "strings": "'(?:[^'\\\\]|\\.)*' | \"(?:[^\"\\\\]|\\.)*\"",
+
+    "numbers": {
+      "pattern": "(?<literal> [+-]? (0x)? ( (\\d+\\.?\\d*) | (\\.\\d+) ) ( [uU][lL]{0,2} | ([eE][-+]\\d*)?[fFlL]* ))",
+      "explicit": true
+    },
+
+    "keywords": "^(abstract)\\W+$ | ^(as)\\W+$ | ^(base)\\W+$ | ^(bool)\\W+$ | ^(break)\\W+$ | ^(byte)\\W+$ | ^(case)\\W+$ | ^(catch)\\W+$ | ^(char)\\W+$ | ^(checked)\\W+$ | ^(class)\\W+$ | ^(const)\\W+$ | ^(continue)\\W+$ | ^(decimal)\\W+$ | ^(default)\\W+$ | ^(delegate)\\W+$ | ^(do)\\W+$ | ^(double)\\W+$ | ^(else)\\W+$ | ^(enum)\\W+$ | ^(event)\\W+$ | ^(explicit)\\W+$ | ^(extern)\\W+$ | ^(false)\\W+$ | ^(finally)\\W+$ | ^(fixed)\\W+$ | ^(float)\\W+$ | ^(for)\\W+$ | ^(foreach)\\W+$ | ^(goto)\\W+$ | ^(if)\\W+$ | ^(implicit)\\W+$ | ^(in)\\W+$ | ^(int)\\W+$ | ^(interface)\\W+$ | ^(internal)\\W+$ | ^(is)\\W+$ | ^(lock)\\W+$ | ^(long)\\W+$ | ^(namespace)\\W+$ | ^(new)\\W+$ | ^(null)\\W+$ | ^(object)\\W+$ | ^(operator)\\W+$ | ^(out)\\W+$ | ^(override)\\W+$ | ^(get)\\W+$ | ^(set)\\W+$ | ^(params)\\W+$ | ^(private)\\W+$ | ^(protected)\\W+$ | ^(public)\\W+$ | ^(readonly)\\W+$ | ^(ref)\\W+$ | ^(return)\\W+$ | ^(sbyte)\\W+$ | ^(sealed)\\W+$ | ^(short)\\W+$ | ^(sizeof)\\W+$ | ^(stackalloc)\\W+$ | ^(static)\\W+$ | ^(string)\\W+$ | ^(struct)\\W+$ | ^(switch)\\W+$ | ^(this)\\W+$ | ^(throw)\\W+$ | ^(true)\\W+$ | ^(try)\\W+$ | ^(typeof)\\W+$ | ^(uint)\\W+$ | ^(ulong)\\W+$ | ^(unchecked)\\W+$ | ^(unsafe)\\W+$ | ^(ushort)\\W+$ | ^(using)\\W+$ | ^(virtual)\\W+$ | ^(var)\\W+$ | ^(void)\\W+$ | ^(volatile)\\W+$ | ^(while)\\W+$ | ^(partial)\\W+$",
+
+    "tags": "<\\/?\\s*(\\w+)[^<>]*\\/?>",
+    "attributes": "(\\w+)\\s*=\\s*\"[^\"]*\"",
+    "attributeValues": "=\\s*(\"\\w+\")",
+
+    "constants": "^(this)\\W* | ^(null)\\W* | ^(true)\\W* | ^(false)\\W* | ^(Console)\\W*",
+    "constantModifiers": "^case\\W*$ | ^const\\W*$",
+
+    "entities": "(\\w+)\\s*[\\(]",
+    "entitiesExclusive": "(\\w+)\\s*[^=]*$ | (\\w+)\\s*: | (\\w+)\\. | value\\W*$",
+    "entityModifiers": "public\\W*$ | private\\W*$ | protected\\W*$ | class\\W*$ | interface\\W*$ | struct\\W*$ | enum\\W*$ | namespace\\W*$ | using\\W*$ | \\. | \\[",
+
+    "entitiesAssign": "(\\w+)\\s*={1,2}\\s* | (\\w+)\\s*[\\+-\\/\\*]?=\\s* | (\\w+)\\s*\\+{1,2}\\s* | (\\w+)\\s*-{1,2}\\s* | (\\w+)\\s*\\*\\s* | (\\w+)\\s*\\/\\s*",
+    "entityAssignModifiers": "\\.",
+
+    "entityNamesExclusive": "(\\w+)\\s*[^=\\(\\)\\.,:{]*$",
+    "entityNameModifiersExclusive": "; | \\[ | { | \\( | , | is\\W*$ | as\\W*$ | public\\W*$ | private\\W*$ | protected\\W*$ | static\\W*$",
+
+    "entityNames": "(\\w+)\\s*[^=\\(\\.]*$",
+    "entityNameModifiers": "< | : | typeof\\W*$ | new\\W*$",
+
+    "entityNamesTemplate": "(\\w+)\\s*\\??>\\W*",
+    "entityNameTemplateModifiers": "< | ,",
+
+    "variables": "\\w+",
+
+    "default": "(\\w+)\\W*$"
+  },
+
+  "transforms": [
+    {
+      "transformType": "TokenSpan",
+      "tokenClass": "pl-c",
+      "tokenPattern": "comments",
+
+      "transforms": [
+        {
+          "tokenClass": "pl-ent",
+          "tokenPattern": "tags"
+        },
+
+        {
+          "tokenClass": "pl-e",
+          "tokenPattern": "attributes"
+        },
+
+        {
+          "tokenClass": "pl-s",
+          "tokenPattern": "attributeValues"
+        }
+      ]
+    },
+
+    {
+      "transformType": "TokenSpan",
+      "tokenClass": "pl-s",
+      "tokenPattern": "strings"
+    },
+
+    {
+      "transformType": "Token",
+      "tokenClass": "pl-c1",
+      "tokenPattern": "constants"
+    },
+
+    {
+      "transformType": "TokenModifier",
+      "tokenClass": "pl-c1",
+      "tokenPattern": "default",
+      "modifierPattern": "constantModifiers"
+    },
+
+    {
+      "transformType": "Token",
+      "tokenClass": "pl-c1",
+      "tokenPattern": "numbers"
+    },
+
+    {
+      "transformType": "Token",
+      "tokenClass": "pl-k",
+      "tokenPattern": "keywords"
+    },
+
+    {
+      "transformType": "TokenModifier",
+      "tokenClass": "pl-en",
+      "tokenPattern": "entityNamesExclusive",
+      "modifierPattern": "entityNameModifiersExclusive",
+      "excludeClasses": [ "pl-en", "pl-c1" ]
+    },
+
+    {
+      "transformType": "TokenModifier",
+      "tokenClass": "pl-en",
+      "tokenPattern": "entityNames",
+      "modifierPattern": "entityNameModifiers"
+    },
+
+    {
+      "transformType": "TokenModifier",
+      "tokenClass": "pl-en",
+      "tokenPattern": "entityNamesTemplate",
+      "modifierPattern": "entityNameTemplateModifiers"
+    },
+
+    {
+      "transformType": "TokenModifier",
+      "tokenClass": "pl-e",
+      "tokenPattern": "entitiesExclusive",
+      "modifierPattern": "entityModifiers",
+      "excludeClasses": [ "pl-en", "pl-c1" ]
+    },
+
+    {
+      "transformType": "TokenModifier",
+      "tokenClass": "pl-e",
+      "tokenPattern": "entitiesAssign",
+      "modifierPattern": "entityAssignModifiers",
+      "excludeClasses": [ "pl-c1" ]
+    },
+
+    {
+      "transformType": "Token",
+      "tokenClass": "pl-e",
+      "tokenPattern": "entities"
+    },
+
+    {
+      "transformType": "Token",
+      "tokenClass": "pl-v",
+      "tokenPattern": "variables"
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+﻿body {
+    margin: 20px;
+    -webkit-font-smoothing: subpixel-antialiased !important;
+}
+
+pre {
+    font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    font-size: 12px;
+    line-height: 20px;
+    white-space: pre-wrap;
+    word-break: break-all;
+    word-wrap: break-word;
+    color: lightslategray;
+    background-color: #f5f5f5;
+    padding: 15px;
+    margin-left: 1.8em;
+    border-radius: 4px;
+}
+
+.pl-c {
+    color: #969896
+}
+
+.pl-c1 {
+    color: #0086b3
+}
+
+.pl-s {
+    color: #1d3e81
+}
+
+.pl-k {
+    color: #a71d5d
+}
+
+.pl-e {
+    color: #795da3
+}
+
+.pl-en {
+    color: #4f6bbf
+}
+
+.pl-ent {
+    color: #63a35c
+}
+
+.pl-v {
+    color: #000
+}
+
+.err {
+    color: indianred;
+    font-family: "Wingdings";
+    font-weight: bold;
+}

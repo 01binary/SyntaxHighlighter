@@ -1,0 +1,85 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="../Template/Styles.css">
+</head>
+<body>
+<pre><code><span class="pl-c">/*--------------------------------------------------------*\
+|   ______    __   |
+|  |  __  |  |  |  |
+|  | |  | |  |  |  |
+|  | !__! |  |  |  |
+|  !______!  !__!  |  binary : tech art
+|
+|  Test single line comments.
+|----------------------------------------------------------
+|  Copyright(C) 2016 Valeriy Novytskyy
+\*---------------------------------------------------------*/</span>
+
+<span class="pl-k">using</span> <span class="pl-e">System</span>;
+<span class="pl-k">using</span> <span class="pl-e">System</span>.<span class="pl-e">Linq</span>;
+<span class="pl-k">using</span> <span class="pl-e">Microsoft</span>.<span class="pl-e">AspNetCore</span>.<span class="pl-e">Mvc</span>;
+<span class="pl-k">using</span> <span class="pl-e">ZeroWeb</span>.<span class="pl-e">Models</span>;
+
+<span class="pl-k">namespace</span> <span class="pl-e">ZeroWeb</span>.<span class="pl-e">Api</span>
+{
+    <span class="pl-c">/// &lt;<span class="pl-ent">summary</span>&gt;</span>
+    <span class="pl-c">/// The News Endpoint.</span>
+    <span class="pl-c">/// &lt;/<span class="pl-ent">summary</span>&gt;</span>
+    [<span class="pl-e">Route</span>(<span class="pl-s">"api/news"</span>)]
+    <span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-e">NewsController</span>: <span class="pl-en">Controller</span>
+    {
+        <span class="pl-c">/// &lt;<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-c">/// The site data store.</span>
+        <span class="pl-c">/// &lt;/<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-en">IServiceProvider</span> <span class="pl-v">services</span>;
+
+        <span class="pl-c">/// &lt;<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-c">/// Initializes a new instance of the &lt;<span class="pl-ent">see</span> <span class="pl-e">cref</span>=<span class="pl-s">"NewsController"</span>/&gt; class.</span>
+        <span class="pl-c">/// &lt;/<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-c">/// &lt;<span class="pl-ent">param</span> <span class="pl-e">name</span>=<span class="pl-s">"services"</span>&gt;The application container.&lt;/<span class="pl-ent">param</span>&gt;</span>
+        <span class="pl-k">public</span> <span class="pl-e">NewsController</span>(<span class="pl-en">IServiceProvider</span> <span class="pl-v">services</span>)
+        {
+            <span class="pl-c">// save the services instance.</span>
+            <span class="pl-c1">this</span>.<span class="pl-v">services</span> = <span class="pl-v">services</span>;
+        }
+
+        <span class="pl-c">/// &lt;<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-c">/// Gets the news stories.</span>
+        <span class="pl-c">/// &lt;/<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-k">public</span> <span class="pl-en">IActionResult</span> <span class="pl-e">GetStories</span>()
+        {
+            <span class="pl-k">try</span>
+            {
+                <span class="pl-en">IDataStore</span> <span class="pl-v">store</span> = <span class="pl-c1">this</span>.<span class="pl-v">services</span>.<span class="pl-e">GetService</span>(<span class="pl-k">typeof</span>(<span class="pl-en">IDataStore</span>)) <span class="pl-k">as</span> <span class="pl-en">IDataStore</span>;
+                <span class="pl-k">string</span> <span class="pl-v">excludeTag</span> = <span class="pl-v">Tags</span>.<span class="pl-e">Story</span>.<span class="pl-e">ToString</span>().<span class="pl-e">ToLower</span>();
+
+                <span class="pl-k">return</span> <span class="pl-c1">this</span>.<span class="pl-e">Json</span>(
+                    <span class="pl-v">store</span>.<span class="pl-e">GetArticles</span>(<span class="pl-v">Tags</span>.<span class="pl-e">Story</span>).<span class="pl-e">Select</span>(<span class="pl-v">story</span> => <span class="pl-k">new</span> 
+                    {
+                        <span class="pl-v">id</span> = <span class="pl-v">story</span>.<span class="pl-e">Id</span>,
+                        <span class="pl-v">title</span> = <span class="pl-v">story</span>.<span class="pl-e">Title</span>,
+                        <span class="pl-v">date</span> = <span class="pl-v">story</span>.<span class="pl-e">Date</span>,
+                        <span class="pl-v">author</span> = <span class="pl-v">story</span>.<span class="pl-e">Author</span>.<span class="pl-e">Name</span>,
+                        <span class="pl-v">tags</span> = <span class="pl-v">story</span>.<span class="pl-e">Metadata</span>.<span class="pl-e">Where</span>(<span class="pl-v">metadata</span> => <span class="pl-v">metadata</span>.<span class="pl-e">Tag</span>.<span class="pl-e">Name</span>.<span class="pl-e">ToLower</span>() != <span class="pl-v">excludeTag</span>)
+                                            .<span class="pl-e">Select</span>(<span class="pl-v">metadata</span> => <span class="pl-v">metadata</span>.<span class="pl-e">Tag</span>.<span class="pl-e">Name</span>),
+                        <span class="pl-v">content</span> = <span class="pl-v">story</span>.<span class="pl-e">Content</span>
+                    }).<span class="pl-e">ToArray</span>().<span class="pl-e">Select</span>(<span class="pl-v">result</span> => <span class="pl-k">new</span>
+                    {
+                        <span class="pl-v">result</span>.<span class="pl-e">id</span>, <span class="pl-c">// story Id</span>
+                        <span class="pl-v">title</span> = <span class="pl-v">result</span>.<span class="pl-e">title</span>, <span class="pl-c">// story title</span>
+                        <span class="pl-v">date</span> = <span class="pl-v">Shared</span>.<span class="pl-e">FormatDate</span>(<span class="pl-v">result</span>.<span class="pl-e">date</span>), <span class="pl-c">// story date</span>
+                        <span class="pl-v">author</span> = <span class="pl-v">result</span>.<span class="pl-e">author</span>, <span class="pl-c">// story author.</span>
+                        <span class="pl-v">tags</span> = <span class="pl-v">result</span>.<span class="pl-e">tags</span>.<span class="pl-e">Select</span>(<span class="pl-v">tagName</span> => <span class="pl-v">Shared</span>.<span class="pl-e">FormatTag</span>(<span class="pl-v">tagName</span>)), <span class="pl-c">// story tags</span>
+                        <span class="pl-v">content</span> = <span class="pl-v">result</span>.<span class="pl-e">content</span> <span class="pl-c">// and the content</span>
+                    }));
+            }
+            <span class="pl-k">catch</span>
+            {
+                <span class="pl-c">// don't return specific error message for security reasons.</span>
+                <span class="pl-k">return</span> <span class="pl-c1">this</span>.<span class="pl-e">StatusCode</span>(<span class="pl-c1">500</span>);
+            }
+        }
+    }
+}</code></pre>
+</body>
+</html>

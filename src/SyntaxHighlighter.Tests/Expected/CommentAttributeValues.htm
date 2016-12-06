@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Code Highlight Preview</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" type="text/css" href="../Template/Styles.css">
+</head>
+<body>
+<pre><span class="pl-k">using</span> <span class="pl-e">System</span>;
+<span class="pl-k">using</span> <span class="pl-e">System</span>.<span class="pl-e">Linq</span>;
+<span class="pl-k">using</span> <span class="pl-e">Microsoft</span>.<span class="pl-e">AspNetCore</span>.<span class="pl-e">Mvc</span>;
+<span class="pl-k">using</span> <span class="pl-e">ZeroWeb</span>.<span class="pl-e">Models</span>;
+
+<span class="pl-c">/*
+&lt;<span class="pl-ent">CommentList</span>/&gt;
+&lt;<span class="pl-ent">UserList</span> /&gt;
+
+&lt;<span class="pl-ent">SomeTag</span>&gt;
+    &lt;<span class="pl-ent">ChildTag</span>&gt;
+        &lt;<span class="pl-ent">Child</span> /&gt;
+    &lt;/<span class="pl-ent">ChildTag</span>&gt;
+&lt;/<span class="pl-ent">SomeTag</span>&gt;
+
+&lt;<span class="pl-ent">WithAttribute</span> <span class="pl-e">One</span>=<span class="pl-s">"hello"</span> <span class="pl-e">Two</span>=<span class="pl-s">"world"</span>/&gt;
+*/</span>
+
+<span class="pl-k">namespace</span> <span class="pl-e">ZeroWeb</span>.<span class="pl-e">Api</span>
+{
+    <span class="pl-c">/// &lt;<span class="pl-ent">summary</span>&gt;</span>
+    <span class="pl-c">/// The News Endpoint.</span>
+    <span class="pl-c">/// &lt;/<span class="pl-ent">summary</span>&gt;</span>
+    [<span class="pl-e">Route</span>(<span class="pl-s">"api/news"</span>)]
+    <span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-e">NewsController</span>: <span class="pl-en">Controller</span>
+    {
+        <span class="pl-c">/// &lt;<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-c">/// The application container.</span>
+        <span class="pl-c">/// &lt;/<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-en">IServiceProvider</span> <span class="pl-v">services</span>;
+
+        <span class="pl-c">/// &lt;<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-c">/// Initializes a new instance of the &lt;<span class="pl-ent">see</span> <span class="pl-e">cref</span>=<span class="pl-s">"NewsController"</span>/&gt; class.</span>
+        <span class="pl-c">/// &lt;/<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-c">/// &lt;<span class="pl-ent">param</span> <span class="pl-e">name</span>=<span class="pl-s">"services"</span>&gt;The application container.&lt;/<span class="pl-ent">param</span>&gt;</span>
+        <span class="pl-k">public</span> <span class="pl-e">NewsController</span>(<span class="pl-en">IServiceProvider</span> <span class="pl-v">services</span>)
+        {
+            <span class="pl-c1">this</span>.<span class="pl-v">services</span> = <span class="pl-v">services</span>;
+        }
+    }
+}</pre>
+</body>
+</html>
