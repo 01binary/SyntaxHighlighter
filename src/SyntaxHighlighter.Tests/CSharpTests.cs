@@ -70,7 +70,6 @@ namespace SyntaxHighlighter.Tests
         [TestCategory("C# Syntax Highlighting")]
         public void TestCommentAttributeValues()
         {
-
         }
 
         /// <summary>
@@ -80,7 +79,6 @@ namespace SyntaxHighlighter.Tests
         [TestCategory("C# Syntax Highlighting")]
         public void TestStrings()
         {
-
         }
 
         /// <summary>
@@ -90,7 +88,6 @@ namespace SyntaxHighlighter.Tests
         [TestCategory("C# Syntax Highlighting")]
         public void TestStringsWithEscape()
         {
-
         }
 
         /// <summary>
@@ -100,7 +97,6 @@ namespace SyntaxHighlighter.Tests
         [TestCategory("C# Syntax Highlighting")]
         public void TestDecimalNumbers()
         {
-
         }
 
         /// <summary>
@@ -130,7 +126,6 @@ namespace SyntaxHighlighter.Tests
         [TestCategory("C# Syntax Highlighting")]
         public void TestHexNumbers()
         {
-
         }
 
         /// <summary>
@@ -150,7 +145,6 @@ namespace SyntaxHighlighter.Tests
         [TestCategory("C# Syntax Highlighting")]
         public void TestKeywords()
         {
-
         }
 
         /// <summary>
@@ -160,7 +154,6 @@ namespace SyntaxHighlighter.Tests
         [TestCategory("C# Syntax Highlighting")]
         public void TestConstantLiterals()
         {
-
         }
 
         /// <summary>
@@ -171,7 +164,6 @@ namespace SyntaxHighlighter.Tests
         [TestCategory("C# Syntax Highlighting")]
         public void TestConstantIdentifiers()
         {
-
         }
 
         /// <summary>
@@ -181,7 +173,6 @@ namespace SyntaxHighlighter.Tests
         [TestCategory("C# Syntax Highlighting")]
         public void TestStorageEntities()
         {
-
         }
 
         /// <summary>
@@ -191,7 +182,6 @@ namespace SyntaxHighlighter.Tests
         [TestCategory("C# Syntax Highlighting")]
         public void TestMemberEntities()
         {
-
         }
 
         /// <summary>
@@ -201,7 +191,6 @@ namespace SyntaxHighlighter.Tests
         [TestCategory("C# Syntax Highlighting")]
         public void TestFunctionCallEntities()
         {
-
         }
 
         /// <summary>
@@ -211,7 +200,6 @@ namespace SyntaxHighlighter.Tests
         [TestCategory("C# Syntax Highlighting")]
         public void TestBaseClassEntityNames()
         {
-
         }
 
         /// <summary>
@@ -222,7 +210,6 @@ namespace SyntaxHighlighter.Tests
         [TestCategory("C# Syntax Highlighting")]
         public void TestMemberEntityNames()
         {
-
         }
 
         /// <summary>
@@ -232,7 +219,6 @@ namespace SyntaxHighlighter.Tests
         [TestCategory("C# Syntax Highlighting")]
         public void TestTemplateEntityNames()
         {
-
         }
 
         /// <summary>
@@ -242,7 +228,6 @@ namespace SyntaxHighlighter.Tests
         [TestCategory("C# Syntax Highlighting")]
         public void TestTypeOfEntityNames()
         {
-
         }
 
         /// <summary>
@@ -253,7 +238,6 @@ namespace SyntaxHighlighter.Tests
         [TestCategory("C# Syntax Highlighting")]
         public void TestNewEntityNames()
         {
-
         }
 
         /// <summary>

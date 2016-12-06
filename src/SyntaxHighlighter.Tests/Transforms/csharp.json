@@ -24,8 +24,10 @@
     "entitiesExclusive": "(\\w+)\\s*[^=]*$ | (\\w+)\\s*: | (\\w+)\\. | value\\W*$",
     "entityModifiers": "public\\W*$ | private\\W*$ | protected\\W*$ | class\\W*$ | interface\\W*$ | struct\\W*$ | enum\\W*$ | namespace\\W*$ | using\\W*$ | \\. | \\[",
 
-    "entitiesAssign": "(\\w+)\\s*={1,2}\\s* | (\\w+)\\s*[\\+-\\/\\*]?=\\s* | (\\w+)\\s*\\+{1,2}\\s* | (\\w+)\\s*-{1,2}\\s* | (\\w+)\\s*\\*\\s* | (\\w+)\\s*\\/\\s*",
-    "entityAssignModifiers": "\\.",
+    "entitiesAssign": "(\\w+)\\s*={1,2}\\s* | (\\w+)\\s*[\\+-\\/\\*]?=\\s* | (\\w+)\\s*\\+{1,2}\\s* | (\\w+)\\s*-{1,2}\\s* | (\\w+)\\s*\\*\\s* | (\\w+)\\s*\\/\\s* | (\\w+)\\s*,\\s*",
+    
+    "entitiesMembers":  "(\\w+)\\s*\\W*",
+    "entityMemberModifiers": "\\.",
 
     "entityNamesExclusive": "(\\w+)\\s*[^=\\(\\)\\.,:{]*$",
     "entityNameModifiersExclusive": "; | \\[ | { | \\( | , | is\\W*$ | as\\W*$ | public\\W*$ | private\\W*$ | protected\\W*$ | static\\W*$",
@@ -36,7 +38,9 @@
     "entityNamesTemplate": "(\\w+)\\s*\\??>\\W*",
     "entityNameTemplateModifiers": "< | ,",
 
-    "variables": "\\w+",
+    "variables": "(\\w+)\\s*[^(]*=?\\(?$",
+
+    "types": "^int\\W*$ | ^bool\\W*$ | ^var\\W*$ | ^string\\W*$ | ^float\\W*$ | ^double\\W*$ | ^uint\\W*$ | ^long\\W*$ | ^ulong\\W*$ | ^uint\\W*$",
 
     "default": "(\\w+)\\W*$"
   },
@@ -98,6 +102,29 @@
 
     {
       "transformType": "TokenModifier",
+      "tokenClass": "pl-e",
+      "tokenPattern": "entitiesMembers",
+      "modifierPattern": "entityMemberModifiers",
+      "excludeClasses":  [ "pl-c1" ]
+    },
+
+    {
+      "transformType": "TokenModifier",
+      "tokenClass": "pl-e",
+      "tokenPattern": "entitiesAssign",
+      "modifierPattern": "entityMemberModifiers",
+      "excludeClasses": [ "pl-c1" ]
+    },
+
+    {
+      "transformType": "TokenModifier",
+      "tokenClass": "pl-v",
+      "tokenPattern": "variables",
+      "modifierPattern": "types"
+    },
+
+    {
+      "transformType": "TokenModifier",
       "tokenClass": "pl-en",
       "tokenPattern": "entityNamesExclusive",
       "modifierPattern": "entityNameModifiersExclusive",
@@ -124,14 +151,6 @@
       "tokenPattern": "entitiesExclusive",
       "modifierPattern": "entityModifiers",
       "excludeClasses": [ "pl-en", "pl-c1" ]
-    },
-
-    {
-      "transformType": "TokenModifier",
-      "tokenClass": "pl-e",
-      "tokenPattern": "entitiesAssign",
-      "modifierPattern": "entityAssignModifiers",
-      "excludeClasses": [ "pl-c1" ]
     },
 
     {

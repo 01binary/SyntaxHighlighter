@@ -1,0 +1,1179 @@
+﻿// heres a comment
+bool notInitialized;
+var anotherNotInitialized;
+int variableInNotBlock = 3;
+string anotherNonBlock = "hello";
+
+namespace zeroweb.Migrations
+{
+    [DbContext(typeof(Context))]
+    partial class ContextModelSnapshot : ModelSnapshot
+    {
+        protected override void BuildModel(ModelBuilder modelBuilder)
+        {
+            modelBuilder
+                .HasAnnotation("ProductVersion", "1.0.0-rtm-21431");
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
+                {
+                    b.Property<string>("Id");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
+
+                    b.Property<string>("Name")
+                        .HasAnnotation("MaxLength", 256);
+
+                    b.Property<string>("NormalizedName")
+                        .HasAnnotation("MaxLength", 256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .HasName("RoleNameIndex");
+
+                    b.ToTable("AspNetRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ClaimType");
+
+                    b.Property<string>("ClaimValue");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ClaimType");
+
+                    b.Property<string>("ClaimValue");
+
+                    b.Property<string>("UserId")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider");
+
+                    b.Property<string>("ProviderKey");
+
+                    b.Property<string>("ProviderDisplayName");
+
+                    b.Property<string>("UserId")
+                        .IsRequired();
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId");
+
+                    b.Property<string>("RoleId");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId");
+
+                    b.Property<string>("LoginProvider");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("ZeroWeb.Models.Article", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("AuthorId")
+                        .IsRequired();
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("char");
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasColumnType("char")
+                        .HasAnnotation("MaxLength", 128);
+
+                    b.Property<double?>("LocationLatitude");
+
+                    b.Property<double?>("LocationLongitude");
+
+                    b.Property<string>("LocationName")
+                        .HasAnnotation("MaxLength", 32);
+
+                    b.Property<double?>("LocationZoom");
+
+                    b.Property<bool>("Published");
+
+                    b.Property<string>("Thumbnail")
+                        .IsRequired()
+                        .HasColumnType("char")
+                        .HasAnnotation("MaxLength", 256);
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("char")
+                        .HasAnnotation("MaxLength", 64);
+
+                    b.Property<int>("Views");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("Key");
+
+                    b.HasIndex("Date", "Published");
+
+                    b.ToTable("Articles");
+                });
+
+            modelBuilder.Entity("ZeroWeb.Models.Assignment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("IssueId")
+                        .IsRequired();
+
+                    b.Property<int?>("TagId")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IssueId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("Assignments");
+                });
+
+            modelBuilder.Entity("ZeroWeb.Models.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("ArticleId")
+                        .IsRequired();
+
+                    b.Property<string>("Author")
+                        .IsRequired()
+                        .HasColumnType("char")
+                        .HasAnnotation("MaxLength", 64);
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 256);
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<bool>("Published");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ArticleId");
+
+                    b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("ZeroWeb.Models.Issue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("ArticleId")
+                        .IsRequired();
+
+                    b.Property<TimeSpan?>("BaselineDuration");
+
+                    b.Property<DateTime?>("BaselineEnd");
+
+                    b.Property<DateTime?>("BaselineStart");
+
+                    b.Property<byte>("Complexity")
+                        .HasColumnType("tinyint");
+
+                    b.Property<int?>("DependencyId");
+
+                    b.Property<TimeSpan?>("Duration");
+
+                    b.Property<DateTime?>("End");
+
+                    b.Property<int?>("ParentId");
+
+                    b.Property<DateTime?>("Start");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("char")
+                        .HasAnnotation("MaxLength", 32);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ArticleId");
+
+                    b.HasIndex("DependencyId");
+
+                    b.HasIndex("ParentId");
+
+                    b.ToTable("Issues");
+                });
+
+            modelBuilder.Entity("ZeroWeb.Models.Metadata", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("ArticleId")
+                        .IsRequired();
+
+                    b.Property<int?>("TagId")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ArticleId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("Metadata");
+                });
+
+            modelBuilder.Entity("ZeroWeb.Models.Star", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("ArticleId")
+                        .IsRequired();
+
+                    b.Property<string>("IpAddress")
+                        .IsRequired()
+                        .HasColumnType("char")
+                        .HasAnnotation("MaxLength", 16);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ArticleId");
+
+                    b.ToTable("Stars");
+                });
+
+            modelBuilder.Entity("ZeroWeb.Models.Tag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description")
+                        .HasColumnType("char")
+                        .HasAnnotation("MaxLength", 128);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("char")
+                        .HasAnnotation("MaxLength", 16);
+
+                    b.Property<int?>("ParentId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.HasIndex("ParentId");
+
+                    b.ToTable("Tags");
+                });
+
+            modelBuilder.Entity("ZeroWeb.Models.User", b =>
+                {
+                    b.Property<string>("Id");
+
+                    b.Property<int>("AccessFailedCount");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
+
+                    b.Property<string>("Email")
+                        .HasAnnotation("MaxLength", 256);
+
+                    b.Property<bool>("EmailConfirmed");
+
+                    b.Property<bool>("LockoutEnabled");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasAnnotation("MaxLength", 256);
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasAnnotation("MaxLength", 256);
+
+                    b.Property<string>("PasswordHash");
+
+                    b.Property<string>("PhoneNumber");
+
+                    b.Property<bool>("PhoneNumberConfirmed");
+
+                    b.Property<string>("SecurityStamp");
+
+                    b.Property<bool>("TwoFactorEnabled");
+
+                    b.Property<string>("UserName")
+                        .HasAnnotation("MaxLength", 256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasName("UserNameIndex");
+
+                    b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("ZeroWeb.Models.Vote", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Author")
+                        .IsRequired()
+                        .HasColumnType("char")
+                        .HasAnnotation("MaxLength", 64);
+
+                    b.Property<int?>("CommentId")
+                        .IsRequired();
+
+                    b.Property<int>("Value");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CommentId");
+
+                    b.ToTable("Votes");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
+                        .WithMany("Claims")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("ZeroWeb.Models.User")
+                        .WithMany("Claims")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("ZeroWeb.Models.User")
+                        .WithMany("Logins")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("ZeroWeb.Models.User")
+                        .WithMany("Roles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ZeroWeb.Models.Article", b =>
+                {
+                    b.HasOne("ZeroWeb.Models.Tag", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ZeroWeb.Models.Assignment", b =>
+                {
+                    b.HasOne("ZeroWeb.Models.Issue", "Issue")
+                        .WithMany("Assignments")
+                        .HasForeignKey("IssueId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("ZeroWeb.Models.Tag", "Tag")
+                        .WithMany()
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ZeroWeb.Models.Comment", b =>
+                {
+                    b.HasOne("ZeroWeb.Models.Article", "Article")
+                        .WithMany("Comments")
+                        .HasForeignKey("ArticleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ZeroWeb.Models.Issue", b =>
+                {
+                    b.HasOne("ZeroWeb.Models.Article", "Article")
+                        .WithMany("Issues")
+                        .HasForeignKey("ArticleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("ZeroWeb.Models.Issue", "Dependency")
+                        .WithMany()
+                        .HasForeignKey("DependencyId");
+
+                    b.HasOne("ZeroWeb.Models.Issue", "Parent")
+                        .WithMany()
+                        .HasForeignKey("ParentId");
+                });
+
+            modelBuilder.Entity("ZeroWeb.Models.Metadata", b =>
+                {
+                    b.HasOne("ZeroWeb.Models.Article", "Article")
+                        .WithMany("Metadata")
+                        .HasForeignKey("ArticleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("ZeroWeb.Models.Tag", "Tag")
+                        .WithMany()
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ZeroWeb.Models.Star", b =>
+                {
+                    b.HasOne("ZeroWeb.Models.Article", "Article")
+                        .WithMany("Stars")
+                        .HasForeignKey("ArticleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ZeroWeb.Models.Tag", b =>
+                {
+                    b.HasOne("ZeroWeb.Models.Tag", "Parent")
+                        .WithMany()
+                        .HasForeignKey("ParentId");
+                });
+
+            modelBuilder.Entity("ZeroWeb.Models.Vote", b =>
+                {
+                    b.HasOne("ZeroWeb.Models.Comment", "Comment")
+                        .WithMany("Votes")
+                        .HasForeignKey("CommentId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+        }
+    }
+}
+
+/*--------------------------------------------------------*\
+|   ______    __   |
+|  |  __  |  |  |  |
+|  | |  | |  |  |  |
+|  | !__! |  |  |  |
+|  !______!  !__!  |  binary : tech art
+|
+|  Defines the News Endpoint.
+|----------------------------------------------------------
+|  Copyright(C) 2016 Valeriy Novytskyy
+\*---------------------------------------------------------*/
+
+using System;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc;
+using ZeroWeb.Models;
+
+/*
+<CommentList/>
+<UserList />
+
+<SomeTag>
+	<ChildTag>
+		<Child />
+	</ChildTag>
+</SomeTag>
+
+<WithAttribute One="hello" Two="world"/>
+*/
+
+namespace ZeroWeb.Api
+{
+    /// <summary>
+    /// The News Endpoint.
+    /// </summary>
+    [Route("api/news")]
+    public class NewsController: Controller
+    {
+        /// <summary>
+        /// The site data store.
+        /// </summary>
+        IServiceProvider services;
+		AnotherType more;
+		OneMoreType evenMore;
+		HelloWorld goodbye;
+		ICelldweller guitar;
+
+		private const mustBeConst = 3 > 5;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NewsController"/> class.
+        /// </summary>
+        /// <param name="services">The application container.</param>
+        public NewsController(IServiceProvider services)
+        {
+            this.services = services;
+
+			this
+				.property = value;
+
+			another
+				.property = "goodbye";
+
+			MyConsole.WriteLine();
+
+			MyFunc<string> test = new test();
+			MyFunc<ICat> testing = new testing();
+
+			const whatever = "testing";
+
+			Console.WriteLine("lazy fox");
+        }
+
+        /// <summary>
+        /// Gets the news stories.
+        /// </summary>
+        public IActionResult GetStories()
+        {
+            try
+            {
+                IDataStore store = this.services.GetService(typeof(IDataStore)) as IDataStore;
+                string excludeTag = Tags.Story.ToString().ToLower();
+
+                return this.Json(
+                    store.GetArticles(Tags.Story).Select(story => new 
+                    {
+                        id = story.Id,
+                        title = story.Title,
+                        date = story.Date,
+                        author = story.Author.Name,
+                        tags = story.Metadata.Where(metadata => metadata.Tag.Name.ToLower() != excludeTag)
+                                            .Select(metadata => metadata.Tag.Name),
+                        content = story.Content
+                    }).ToArray().Select(result => new
+                    {
+                        result.id,
+                        title = result.title,
+                        date = Shared.FormatDate(result.date),
+                        author = result.author,
+                        tags = result.tags.Select(tagName => Shared.FormatTag(tagName)),
+                        content = result.content
+                    }));
+            }
+            catch
+            {
+                return this.StatusCode(500);
+            }
+        }
+
+        /// <summary>
+        /// Gets the news story markdown content.
+        /// </summary>
+        /// <param name="id">The story id</param>
+        [Route("{id}")]
+        public IActionResult GetStory(int id)
+        {
+            try
+            {
+                IDataStore store = this.services.GetService(typeof(IDataStore)) as IDataStore;
+                var story = store.GetArticle(id);
+
+                if (story == null)
+                {
+                    return NotFound();
+
+                    var x = +3.003;
+                    float f = .302;
+                    float g = 1.02f;
+                    int k = -3;
+                    uint hex = 0x40001;
+
+                    switch(hello)
+                    {
+                        case ONE:
+                            helloWorld();
+                            break;
+                        case TWO:
+                            {
+                                helloWorld();
+                            }
+                            break;
+                        case THREE:
+                            {
+                                helloWorld();
+                            }
+                            break;
+                    }
+                }
+
+                return Ok(new { story.Content });
+            }
+            catch
+            {
+                return this.StatusCode(500L);
+            }
+        }
+
+        /// <summary>
+        /// Star a news story.
+        /// </summary>
+        /// <param name="id">The story id</param>
+        [HttpPost("star/{id}")]
+        public IActionResult StarStory(int id)
+        {
+            try
+            {
+                IDataStore store = this.services.GetService(typeof(IDataStore)) as IDataStore;
+                var story = store.GetArticle(id);
+
+                if (story == null)
+                {
+                    return this.NotFound();
+                }
+                
+                var storyStars = store.GetArticleStars(id);
+                string excludeIpAddress = Shared.GetRequestIpAddress(this.Request);
+                
+                if (storyStars.Any(star => star.IpAddress == excludeIpAddress))
+                {
+                    return this.BadRequest();
+                }
+                
+                story.Stars.Add(new Star(story, excludeIpAddress));
+                store.Save();
+                
+                return this.Ok(new { stars = storyStars.Count() });
+            }
+            catch
+            {
+                return this.StatusCode(500);
+            }
+        }
+    }
+}
+
+/*--------------------------------------------------------*\
+|   ______    __   |
+|  |  __  |  |  |  |
+|  | |  | |  |  |  |
+|  | !__! |  |  |  |
+|  !______!  !__!  |  binary : tech art
+|
+|  Application startup.
+|----------------------------------------------------------
+|  Copyright(C) 2016 Valeriy Novytskyy
+\*---------------------------------------------------------*/
+
+using System;
+using System.IO;
+using AspNet.Security.OAuth.GitHub;
+using AspNet.Security.OAuth.LinkedIn;
+using AspNet.Security.OAuth.Reddit;
+using AspNet.Security.OAuth.Yahoo;
+using Microsoft.AspNetCore.Authentication.OAuth;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Logging;
+using ZeroWeb.Models;
+
+namespace ZeroWeb
+{
+    /// <summary>
+    /// Application startup.
+    /// </summary>
+    public class Startup
+    {
+        /// <summary>
+        /// Initialize configuration.
+        /// </summary>
+        /// <param name="env">The hosting environment.
+        public Startup(IHostingEnvironment env)
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile(Program.Settings, optional: false)
+                .AddEnvironmentVariables();
+
+            if (env.IsDevelopment())
+            {
+                builder.AddUserSecrets();
+            }
+
+            Configuration = builder.Build();
+        }
+
+        /// <summary>
+        /// Gets the application configuration.
+        /// </summary>
+        public IConfigurationRoot Configuration { get; }
+
+        /// <summary>
+        /// Configures the injection container.
+        /// </summary>
+        /// <param name="services">The IoC container interface.</param>
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddMvc();
+            services.AddSession();
+
+            services.AddOptions();
+            services.AddSingleton<IConfiguration>(this.Configuration);
+
+            services.AddEntityFrameworkSqlite()
+                    .AddDbContext<Context>();
+            
+            services.AddIdentity<User, IdentityRole>(options =>
+                    {
+                        options.User.AllowedUserNameCharacters += "=";
+                    })
+                    .AddEntityFrameworkStores<Context>()
+                    .AddDefaultTokenProviders();
+
+            services.AddScoped(typeof(IDataStore), typeof(SiteDataStore));
+        }
+        
+        /// <summary>
+        /// Configures the injected dependencies.
+        /// </summary>
+        /// <param name="app">The application configuration.</param>
+        /// <param name="env">The hosting environment.</param>
+        /// <param name="loggerFactory">The logger factory.</param>
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        {
+            if (env.IsDevelopment())
+            {
+                // Enable logging.
+                loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+                loggerFactory.AddDebug();
+
+                // Redirect routes that throw exceptions to developer error page.
+                app.UseDeveloperExceptionPage();
+
+                // Enable browser debugging connection.
+                app.UseBrowserLink();
+            }
+            else
+            {
+                // Redirect routes that throws exceptions to production error page.
+                app.UseExceptionHandler("/Shared/Error");
+            }
+            
+            // Setup static resource routes.
+            app.UseStaticFiles();
+
+            // Setup identity.
+            app.UseIdentity();
+
+            // Setup sessions.
+            app.UseSession();
+
+            // Setup Yahoo authentication.
+            this.ConfigureYahooAuthentication(app);
+
+            // Setup LinkedIn authentication.
+            this.ConfigureLinkedInAuthentication(app);
+
+            // Setup Reddit authentication.
+            this.ConfigureRedditAuthentication(app);
+
+            // Setup Microsoft authentication.
+            this.ConfigureMicrosoftAuthentication(app);
+
+            // Setup Github authentication.
+            this.ConfigureGithubAuthentication(app);
+
+            // Setup Google authentication.
+            this.ConfigureGoogleAuthentication(app);
+
+            // Setup Twitter authentication.
+            this.ConfigureTwitterAuthentication(app);
+
+            // Setup Facebook authentication.
+            this.ConfigureFacebookAuthentication(app);
+
+            // Setup layout and partial routes.
+            this.ConfigureRoutes(app);
+        }
+
+        /// <summary>
+        /// Configures the application routing.
+        /// </summary>
+        /// <param name="app">The application configuration.</param>
+        private void ConfigureRoutes(IApplicationBuilder app)
+        {
+            app.UseMvc(routes =>
+            {
+                // Default route redirects to Startup controller.
+                routes.MapRoute(
+                    name: "default",
+                    template: string.Empty,
+                    defaults: new
+                    {
+                        controller = "Startup",
+                        action = "Index"
+                    }
+                );
+
+                // News Partial called by Angular template.
+                routes.MapRoute(
+                    name: "news-view",
+                    template: "views/news/{id:int?}",
+                    defaults: new
+                    {
+                        controller = "News",
+                        action = "Index",
+                        id = 0
+                    }
+                );
+
+                // News.
+                routes.MapRoute(
+                    name: "news",
+                    template: "news",
+                    defaults: new
+                    {
+                        controller = "Startup",
+                        action = "Index"
+                    }
+                );
+
+                // Articles Partial called by Angular template.
+                routes.MapRoute(
+                    name: "articles-view",
+                    template: "views/articles",
+                    defaults: new
+                    {
+                        controller = "Articles",
+                        action = "Index"
+                    }
+                );
+
+                // Articles.
+                routes.MapRoute(
+                    name: "articles",
+                    template: "articles",
+                    defaults: new
+                    {
+                        controller = "Startup",
+                        action = "Index"
+                    }
+                );
+
+                // Projects Partial called by Angular template.
+                routes.MapRoute(
+                    name: "projects-view",
+                    template: "views/projects",
+                    defaults: new
+                    {
+                        controller = "Projects",
+                        action = "Index"
+                    }
+                );
+
+                // Projects.
+                routes.MapRoute(
+                    name: "projects",
+                    template: "projects",
+                    defaults: new
+                    {
+                        controller = "Startup",
+                        action = "Index"
+                    }
+                );
+
+                // About Partial called by Angular template.
+                routes.MapRoute(
+                    name: "about-view",
+                    template: "views/about",
+                    defaults: new
+                    {
+                        controller = "About",
+                        action = "Index"
+                    }
+                );
+
+                // About.
+                routes.MapRoute(
+                    name: "about",
+                    template: "about",
+                    defaults: new
+                    {
+                        controller = "Startup",
+                        action = "Index"
+                    }
+                );
+            });
+        }
+
+        /// <summary>
+        /// Configures the Yahoo external login provider.
+        /// </summary>
+        /// <param name="app">The application configuration.</param>
+        private void ConfigureYahooAuthentication(IApplicationBuilder app)
+        {
+            var yahooOptions = new YahooAuthenticationOptions()
+            {
+                ClientId = this.Configuration["yahooId"],
+                ClientSecret = this.Configuration["yahooSecret"]
+            };
+
+            // Ensure secrets have been loaded.
+            if (string.IsNullOrEmpty(yahooOptions.ClientId) ||
+                string.IsNullOrEmpty(yahooOptions.ClientSecret))
+            {
+                return;
+            }
+
+            app.UseYahooAuthentication(yahooOptions);
+        }
+
+        /// <summary>
+        /// Configures the Reddit external login provider.
+        /// </summary>
+        /// <param name="app">The application configuration.</param>
+        private void ConfigureRedditAuthentication(IApplicationBuilder app)
+        {
+            var redditOptions = new RedditAuthenticationOptions()
+            {
+                ClientId = this.Configuration["redditId"],
+                ClientSecret = this.Configuration["redditSecret"]
+            };
+
+            // Ensure secrets have been loaded.
+            if (string.IsNullOrEmpty(redditOptions.ClientId) ||
+                string.IsNullOrEmpty(redditOptions.ClientSecret))
+            {
+                return;
+            }
+
+            app.UseRedditAuthentication(redditOptions);
+        }
+
+        /// <summary>
+        /// Configures the LinkedIn external login provider.
+        /// </summary>
+        /// <param name="app">The application configuration.</param>
+        private void ConfigureLinkedInAuthentication(IApplicationBuilder app)
+        {
+            var linkedInOptions = new LinkedInAuthenticationOptions()
+            {
+                ClientId = this.Configuration["linkedInId"],
+                ClientSecret = this.Configuration["linkedInSecret"]
+            };
+
+            // Ensure secrets have been loaded.
+            if (string.IsNullOrEmpty(linkedInOptions.ClientId) ||
+                string.IsNullOrEmpty(linkedInOptions.ClientSecret))
+            {
+                return;
+            }
+
+            app.UseLinkedInAuthentication(linkedInOptions);
+        }
+
+        /// <summary>
+        /// Configures the Google external login provider.
+        /// </summary>
+        /// <param name="app">The application configuration.</param>
+        private void ConfigureGoogleAuthentication(IApplicationBuilder app)
+        {
+            var googleOptions = new GoogleOptions()
+            {
+                ClientId = this.Configuration["googleId"],
+                ClientSecret = this.Configuration["googleSecret"]
+            };
+
+            // Ensure secrets have been loaded.
+            if (string.IsNullOrEmpty(googleOptions.ClientId) ||
+                string.IsNullOrEmpty(googleOptions.ClientSecret))
+            {
+                return;
+            }
+
+            app.UseGoogleAuthentication(googleOptions);
+        }
+
+        /// <summary>
+        /// Configures the Github external login provider.
+        /// </summary>
+        /// <param name="app">The application configuration.</param>
+        private void ConfigureGithubAuthentication(IApplicationBuilder app)
+        {
+            var githubOptions = new GitHubAuthenticationOptions
+            {
+                ClientId = this.Configuration["githubId"],
+                ClientSecret = this.Configuration["githubSecret"],
+                Scope = { "user:login" }
+            };
+
+            // Ensure secrets have been loaded.
+            if (string.IsNullOrEmpty(githubOptions.ClientId) ||
+                string.IsNullOrEmpty(githubOptions.ClientSecret))
+            {
+                return;
+            }
+
+            app.UseGitHubAuthentication(githubOptions);
+        }
+
+        /// <summary>
+        /// Configures the Microsoft external login provider.
+        /// </summary>
+        /// <param name="app">The application configuration.</param>
+        private void ConfigureMicrosoftAuthentication(IApplicationBuilder app)
+        {
+            var microsoftOptions = new MicrosoftAccountOptions()
+            {
+                ClientId = this.Configuration["microsoftId"],
+                ClientSecret = this.Configuration["microsoftSecret"]
+            };
+
+            // Ensure secrets have been loaded.
+            if (string.IsNullOrEmpty(microsoftOptions.ClientId) ||
+                string.IsNullOrEmpty(microsoftOptions.ClientSecret))
+            {
+                return;
+            }
+
+            app.UseMicrosoftAccountAuthentication(microsoftOptions);
+        }
+
+        /// <summary>
+        /// Configures the Twitter external login provider.
+        /// </summary>
+        /// <param name="app">The application configuration.</param>
+        private void ConfigureTwitterAuthentication(IApplicationBuilder app)
+        {
+            var twitterOptions = new TwitterOptions()
+            {
+                ConsumerKey = this.Configuration["twitterId"],
+                ConsumerSecret = this.Configuration["twitterSecret"]
+            };
+
+            // Ensure secrets have been loaded.
+            if (string.IsNullOrEmpty(twitterOptions.ConsumerKey) ||
+                string.IsNullOrEmpty(twitterOptions.ConsumerSecret))
+            {
+                return;
+            }
+
+            app.UseTwitterAuthentication(twitterOptions);
+        }
+
+        /// <summary>
+        /// Configures the Faceboook external login provider.
+        /// </summary>
+        /// <param name="app">The application configuration.</param>
+        private void ConfigureFacebookAuthentication(IApplicationBuilder app)
+        {
+            var facebookOptions = new FacebookOptions()
+            {
+                AppId = this.Configuration["facebookId"],
+                AppSecret = this.Configuration["facebookSecret"],
+
+                // Use popup style for the challenge page.
+                Events = new OAuthEvents()
+                {
+                    OnRedirectToAuthorizationEndpoint = (originalContext) =>
+                    {
+                        var context = new OAuthRedirectToAuthorizationContext(
+                            originalContext.HttpContext,
+                            originalContext.Options,
+                            originalContext.Properties,
+                            string.Format("{0}&display=popup", originalContext.RedirectUri));
+                        
+                        context.Response.Redirect(context.RedirectUri);
+                        return System.Threading.Tasks.Task.FromResult(0);
+                    }
+                }
+            };
+
+            // Ensure secrets have been loaded.
+            if (string.IsNullOrEmpty(facebookOptions.AppId) ||
+                string.IsNullOrEmpty(facebookOptions.AppSecret))
+            {
+                return;
+            }
+
+            // Request only the public profile.
+            facebookOptions.Scope.Clear();
+            facebookOptions.Scope.Add("public_profile");
+
+            // Request only the name claim.
+            facebookOptions.Fields.Clear();
+            facebookOptions.Fields.Add("name");
+
+            app.UseFacebookAuthentication(facebookOptions);
+        }
+    }
+}

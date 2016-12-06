@@ -1,6 +1,7 @@
 <StyleCopSettings Version="105">
   <GlobalSettings>
     <CollectionProperty Name="RecognizedWords">
+      <Value>const</Value>
       <Value>pl-c</Value>
       <Value>pl-c1</Value>
       <Value>pl-e</Value>

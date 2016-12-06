@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyntaxHighlighter", "Syntax
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyntaxHighlighter.Tests", "SyntaxHighlighter.Tests\SyntaxHighlighter.Tests.csproj", "{A55C165F-34D2-4F38-9F5A-DD268F90421A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyntaxHighlighter.Preview", "SyntaxHighlighter.Preview\SyntaxHighlighter.Preview.csproj", "{0E0760A3-ADC6-4706-B8B0-8074EAF86D21}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{A55C165F-34D2-4F38-9F5A-DD268F90421A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A55C165F-34D2-4F38-9F5A-DD268F90421A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A55C165F-34D2-4F38-9F5A-DD268F90421A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E0760A3-ADC6-4706-B8B0-8074EAF86D21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E0760A3-ADC6-4706-B8B0-8074EAF86D21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E0760A3-ADC6-4706-B8B0-8074EAF86D21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E0760A3-ADC6-4706-B8B0-8074EAF86D21}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
