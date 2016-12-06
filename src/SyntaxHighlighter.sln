@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyntaxHighlighter", "SyntaxHighlighter.csproj", "{B687DB90-ECB4-4DE7-AE0B-B2566AFE3FAF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyntaxHighlighter", "SyntaxHighlighter\SyntaxHighlighter.csproj", "{B687DB90-ECB4-4DE7-AE0B-B2566AFE3FAF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyntaxHighlighter.Tests", "..\SyntaxHighlighter.Tests\SyntaxHighlighter.Tests.csproj", "{A55C165F-34D2-4F38-9F5A-DD268F90421A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyntaxHighlighter.Tests", "SyntaxHighlighter.Tests\SyntaxHighlighter.Tests.csproj", "{A55C165F-34D2-4F38-9F5A-DD268F90421A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
