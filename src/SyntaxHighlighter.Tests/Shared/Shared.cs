@@ -275,8 +275,8 @@ namespace SyntaxHighlighter.Tests
                 }
 
                 start = end;
-
-            } while (start != -1);
+            }
+            while (start != -1);
 
             return false;
         }
