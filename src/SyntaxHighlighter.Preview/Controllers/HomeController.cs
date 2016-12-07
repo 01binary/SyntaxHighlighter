@@ -21,10 +21,11 @@ namespace SyntaxHighlighter.Preview.Controllers
         public ActionResult Index()
         {
             string sourcePath = Server.MapPath("~/bin/App_Data/Input.txt");
-            string destPath = Server.MapPath("~/bin/App_Data/Output.htm");
+            string destPath = Server.MapPath("~/App_Data/Output.htm");
 
-            DebugOptions options = new DebugOptions()
+            Options options = new Options()
             {
+                DebugInfo = false, // true
                 BreakOnToken = null, // "services",
                 BreakOnNotClass = null // "pl-v"
             };

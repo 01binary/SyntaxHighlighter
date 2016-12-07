@@ -25,13 +25,15 @@ namespace SyntaxHighlighter
         /// </summary>
         /// <param name="basePath">The base path.</param>
         /// <param name="name">The transform definition name.</param>
+        /// <param name="options">The syntax highlight options.</param>
         /// <returns>The loaded transform definition.</returns>
-        public static TransformDefinition Load(string basePath, string name)
+        public static TransformDefinition Load(string basePath, string name, Options options)
         {
             if (!definitions.ContainsKey(name))
             {
                 definitions[name] = TransformDefinition.Load(
-                    Path.Combine(basePath, string.Format("{0}.json", name)));
+                    Path.Combine(basePath, string.Format("{0}.json", name)),
+                    options);
             }
 
             return definitions[name];

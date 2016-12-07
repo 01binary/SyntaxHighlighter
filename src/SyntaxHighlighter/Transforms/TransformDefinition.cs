@@ -37,6 +37,11 @@ namespace SyntaxHighlighter
         private const string TransformsKey = "transforms";
 
         /// <summary>
+        /// The transform options.
+        /// </summary>
+        private Options options;
+
+        /// <summary>
         /// The transform patterns.
         /// </summary>
         private Dictionary<string, Regex> patterns;
@@ -51,6 +56,17 @@ namespace SyntaxHighlighter
         /// </summary>
         public TransformDefinition()
         {
+            this.patterns = new Dictionary<string, Regex>();
+            this.transforms = new List<ITransform>();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TransformDefinition"/> class.
+        /// </summary>
+        /// <param name="options">The syntax highlight options.</param>
+        public TransformDefinition(Options options)
+        {
+            this.options = options;
             this.patterns = new Dictionary<string, Regex>();
             this.transforms = new List<ITransform>();
         }
@@ -81,15 +97,18 @@ namespace SyntaxHighlighter
         /// Loads a transform definition from file.
         /// </summary>
         /// <param name="path">The path to load from.</param>
+        /// <param name="options">The syntax highlight options.</param>
         /// <returns>The loaded transform definition.</returns>
-        public static TransformDefinition Load(string path)
+        public static TransformDefinition Load(string path, Options options)
         {
             JObject source = JObject.Parse(File.ReadAllText(path));
             JObject patterns = source[PatternsKey] as JObject;
             JArray transforms = source[TransformsKey] as JArray;
 
-            TransformDefinition definition = new TransformDefinition();
-            RegexOptions options = RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled;
+            TransformDefinition definition = new TransformDefinition(options);
+
+            RegexOptions patternOptions =
+                RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled;
 
             foreach (JProperty pattern in patterns.Properties())
             {
@@ -102,19 +121,19 @@ namespace SyntaxHighlighter
 
                     definition.Patterns[pattern.Name] = new Regex(
                         patternNode[PatternKey].ToString(),
-                        explicitCapture ? options | RegexOptions.ExplicitCapture : options);
+                        explicitCapture ? patternOptions | RegexOptions.ExplicitCapture : patternOptions);
                 }
                 else
                 {
                     definition.Patterns[pattern.Name] = new Regex(
-                        pattern.Value.ToString(), options);
+                        pattern.Value.ToString(), patternOptions);
                 }
             }
 
             foreach (JObject transform in transforms.Children())
             {
                 definition.transforms.Add(
-                    TransformFactory.Load(definition, transform));
+                    TransformFactory.Load(definition, transform, options));
             }
 
             return definition;
@@ -129,7 +148,7 @@ namespace SyntaxHighlighter
         {
             foreach (ITransform transform in this.transforms)
             {
-                if (transform.Apply(buffer))
+                if (transform.Apply(buffer, this.options))
                 {
                     return true;
                 }

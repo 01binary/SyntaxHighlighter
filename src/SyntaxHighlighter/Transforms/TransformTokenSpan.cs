@@ -18,11 +18,13 @@ namespace SyntaxHighlighter
         /// <summary>
         /// Initializes a new instance of the <see cref="TransformTokenSpan"/> class.
         /// </summary>
+        /// <param name="name">The transform name for debugging.</param>
+        /// <param name="description">The transform description for debugging.</param>
         /// <param name="pattern">The pattern to match.</param>
         /// <param name="className">The class name of the transformed token.</param>
         /// <param name="transforms">The transforms to apply to inner token content.</param>
-        public TransformTokenSpan(Regex pattern, string className, List<TransformToken> transforms)
-            : base(pattern, className)
+        public TransformTokenSpan(string name, string description, Regex pattern, string className, List<TransformToken> transforms)
+            : base(name, description, pattern, className)
         {
             this.Transforms = transforms;
         }
@@ -36,8 +38,9 @@ namespace SyntaxHighlighter
         /// Apply the transform to the text buffer.
         /// </summary>
         /// <param name="buffer">The text buffer.</param>
+        /// <param name="options">The syntax highlight options.</param>
         /// <returns>Whether the transformation was applied.</returns>
-        public override bool Apply(Buffer buffer)
+        public override bool Apply(Buffer buffer, Options options)
         {
             Match match = this.Pattern.Match(buffer.Data, buffer.Position);
 
@@ -54,7 +57,7 @@ namespace SyntaxHighlighter
                     content = match.Value;
                 }
 
-                buffer.ReplaceSpan(match, Buffer.FormatToken(content, this.ClassName));
+                buffer.ReplaceSpan(match, Buffer.FormatToken(content, this.ClassName, this.Name));
                 buffer.NextSeparator = buffer.PrevSeparator;
                 buffer.PrevToken = string.Empty;
                 buffer.PrevClass = this.ClassName;
@@ -103,7 +106,8 @@ namespace SyntaxHighlighter
 
             string formatted = Buffer.FormatToken(
                 Buffer.EncodeContent(content),
-                className);
+                className,
+                this.Name);
 
             int leftOffset = token.IndexOf(content);
             int rightOffset = token.Length - content.Length - leftOffset;

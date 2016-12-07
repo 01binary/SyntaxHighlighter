@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="DebugOptions.cs" company="01 Binary">
+// <copyright file="Options.cs" company="01 Binary">
 //     Copyright (C) 01 Binary.
 // </copyright>
 //-----------------------------------------------------------------------
@@ -7,10 +7,20 @@
 namespace SyntaxHighlighter
 {
     /// <summary>
-    /// Syntax highlight debug options.
+    /// Syntax highlight options.
     /// </summary>
-    public class DebugOptions
+    public class Options
     {
+        /// <summary>
+        /// Gets or sets a value indicating whether to output markup for line numbers.
+        /// </summary>
+        public bool LineNumbers { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to output debug information in output markup.
+        /// </summary>
+        public bool DebugInfo { get; set; }
+
         /// <summary>
         /// Gets or sets a value indicating whether to print each token.
         /// </summary>

@@ -17,12 +17,14 @@ namespace SyntaxHighlighter
         /// <summary>
         /// Initializes a new instance of the <see cref="TransformTokenModifier"/> class.
         /// </summary>
+        /// <param name="name">The transform name for debugging.</param>
+        /// <param name="description">The transform description for debugging.</param>
         /// <param name="pattern">The pattern to match to the current token.</param>
         /// <param name="modifierPattern">The pattern to match to the previous token and previous separator, whichever succeeds.</param>
         /// <param name="className">The transformed token class.</param>
         /// <param name="excludeClassNames">The class name the previous token must not match.</param>
-        public TransformTokenModifier(Regex pattern, Regex modifierPattern, string className, params string[] excludeClassNames)
-            : base(pattern, className)
+        public TransformTokenModifier(string name, string description, Regex pattern, Regex modifierPattern, string className, params string[] excludeClassNames)
+            : base(name, description, pattern, className)
         {
             this.ModifierPattern = modifierPattern;
             this.ExcludeClassNames = excludeClassNames;
@@ -45,8 +47,9 @@ namespace SyntaxHighlighter
         /// Applies the transform to the buffer.
         /// </summary>
         /// <param name="buffer">The buffer to apply to.</param>
+        /// <param name="options">The syntax highlight options.</param>
         /// <returns>Whether the transformation took place.</returns>
-        public override bool Apply(Buffer buffer)
+        public override bool Apply(Buffer buffer, Options options)
         {
             Match tokenMatch = this.Pattern != null ?
                 this.Pattern.Match(buffer.Data, buffer.Position, buffer.Next - buffer.Position) : null;
@@ -75,7 +78,7 @@ namespace SyntaxHighlighter
                     content = Buffer.ExplicitMatch(tokenMatch);
                 }
 
-                string token = Buffer.FormatToken(content, this.ClassName);
+                string token = Buffer.FormatToken(content, this.ClassName, this.Name);
 
                 if (tokenMatch != null && tokenMatch.Length > content.Length)
                 {

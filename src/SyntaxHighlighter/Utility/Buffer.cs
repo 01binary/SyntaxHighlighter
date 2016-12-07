@@ -14,6 +14,16 @@ namespace SyntaxHighlighter
     internal class Buffer
     {
         /// <summary>
+        /// The token span format.
+        /// </summary>
+        private static readonly string SpanFormat = "<span class=\"{0}\">{1}</span>";
+
+        /// <summary>
+        /// The token format with debug information included.
+        /// </summary>
+        private static readonly string DebugSpanFormat = "<span class=\"{0}\" data-transform=\"{1}\">{2}</span>";
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Buffer"/> class.
         /// </summary>
         /// <param name="data">The initial data.</param>
@@ -31,14 +41,14 @@ namespace SyntaxHighlighter
         /// </summary>
         /// <param name="data">The initial data.</param>
         /// <param name="tokenSeparators">The pattern used to detect token separators.</param>
-        /// <param name="debug">The debugging options.</param>
-        public Buffer(string data, Regex tokenSeparators, DebugOptions debug)
+        /// <param name="options">The debugging options.</param>
+        public Buffer(string data, Regex tokenSeparators, Options options)
         {
             this.Data = data;
             this.Separators = tokenSeparators;
             this.PrevToken = string.Empty;
             this.Next = this.FindLastSeparator();
-            this.Debug = debug;
+            this.Options = options;
         }
 
         /// <summary>
@@ -84,7 +94,7 @@ namespace SyntaxHighlighter
         /// <summary>
         /// Gets or sets the options for enabling verbose output and breaking on tokens.
         /// </summary>
-        public DebugOptions Debug { get; set; }
+        public Options Options { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether the end of buffer was reached.
@@ -134,12 +144,21 @@ namespace SyntaxHighlighter
         /// </summary>
         /// <param name="tokenContent">The token content.</param>
         /// <param name="tokenClass">The class of token to output.</param>
+        /// <param name="transformName">The transform name for debugging (can be null).</param>
         /// <param name="match">The entire match used to keep outer content, if specified.</param>
         /// <returns>The formatted token.</returns>
-        public static string FormatToken(string tokenContent, string tokenClass, Match match = null)
+        public static string FormatToken(string tokenContent, string tokenClass, string transformName, Match match = null)
         {
-            string formatted = string.Format(
-                "<span class=\"{0}\">{1}</span>", tokenClass, tokenContent);
+            string formatted;
+
+            if (transformName != null)
+            {
+                formatted = string.Format(DebugSpanFormat, tokenClass, transformName, tokenContent);
+            }
+            else
+            {
+                formatted = string.Format(SpanFormat, tokenClass, tokenContent);
+            }
 
             if (match != null && match.Length > tokenContent.Length)
             {
@@ -268,7 +287,7 @@ namespace SyntaxHighlighter
         /// <param name="token">The token to evaluate.</param>
         public void Break(bool match, string className, string token = null)
         {
-            if (this.Debug == null)
+            if (this.Options == null)
             {
                 return;
             }
@@ -279,23 +298,23 @@ namespace SyntaxHighlighter
                     this.Position, this.Next - this.Position);
             }
 
-            if (!string.IsNullOrEmpty(this.Debug.BreakOnToken) &&
-                token.StartsWith(this.Debug.BreakOnToken) &&
-                (this.Debug.BreakOnNotClass == null ||
-                    (match && this.Debug.BreakOnNotClass != className) ||
-                    (!match && this.Debug.BreakOnNotClass == className)))
+            if (!string.IsNullOrEmpty(this.Options.BreakOnToken) &&
+                token.StartsWith(this.Options.BreakOnToken) &&
+                (this.Options.BreakOnNotClass == null ||
+                    (match && this.Options.BreakOnNotClass != className) ||
+                    (!match && this.Options.BreakOnNotClass == className)))
             {
-                if (this.Debug.BreakSkip > 0)
+                if (this.Options.BreakSkip > 0)
                 {
-                    this.Debug.BreakSkip--;
+                    this.Options.BreakSkip--;
                     return;
                 }
 
-                if (this.Debug.BreakOnNotClass != null)
+                if (this.Options.BreakOnNotClass != null)
                 {
                     string reason = string.Empty;
 
-                    if (match && this.Debug.BreakOnNotClass != className)
+                    if (match && this.Options.BreakOnNotClass != className)
                     {
                         reason = "matches unexpected class";
                     }
@@ -306,15 +325,15 @@ namespace SyntaxHighlighter
 
                     System.Diagnostics.Debug.WriteLine(
                         "Breaking because '{0}' {1} {2}",
-                        this.Debug.BreakOnToken,
+                        this.Options.BreakOnToken,
                         reason,
-                        this.Debug.BreakOnNotClass.ToString());
+                        this.Options.BreakOnNotClass.ToString());
                 }
                 else
                 {
                     System.Diagnostics.Debug.WriteLine(
                         "Breaking on {0}",
-                        this.Debug.BreakOnToken);
+                        this.Options.BreakOnToken);
                 }
 
                 System.Diagnostics.Debugger.Break();

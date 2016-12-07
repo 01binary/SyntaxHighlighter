@@ -47,6 +47,9 @@
 
   "transforms": [
     {
+      "name": "Comments",
+      "description": "Single-line and multiline comments",
+
       "transformType": "TokenSpan",
       "tokenClass": "pl-c",
       "tokenPattern": "comments",
@@ -70,18 +73,27 @@
     },
 
     {
+      "name": "Strings",
+      "description": "String literals",
+
       "transformType": "TokenSpan",
       "tokenClass": "pl-s",
       "tokenPattern": "strings"
     },
 
     {
+      "name": "Constant Literals",
+      "description": "Language token literals",
+
       "transformType": "Token",
       "tokenClass": "pl-c1",
       "tokenPattern": "constants"
     },
 
     {
+      "name": "Constant Identifiers",
+      "description": "Identifiers declared constant",
+
       "transformType": "TokenModifier",
       "tokenClass": "pl-c1",
       "tokenPattern": "default",
@@ -89,26 +101,38 @@
     },
 
     {
+      "name": "Numbers",
+      "description": "Number literals",
+
       "transformType": "Token",
       "tokenClass": "pl-c1",
       "tokenPattern": "numbers"
     },
 
     {
+      "name": "Keywords",
+      "description": "Language keywords",
+
       "transformType": "Token",
       "tokenClass": "pl-k",
       "tokenPattern": "keywords"
     },
 
     {
+      "name": "Member Entities",
+      "description": "Properties and methods",
+
       "transformType": "TokenModifier",
       "tokenClass": "pl-e",
       "tokenPattern": "entitiesMembers",
       "modifierPattern": "entityMemberModifiers",
-      "excludeClasses":  [ "pl-c1" ]
+      "excludeClasses": [ "pl-c1" ]
     },
 
     {
+      "name": "Property Assignments",
+      "description": "Properties with assignments (not variables)",
+
       "transformType": "TokenModifier",
       "tokenClass": "pl-e",
       "tokenPattern": "entitiesAssign",
@@ -117,6 +141,9 @@
     },
 
     {
+      "name": "Variables",
+      "description": "Variable identifiers declared with a type",
+
       "transformType": "TokenModifier",
       "tokenClass": "pl-v",
       "tokenPattern": "variables",
@@ -124,6 +151,9 @@
     },
 
     {
+      "name": "Exclusive Entities",
+      "description": "Identifiers not preceded by constant or type",
+
       "transformType": "TokenModifier",
       "tokenClass": "pl-en",
       "tokenPattern": "entityNamesExclusive",
@@ -132,6 +162,9 @@
     },
 
     {
+      "name": "Entity Names",
+      "description": "User types (built-in types are keywords)",
+
       "transformType": "TokenModifier",
       "tokenClass": "pl-en",
       "tokenPattern": "entityNames",
@@ -139,6 +172,9 @@
     },
 
     {
+      "name": "Templated Entity Names",
+      "description": "Types in template arguments",
+
       "transformType": "TokenModifier",
       "tokenClass": "pl-en",
       "tokenPattern": "entityNamesTemplate",
@@ -146,6 +182,9 @@
     },
 
     {
+      "name": "Exclusive Entities (Non-Scoped)",
+      "descriptoion": "Identifiers declared as class, struct, namespace or class access not constrained to being inside of a scope",
+
       "transformType": "TokenModifier",
       "tokenClass": "pl-e",
       "tokenPattern": "entitiesExclusive",
@@ -154,12 +193,18 @@
     },
 
     {
+      "name": "Call Entities",
+      "description": "Non-member function calls",
+
       "transformType": "Token",
       "tokenClass": "pl-e",
       "tokenPattern": "entities"
     },
 
     {
+      "name": "Variables",
+      "description": "Unknown identifiers",
+
       "transformType": "Token",
       "tokenClass": "pl-v",
       "tokenPattern": "variables"

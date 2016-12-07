@@ -45,7 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Utility\Buffer.cs" />
-    <Compile Include="Utility\DebugOptions.cs" />
+    <Compile Include="Utility\Options.cs" />
     <Compile Include="Transforms\TransformDefinition.cs" />
     <Compile Include="Transforms\TransformDefinitionFactory.cs" />
     <Compile Include="Transforms\ITransform.cs" />

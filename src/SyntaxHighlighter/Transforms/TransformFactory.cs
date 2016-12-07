@@ -46,6 +46,16 @@ namespace SyntaxHighlighter
         private const string TransformsKey = "transforms";
 
         /// <summary>
+        /// The JSON key for the transform name debug information.
+        /// </summary>
+        private const string NameKey = "name";
+
+        /// <summary>
+        /// The JSON key for the transform description debug information.
+        /// </summary>
+        private const string DescriptionKey = "description";
+
+        /// <summary>
         /// The basic token transform that specifies a pattern and a transformed token class.
         /// </summary>
         private const string TokenType = "Token";
@@ -65,8 +75,9 @@ namespace SyntaxHighlighter
         /// </summary>
         /// <param name="definition">The transform definition containing the loaded patterns.</param>
         /// <param name="node">The serialized JSON node to load from.</param>
+        /// <param name="options">The code highlight options.</param>
         /// <returns>The loaded transform.</returns>
-        public static ITransform Load(TransformDefinition definition, JObject node)
+        public static ITransform Load(TransformDefinition definition, JObject node, Options options)
         {
             string transformType = node.Property(TransformTypeKey) != null ?
                 node.Property(TransformTypeKey).Value.ToString() : null;
@@ -77,11 +88,27 @@ namespace SyntaxHighlighter
             Regex pattern = definition.Patterns[node.Property(TokenPatternKey)
                 .Value.ToString()];
 
+            string name = null;
+            string description = null;
+
+            if (options.DebugInfo)
+            {
+                if (node.Property(NameKey) != null)
+                {
+                    name = node.Property(NameKey).Value.ToString();
+                }
+
+                if (node.Property(DescriptionKey) != null)
+                {
+                    description = node.Property(DescriptionKey).Value.ToString();
+                }
+            }
+
             switch (transformType)
             {
                 default:
                 case TokenType:
-                    return new TransformToken(pattern, className);
+                    return new TransformToken(name, description, pattern, className);
                 case TokenModifierType:
                     {
                         string[] excludeClassNames = node[ExcludeClassesKey] != null ?
@@ -91,6 +118,8 @@ namespace SyntaxHighlighter
                             .Patterns[node[ModifierPatternKey].ToString()];
 
                         return new TransformTokenModifier(
+                            name,
+                            description,
                             pattern,
                             modifierPattern,
                             className,
@@ -107,11 +136,16 @@ namespace SyntaxHighlighter
                             foreach (JObject transformNode in transformNodes)
                             {
                                 transforms.Add(
-                                    TransformFactory.Load(definition, transformNode) as TransformToken);
+                                    TransformFactory.Load(definition, transformNode, options) as TransformToken);
                             }
                         }
 
-                        return new TransformTokenSpan(pattern, className, transforms);
+                        return new TransformTokenSpan(
+                            name,
+                            description,
+                            pattern,
+                            className,
+                            transforms);
                     }
             }
         }

@@ -45,7 +45,15 @@ namespace SyntaxHighlighter.Tests
         public static void VerifyTransform(string baseDirectory, string sample, string codeType, string className)
         {
             // Initialize highlighter with transforms from test deployment folder.
-            Highlighter highlighter = new Highlighter(Path.Combine(baseDirectory, "Transforms"));
+            Options options = new Options
+            {
+                // Set DebugInfo to true to add 'data-transform' attribute with name of
+                // transform that decorated each token.
+                DebugInfo = false
+            };
+
+            Highlighter highlighter = new Highlighter(
+                Path.Combine(baseDirectory, "Transforms"), options);
 
             // Get the test inputs deployment folder.
             string input = Path.Combine(baseDirectory, "Input", string.Format("{0}.txt", sample));
@@ -183,11 +191,12 @@ namespace SyntaxHighlighter.Tests
             }
 
             int end = FindNestedSpanEnd(content, pos + SpanMarker.Length);
+            int classEnd = content.IndexOf('\"', pos + SpanMarker.Length);
             int contentStart = content.IndexOf(SpanContentMarker, pos);
 
             spanClass = content.Substring(
                 pos + SpanMarker.Length,
-                contentStart - pos - SpanMarker.Length);
+                classEnd - pos - SpanMarker.Length);
 
             spanContent = content.Substring(
                 contentStart + SpanContentMarker.Length,

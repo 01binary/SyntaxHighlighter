@@ -12,6 +12,11 @@ namespace SyntaxHighlighter
     public class Highlighter
     {
         /// <summary>
+        /// The pre-defined name for pattern used to detect token separators.
+        /// </summary>
+        private static readonly string SeparatorsPattern = "separators";
+
+        /// <summary>
         /// The base path for loading transform definitions.
         /// </summary>
         private string transformPath;
@@ -19,7 +24,7 @@ namespace SyntaxHighlighter
         /// <summary>
         /// The debug options for diagnosing unexpected token transforms.
         /// </summary>
-        private DebugOptions debug;
+        private Options options;
 
         /// <summary>
         /// The current transform definition for the current code block type.
@@ -51,11 +56,11 @@ namespace SyntaxHighlighter
         /// Initializes a new instance of the <see cref="Highlighter"/> class.
         /// </summary>
         /// <param name="transformBasePath">The base path for loading transform definitions.</param>
-        /// <param name="debugOptions">The debug options for diagnosing unexpected token transforms.</param>
-        public Highlighter(string transformBasePath, DebugOptions debugOptions)
+        /// <param name="highlightOptions">The debug options for diagnosing unexpected token transforms.</param>
+        public Highlighter(string transformBasePath, Options highlightOptions)
         {
             this.transformPath = transformBasePath;
-            this.debug = debugOptions;
+            this.options = highlightOptions;
         }
 
         /// <summary>
@@ -67,10 +72,10 @@ namespace SyntaxHighlighter
         public string Transform(string code, string type)
         {
             this.transformDefinition = TransformDefinitionFactory.Load(
-                this.transformPath, type);
+                this.transformPath, type, this.options);
 
             this.buffer = new Buffer(
-                code, this.transformDefinition.Patterns["separators"], this.debug);
+                code, this.transformDefinition.Patterns[SeparatorsPattern], this.options);
 
             while (!this.buffer.Eof)
             {
