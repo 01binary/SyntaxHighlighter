@@ -52,7 +52,7 @@
   <ItemGroup>
     <Compile Include="CSharpTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Shared.cs" />
+    <Compile Include="Shared\Shared.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Actual\CommentAttributeValues.htm" />

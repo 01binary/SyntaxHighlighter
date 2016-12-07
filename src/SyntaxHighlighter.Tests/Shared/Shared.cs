@@ -49,7 +49,10 @@ namespace SyntaxHighlighter.Tests
             {
                 // Set DebugInfo to true to add 'data-transform' attribute with name of
                 // transform that decorated each token.
-                DebugInfo = false
+                DebugInfo = false,
+
+                // Set Verbose to true to dump all transformed tokens to Output window.
+                Verbose = true
             };
 
             Highlighter highlighter = new Highlighter(
