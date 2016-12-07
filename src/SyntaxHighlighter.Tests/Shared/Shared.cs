@@ -42,7 +42,8 @@ namespace SyntaxHighlighter.Tests
         /// <param name="sample">The name of code snippet .txt file in Input folder.</param>
         /// <param name="codeType">The type of code transform.</param>
         /// <param name="className">The class name of the tokens to verify.</param>
-        public static void VerifyTransform(string baseDirectory, string sample, string codeType, string className)
+        /// <param name="insideClassName">The class name of enclosing token, if only verifying tokens inside of another (can be null).</param>
+        public static void VerifyTransform(string baseDirectory, string sample, string codeType, string className, string insideClassName)
         {
             // Initialize highlighter with transforms from test deployment folder.
             Options options = new Options
@@ -52,7 +53,7 @@ namespace SyntaxHighlighter.Tests
                 DebugInfo = false,
 
                 // Set Verbose to true to dump all transformed tokens to Output window.
-                Verbose = true
+                Verbose = false
             };
 
             Highlighter highlighter = new Highlighter(
@@ -92,9 +93,9 @@ namespace SyntaxHighlighter.Tests
 
             try
             {
-                VerifySpans(File.ReadAllText(expected), actualContent, className, out assertPos);
+                VerifySpans(File.ReadAllText(expected), actualContent, className, insideClassName, out assertPos);
             }
-            catch (Exception ex)
+            catch (UnitTestAssertException ex)
             {
                 // We can't let assert fail the test immediately because we want to get the position.
                 assert = ex;
@@ -136,8 +137,9 @@ namespace SyntaxHighlighter.Tests
         /// <param name="expected">The expected HTML.</param>
         /// <param name="actual">The actual HTML.</param>
         /// <param name="className">The span class name.</param>
+        /// <param name="insideClassName">The enclosing span class name, if any.</param>
         /// <param name="pos">Character offset in actual string where the error occurred.</param>
-        private static void VerifySpans(string expected, string actual, string className, out int pos)
+        private static void VerifySpans(string expected, string actual, string className, string insideClassName, out int pos)
         {
             int expectedPos = 0;
             int actualPos = pos = 0;
@@ -152,6 +154,11 @@ namespace SyntaxHighlighter.Tests
                 bool found = NextSpan(actual, ref actualPos, out actualClass, out actualContent);
 
                 if (expectedClass != className)
+                {
+                    continue;
+                }
+
+                if (insideClassName != null && !IsInsideSpan(expected, expectedPos, insideClassName))
                 {
                     continue;
                 }
@@ -240,6 +247,38 @@ namespace SyntaxHighlighter.Tests
             }
 
             return start;
+        }
+
+        /// <summary>
+        /// Determines whether the specified position is inside a span with the specified class name.
+        /// </summary>
+        /// <param name="content">The transformed buffer.</param>
+        /// <param name="pos">The position in the buffer.</param>
+        /// <param name="className">The outer span class to test for.</param>
+        /// <returns>Whether the specified position is inside of span.</returns>
+        private static bool IsInsideSpan(string content, int pos, string className)
+        {
+            // Ensure all instances of opening span are closed before pos.
+            string spanToLookFor = SpanMarker + className;
+            int start = 0;
+
+            do
+            {
+                start = content.IndexOf(
+                    spanToLookFor, start, pos - start);
+
+                int end = FindNestedSpanEnd(content, start + spanToLookFor.Length);
+
+                if (end > pos)
+                {
+                    return true;
+                }
+
+                start = end;
+
+            } while (start != -1);
+
+            return false;
         }
 
         /// <summary>

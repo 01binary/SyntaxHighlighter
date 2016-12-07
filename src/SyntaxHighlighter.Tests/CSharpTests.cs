@@ -50,7 +50,7 @@ namespace SyntaxHighlighter.Tests
         [TestCategory("C# Syntax Highlighting")]
         public void TestCommentTags()
         {
-            this.AssertTransformed("CommentTags", "pl-ent");
+            this.AssertTransformed("CommentTags", "pl-ent", "pl-c");
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace SyntaxHighlighter.Tests
         [TestCategory("C# Syntax Highlighting")]
         public void TestCommentAttributes()
         {
-            this.AssertTransformed("CommentAttributes", "pl-e");
+            this.AssertTransformed("CommentAttributes", "pl-e", "pl-c");
         }
 
         /// <summary>
@@ -247,7 +247,18 @@ namespace SyntaxHighlighter.Tests
         /// <param name="className">The class name of tokens to verify.</param>
         private void AssertTransformed(string sample, string className)
         {
-            Shared.VerifyTransform(TestContext.DeploymentDirectory, sample, "csharp", className);
+            Shared.VerifyTransform(TestContext.DeploymentDirectory, sample, "csharp", className, null);
+        }
+
+        /// <summary>
+        /// Verifies whether transforming the specified sample produced the expected output.
+        /// </summary>
+        /// <param name="sample">The sample file name.</param>
+        /// <param name="className">The class name of tokens to verify.</param>
+        /// <param name="insideClassName">Verify only tokens inside a span of this class.</param>
+        private void AssertTransformed(string sample, string className, string insideClassName)
+        {
+            Shared.VerifyTransform(TestContext.DeploymentDirectory, sample, "csharp", className, insideClassName);
         }
     }
 }
