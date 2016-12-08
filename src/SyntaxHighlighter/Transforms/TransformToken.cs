@@ -11,7 +11,7 @@ namespace SyntaxHighlighter
     /// <summary>
     /// Transforms a token that matches a pattern when previous token class name is not excluded.
     /// </summary>
-    internal class TransformToken : ITransform
+    public class TransformToken : ITransform
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TransformToken"/> class.

@@ -11,7 +11,7 @@ namespace SyntaxHighlighter
     /// <summary>
     /// The transform buffer.
     /// </summary>
-    internal class Buffer
+    public class Buffer
     {
         /// <summary>
         /// The token span format.

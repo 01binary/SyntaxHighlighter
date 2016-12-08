@@ -12,7 +12,7 @@ namespace SyntaxHighlighter
     /// <summary>
     /// Transforms a token if the previous token or separator matches the modifier.
     /// </summary>
-    internal class TransformTokenModifier : TransformToken
+    public class TransformTokenModifier : TransformToken
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TransformTokenModifier"/> class.

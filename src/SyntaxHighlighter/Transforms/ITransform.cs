@@ -9,7 +9,7 @@ namespace SyntaxHighlighter
     /// <summary>
     /// The text transform contract.
     /// </summary>
-    internal interface ITransform
+    public interface ITransform
     {
         /// <summary>
         /// Apply the text transform.

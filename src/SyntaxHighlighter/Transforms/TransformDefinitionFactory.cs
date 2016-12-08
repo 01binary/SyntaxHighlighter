@@ -12,7 +12,7 @@ namespace SyntaxHighlighter
     /// <summary>
     /// Loads transform definitions.
     /// </summary>
-    internal class TransformDefinitionFactory
+    public class TransformDefinitionFactory
     {
         /// <summary>
         /// The loaded transform definitions.

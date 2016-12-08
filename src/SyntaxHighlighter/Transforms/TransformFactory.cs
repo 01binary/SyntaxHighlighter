@@ -13,7 +13,7 @@ namespace SyntaxHighlighter
     /// <summary>
     /// Loads transforms.
     /// </summary>
-    internal class TransformFactory
+    public class TransformFactory
     {
         /// <summary>
         /// The JSON key for transform type that determines which class to instantiate.

@@ -14,7 +14,7 @@ namespace SyntaxHighlighter
     /// <summary>
     /// Defines transforms and patterns.
     /// </summary>
-    internal class TransformDefinition
+    public class TransformDefinition
     {
         /// <summary>
         /// The JSON key for named patterns used in transforms.

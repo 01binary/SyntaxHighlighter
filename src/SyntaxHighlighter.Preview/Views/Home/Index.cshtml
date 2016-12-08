@@ -1,122 +1,26 @@
-﻿<pre data-transformpath="@ViewBag.TransformPath">@ViewBag.HighlightOutput</pre>
+﻿<div class="col-md-3">
+    <ul class="transform-list">
+        @{
+            dynamic definition = ViewBag.TransformDefinition;
+
+            foreach (var transform in definition.Transforms)
+            {
+                <li>
+                    <p class="transform-name">@transform.Name</p>
+                    <p class="transform-description">@transform.Description</p>
+                    <p class="transform-class">@transform.ClassName</p>
+                    <p class="transform-pattern">@transform.Pattern</p>
+                </li>
+            }
+        }
+    </ul>
+</div>
+
+<div class="col-md-9">
+    <pre data-transformpath="@ViewBag.TransformPath">@ViewBag.HighlightOutput</pre>
+</div>
 
 @section Scripts
 {
-<script type="text/javascript">
-
-    loadTransformDefinition();
-    initTooltips();
-
-    /*
-     * Initialize tooltips for all transformed token spans.
-     * This covers any span with class name that starts with 'pl-'.
-     */
-    function initTooltips() {
-        $('span[class^="pl-"]').each(function() {
-            $(this).mouseenter(function () {
-                showTooltip($(this));
-            });
-
-            $(this).mouseleave(function () {
-                hideTooltip($(this));
-            });
-        });
-    }
-
-    function getTransformDescription(transformName) {
-        if (getTransformDescription.definition) {
-            var transforms = getTransformDescription.definition.transforms;
-
-            for (var transformId in transforms) {
-                if (transforms[transformId].name === transformName) {
-                    return transforms[transformId].description;
-                }
-            }
-        }
-
-        return 'loading extra info...';
-    }
-
-    function loadTransformDefinition() {
-        var path = $('pre').attr('data-transformpath');
-
-        $.ajax({ url: path }).done(function (result) {
-            getTransformDescription.definition = result;
-        });
-    }
-
-    /*
-     * Create a tooltip.
-     * return the new tooltip element jQuery.
-     */
-    function createTooltip() {
-        var div = '<div></div>';
-
-        return $(div)
-            .attr('id', 'tip')
-            .addClass('token-tooltip')
-            .hide()
-            .appendTo($('body'));
-    }
-
-    /*
-     * Get or create tooltip.
-     * return the tooltip element jQuery.
-     */
-    function getTooltip() {
-        const $tooltip = $('#tip');
-
-        if ($tooltip.length === 0) {
-            return createTooltip();
-        }
-
-        return $tooltip;
-    }
-
-    /*
-     * Show the tooltip for an element.
-     *  $element - Element for which to show the tooltip.
-     */
-    function showTooltip($element) {
-        var y = $element.offset().top - 20;
-        var x = $element.offset().left + $element.width() / 2 - 18;
-        var $tooltip = getTooltip();
-
-        $element.addClass('token-highlighted');
-
-        $tooltip
-            .html(tooltipContent($element))
-            .css({
-                left: x - $tooltip.width() / 2,
-                top: y - $tooltip.height()
-            })
-            .stop()
-            .fadeIn();
-    }
-
-    /*
-     * Hide the tooltip.
-     */
-    function hideTooltip($element) {
-        $element.removeClass('token-highlighted');
-        getTooltip().stop().fadeOut();
-    }
-
-    /*
-     * Build tooltip content.
-     *  returns the tooltip content.
-     */
-    function tooltipContent($element) {
-        var tokenClass = $element.attr('class').replace('token-highlighted', '');
-        var tokenTransform = $element.attr('data-transform');
-        var tokenDescription = getTransformDescription(tokenTransform);
-
-        var display =
-            '<span class="token-class">' + tokenClass + '</span>' +
-            '<br><span class="token-transform">' + tokenTransform + '</span>' +
-            '<br><span class="token-description">' + tokenDescription + '</span>';
-
-        return display;
-    }
-</script>
+<script type="text/javascript" src="~/Scripts/token-tips.js"></script>
 }

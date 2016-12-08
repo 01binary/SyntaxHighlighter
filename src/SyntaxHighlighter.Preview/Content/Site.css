@@ -116,3 +116,48 @@ pre {
 .token-description {
     color: lightgray;
 }
+
+.transform-list {
+    list-style: none;
+    margin-top: 25px;
+    margin-left: -10px;
+    margin-right: -20px;
+    margin-bottom: 0;
+    padding: 0;
+}
+
+.transform-list li {
+    padding: 10px;
+    margin: 0;
+    border-radius: 4px;
+    border-top: solid dashed;
+    border-top-width: 1px;
+    border-color: darkgray;
+    position: relative;
+}
+
+.transform-list li:hover {
+    background-color: #EFEFEF;
+}
+
+.transform-list:hover:after {
+    content: '';
+    background-color: red;
+    border: 1px red green transparent;
+    position: absolute;
+    right: 0;
+    top: 50%;
+}
+
+.transform-name {
+    font-size: larger;
+    font-weight: bolder;
+}
+
+.transform-class {
+    color: crimson;
+}
+
+.transform-pattern {
+    color: goldenrod;
+}

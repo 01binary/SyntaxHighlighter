@@ -78,6 +78,7 @@ namespace SyntaxHighlighter.Preview.Controllers
                 DebugInfo = true
             };
 
+            string transformFileName = string.Format(TransformFormat, language);
             string transformResult = new Highlighter(Server.MapPath(InputPath), options)
                 .Transform(System.IO.File.ReadAllText(sourcePath), language);
 
@@ -85,8 +86,10 @@ namespace SyntaxHighlighter.Preview.Controllers
 
             ViewBag.Title = language;
             ViewBag.HighlightOutput = new HtmlString(transformResult);
+            ViewBag.TransformDefinition = TransformDefinitionFactory.Load(
+                InputPath, language, options);
             ViewBag.TransformPath = string.Format(
-                TransformRequestFormat, string.Format(TransformFormat, language));
+                TransformRequestFormat, transformFileName);
 
             return this.View();
         }

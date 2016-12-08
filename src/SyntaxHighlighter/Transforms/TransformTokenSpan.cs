@@ -13,7 +13,7 @@ namespace SyntaxHighlighter
     /// <summary>
     /// Transforms the span formed by a token match.
     /// </summary>
-    internal class TransformTokenSpan : TransformToken
+    public class TransformTokenSpan : TransformToken
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TransformTokenSpan"/> class.
