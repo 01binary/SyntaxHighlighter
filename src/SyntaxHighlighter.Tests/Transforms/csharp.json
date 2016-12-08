@@ -183,7 +183,7 @@
 
     {
       "name": "Exclusive Entities (Non-Scoped)",
-      "descriptoion": "Identifiers declared as class, struct, namespace or class access not constrained to being inside of a scope",
+      "description": "Identifiers declared as class, struct, namespace or class access not constrained to being inside of a scope",
 
       "transformType": "TokenModifier",
       "tokenClass": "pl-e",
