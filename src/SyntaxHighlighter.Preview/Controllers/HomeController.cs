@@ -6,6 +6,7 @@
 
 namespace SyntaxHighlighter.Preview.Controllers
 {
+    using System.IO;
     using System.Web;
     using System.Web.Mvc;
 
@@ -15,29 +16,93 @@ namespace SyntaxHighlighter.Preview.Controllers
     public class HomeController : Controller
     {
         /// <summary>
+        /// The path where input files and transform definitions are copied.
+        /// </summary>
+        private static readonly string InputPath = "~/bin/App_Data";
+        
+        /// <summary>
+        /// The path for outputting transform results for review.
+        /// </summary>
+        private static readonly string OutputPath = "~/App_Data";
+
+        /// <summary>
+        /// The transform definition file name format.
+        /// </summary>
+        private static readonly string TransformFormat = "{0}.json";
+
+        /// <summary>
+        /// The input file name format.
+        /// </summary>
+        private static readonly string InputFormat = "{0}-input.txt";
+
+        /// <summary>
+        /// The output file name format.
+        /// </summary>
+        private static readonly string OutputFormat = "{0}-output.htm";
+
+        /// <summary>
+        /// The data file name format.
+        /// </summary>
+        private static readonly string DataFormat = "~/bin/App_Data/{0}";
+
+        /// <summary>
+        /// The route used to request transform definitions.
+        /// </summary>
+        private static readonly string TransformRequestFormat = "/Home/Data?file={0}";
+
+        /// <summary>
+        /// The default language to preview.
+        /// </summary>
+        private static readonly string DefaultLanguage = "csharp";
+
+        /// <summary>
         /// The main application page used to preview transform results.
         /// </summary>
+        /// <param name="language">The code highlight language to preview.</param>
         /// <returns>The Index view.</returns>
-        public ActionResult Index()
+        public ActionResult Index(string language)
         {
-            string sourcePath = Server.MapPath("~/bin/App_Data/Input.txt");
-            string destPath = Server.MapPath("~/App_Data/Output.htm");
+            if (string.IsNullOrEmpty(language))
+            {
+                language = DefaultLanguage;
+            }
+
+            string sourcePath = Server.MapPath(
+                Path.Combine(InputPath, string.Format(InputFormat, language)));
+
+            string destPath =
+                Server.MapPath(Path.Combine(OutputPath, string.Format(OutputFormat, language)));
 
             Options options = new Options()
             {
-                DebugInfo = false, // true
-                BreakOnToken = null, // "services",
-                BreakOnNotClass = null // "pl-v"
+                DebugInfo = true
             };
 
-            string transformResult = new Highlighter(Server.MapPath("~/bin/App_Data"), options)
-                .Transform(System.IO.File.ReadAllText(sourcePath), "csharp");
+            string transformResult = new Highlighter(Server.MapPath(InputPath), options)
+                .Transform(System.IO.File.ReadAllText(sourcePath), language);
 
             System.IO.File.WriteAllText(destPath, transformResult);
 
-            ViewBag.Markdown = new HtmlString(transformResult);
+            ViewBag.Title = language;
+            ViewBag.HighlightOutput = new HtmlString(transformResult);
+            ViewBag.TransformPath = string.Format(
+                TransformRequestFormat, string.Format(TransformFormat, language));
 
             return this.View();
+        }
+
+        /// <summary>
+        /// Serve a static file from App_Data.
+        /// </summary>
+        /// <param name="file">The path relative to App_Data folder.</param>
+        /// <returns>The file content result.</returns>
+        public ActionResult Data(string file)
+        {
+            string serverPath = Server.MapPath(string.Format(DataFormat, file));
+            byte[] data = System.IO.File.ReadAllBytes(serverPath);
+            string contentType = MimeMapping.GetMimeMapping(serverPath);
+
+            return this.File(data, contentType);
         }
     }
 }
