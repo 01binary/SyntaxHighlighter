@@ -1,4 +1,10 @@
 ﻿<div class="col-sm-3">
+    <button class="scroll-to-code" type="button">
+        <span class="scroll-to-code-arrow">&downarrow;</span>
+        <br />
+        Scroll to Code
+    </button>
+
     <ul class="transform-list">
         @{
             dynamic definition = ViewBag.TransformDefinition;
@@ -27,4 +33,13 @@
 @section Scripts
 {
 <script type="text/javascript" src="~/Scripts/token-tips.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.scroll-to-code').click(function () {
+            $('html, body').animate({
+                scrollTop: $('pre').offset().top
+            }, 2000);
+        });
+    });
+</script>
 }

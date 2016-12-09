@@ -73,6 +73,30 @@ pre {
     color: #000
 }
 
+.scroll-to-code {
+    margin-top: 20px;
+    margin-bottom: -10px;
+    display: none;
+    background-color: white;
+    border-radius: 4px;
+    border: 1px solid darkgray;
+    outline: none;
+}
+
+.scroll-to-code:hover {
+    border: 1px solid teal;
+}
+
+.scroll-to-code-arrow {
+    font-size: 20px;
+}
+
+@media (max-width: 768px) {
+    .scroll-to-code {
+        display: block;
+    }
+}
+
 .token-tooltip {
     position: absolute;
     background: rgba(0, 0, 0, 0.75);
@@ -148,6 +172,16 @@ pre {
     border-style: solid;
     border-color: transparent transparent transparent #EFEFEF;
     pointer-events: none;
+}
+
+@media (max-width: 768px) {
+    .transform-list {
+        margin-right: -10px;
+    }
+
+    .transform-list li:hover:after {
+        display: none;
+    }
 }
 
 .transform-name {

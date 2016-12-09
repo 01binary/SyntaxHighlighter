@@ -95,20 +95,17 @@ function getTooltip() {
  * @param {jQuery} $element - Element for which to show the tooltip.
  */
 function showTooltip($element) {
-    var y = Math.max(0, $element.offset().top - 20);
-    var x = Math.max(0, $element.offset().left + $element.width() / 2 - 18);
     var $tooltip = getTooltip();
 
+    $tooltip.html(tooltipContent($element));
     $element.addClass('token-highlighted');
 
-    $tooltip
-        .html(tooltipContent($element))
-        .css({
-            left: x - $tooltip.width() / 2,
-            top: y - $tooltip.height()
-        })
-        .stop()
-        .fadeIn();
+    window.setTimeout(function () {
+        var y = Math.max(0, $element.offset().top - $tooltip.height() - 20);
+        var x = Math.max(0, $element.offset().left + $element.width() / 2 - $tooltip.width() / 2 - 18);
+
+        $tooltip.css({ left: x, top: y }).stop().fadeIn();
+    }, 100);
 }
 
 /*
