@@ -7,6 +7,7 @@
 namespace SyntaxHighlighter.Tests
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -77,6 +78,9 @@ namespace SyntaxHighlighter.Tests
             // Get the template deployment folder.
             string template = Path.Combine(baseDirectory, "Template", "Template.htm");
 
+            // Get the test log output path.
+            string log = Path.Combine(baseDirectory, string.Format("{0} Test Log.txt", sample));
+
             // Transform the input sample.
             string content = highlighter.Transform(File.ReadAllText(input), codeType);
 
@@ -90,11 +94,19 @@ namespace SyntaxHighlighter.Tests
 
             // Compare actual result with expected result.
             Exception assert = null;
+            List<string> tested = new List<string>();
             int assertPos = 0;
 
             try
             {
-                VerifySpans(File.ReadAllText(expected), actualContent, className, insideClassName, outsideClassName, out assertPos);
+                VerifySpans(
+                    File.ReadAllText(expected),
+                    actualContent,
+                    className,
+                    insideClassName,
+                    outsideClassName,
+                    out assertPos,
+                    tested);
             }
             catch (UnitTestAssertException ex)
             {
@@ -107,6 +119,10 @@ namespace SyntaxHighlighter.Tests
                 // Write the actual result without error marker to project Actual folder,
                 // to enable using source control diffs for debugging.
                 File.WriteAllText(actualCopy, actualContent);
+
+                // Write the log entries for which tokens were tested to test folder.
+                // This helps when determining why test passes or fails when it shouldn't.
+                File.WriteAllLines(log, tested);
             }
             catch
             {
@@ -141,10 +157,12 @@ namespace SyntaxHighlighter.Tests
         /// <param name="insideClassName">The enclosing span class name, if any.</param>
         /// <param name="outsideClassName">The span class name the token should not be inside, if any.</param>
         /// <param name="pos">Character offset in actual string where the error occurred.</param>
-        private static void VerifySpans(string expected, string actual, string className, string insideClassName, string outsideClassName, out int pos)
+        /// <param name="tested">The spans verified, null if this information is not desired.</param>
+        private static void VerifySpans(string expected, string actual, string className, string insideClassName, string outsideClassName, out int pos, List<string> tested)
         {
             int expectedPos = 0;
             int actualPos = pos = 0;
+            int count = 0;
 
             string expectedClass;
             string actualClass;
@@ -185,7 +203,17 @@ namespace SyntaxHighlighter.Tests
                     actualClass,
                     className,
                     string.Format("token {0} at {1} does not have {2} class", actualContent, actualPos, className));
+
+                count++;
+
+                if (tested != null)
+                {
+                    tested.Add(string.Format("{0}: {1}", className, actualContent));
+                }
             }
+
+            // We don't want to pass the test if there was nothing to test - that means the test needs to be fixed.
+            Assert.AreNotEqual(0, count, "No tokens found to verify");
         }
 
         /// <summary>
