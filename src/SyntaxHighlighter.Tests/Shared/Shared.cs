@@ -43,7 +43,8 @@ namespace SyntaxHighlighter.Tests
         /// <param name="codeType">The type of code transform.</param>
         /// <param name="className">The class name of the tokens to verify.</param>
         /// <param name="insideClassName">The class name of enclosing token, if only verifying tokens inside of another (can be null).</param>
-        public static void VerifyTransform(string baseDirectory, string sample, string codeType, string className, string insideClassName)
+        /// <param name="outsideClassName">The class name of span that the token should not be enclosed in.</param>
+        public static void VerifyTransform(string baseDirectory, string sample, string codeType, string className, string insideClassName, string outsideClassName)
         {
             // Initialize highlighter with transforms from test deployment folder.
             Options options = new Options
@@ -93,7 +94,7 @@ namespace SyntaxHighlighter.Tests
 
             try
             {
-                VerifySpans(File.ReadAllText(expected), actualContent, className, insideClassName, out assertPos);
+                VerifySpans(File.ReadAllText(expected), actualContent, className, insideClassName, outsideClassName, out assertPos);
             }
             catch (UnitTestAssertException ex)
             {
@@ -138,8 +139,9 @@ namespace SyntaxHighlighter.Tests
         /// <param name="actual">The actual HTML.</param>
         /// <param name="className">The span class name.</param>
         /// <param name="insideClassName">The enclosing span class name, if any.</param>
+        /// <param name="outsideClassName">The span class name the token should not be inside, if any.</param>
         /// <param name="pos">Character offset in actual string where the error occurred.</param>
-        private static void VerifySpans(string expected, string actual, string className, string insideClassName, out int pos)
+        private static void VerifySpans(string expected, string actual, string className, string insideClassName, string outsideClassName, out int pos)
         {
             int expectedPos = 0;
             int actualPos = pos = 0;
@@ -159,6 +161,11 @@ namespace SyntaxHighlighter.Tests
                 }
 
                 if (insideClassName != null && !IsInsideSpan(expected, expectedPos, insideClassName))
+                {
+                    continue;
+                }
+
+                if (outsideClassName != null && IsInsideSpan(expected, expectedPos, outsideClassName))
                 {
                     continue;
                 }
@@ -267,14 +274,17 @@ namespace SyntaxHighlighter.Tests
                 start = content.IndexOf(
                     spanToLookFor, start, pos - start);
 
-                int end = FindNestedSpanEnd(content, start + spanToLookFor.Length);
-
-                if (end > pos)
+                if (start != -1)
                 {
-                    return true;
-                }
+                    int end = FindNestedSpanEnd(content, start + spanToLookFor.Length);
 
-                start = end;
+                    if (end > pos)
+                    {
+                        return true;
+                    }
+
+                    start = end;
+                }
             }
             while (start != -1);
 

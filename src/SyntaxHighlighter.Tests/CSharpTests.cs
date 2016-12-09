@@ -50,7 +50,7 @@ namespace SyntaxHighlighter.Tests
         [TestCategory("C# Syntax Highlighting")]
         public void TestCommentTags()
         {
-            this.AssertTransformed("CommentTags", "pl-ent", "pl-c");
+            this.AssertTransformedInside("CommentTags", "pl-ent", "pl-c");
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace SyntaxHighlighter.Tests
         [TestCategory("C# Syntax Highlighting")]
         public void TestCommentAttributes()
         {
-            this.AssertTransformed("CommentAttributes", "pl-e", "pl-c");
+            this.AssertTransformedInside("CommentAttributes", "pl-e", "pl-c");
         }
 
         /// <summary>
@@ -70,6 +70,7 @@ namespace SyntaxHighlighter.Tests
         [TestCategory("C# Syntax Highlighting")]
         public void TestCommentAttributeValues()
         {
+            this.AssertTransformedInside("CommentAttributeValues", "pl-s", "pl-c");
         }
 
         /// <summary>
@@ -79,6 +80,7 @@ namespace SyntaxHighlighter.Tests
         [TestCategory("C# Syntax Highlighting")]
         public void TestStrings()
         {
+            this.AssertTransformedNotInside("Strings", "pl-s", "pl-c");
         }
 
         /// <summary>
@@ -247,7 +249,7 @@ namespace SyntaxHighlighter.Tests
         /// <param name="className">The class name of tokens to verify.</param>
         private void AssertTransformed(string sample, string className)
         {
-            Shared.VerifyTransform(TestContext.DeploymentDirectory, sample, "csharp", className, null);
+            Shared.VerifyTransform(TestContext.DeploymentDirectory, sample, "csharp", className, null, null);
         }
 
         /// <summary>
@@ -256,9 +258,20 @@ namespace SyntaxHighlighter.Tests
         /// <param name="sample">The sample file name.</param>
         /// <param name="className">The class name of tokens to verify.</param>
         /// <param name="insideClassName">Verify only tokens inside a span of this class.</param>
-        private void AssertTransformed(string sample, string className, string insideClassName)
+        private void AssertTransformedInside(string sample, string className, string insideClassName)
         {
-            Shared.VerifyTransform(TestContext.DeploymentDirectory, sample, "csharp", className, insideClassName);
+            Shared.VerifyTransform(TestContext.DeploymentDirectory, sample, "csharp", className, insideClassName, null);
+        }
+
+        /// <summary>
+        /// Verifies whether transforming the specified sample produced the expected output.
+        /// </summary>
+        /// <param name="sample">The sample file name.</param>
+        /// <param name="className">The class name of tokens to verify.</param>
+        /// <param name="outsideClassName">Verify only tokens inside a span of this class.</param>
+        private void AssertTransformedNotInside(string sample, string className, string outsideClassName)
+        {
+            Shared.VerifyTransform(TestContext.DeploymentDirectory, sample, "csharp", className, null, outsideClassName);
         }
     }
 }

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Code Highlight Preview</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" type="text/css" href="../Template/Styles.css">
+</head>
+<body>
+<pre><span class="pl-c">/*--------------------------------------------------------*\
+|   ______    __   |
+|  |  __  |  |  |  |
+|  | |  | |  |  |  |
+|  | !__! |  |  |  |
+|  !______!  !__!  |  binary : tech art
+|
+|  Defines the Users Endpoint.
+|----------------------------------------------------------
+|  Copyright(C) 2016 Valeriy Novytskyy
+\*---------------------------------------------------------*/</span>
+
+<span class="pl-k">using</span> <span class="pl-e">System</span>.<span class="pl-e">Threading</span>.<span class="pl-e">Tasks</span>;
+<span class="pl-k">using</span> <span class="pl-e">Microsoft</span>.<span class="pl-e">AspNetCore</span>.<span class="pl-e">Identity</span>;
+<span class="pl-k">using</span> <span class="pl-e">Microsoft</span>.<span class="pl-e">AspNetCore</span>.<span class="pl-e">Mvc</span>;
+<span class="pl-k">using</span> <span class="pl-e">ZeroWeb</span>.<span class="pl-e">Models</span>;
+
+<span class="pl-k">namespace</span> <span class="pl-e">ZeroWeb</span>.<span class="pl-e">Api</span>
+{
+    <span class="pl-c">/// &lt;<span class="pl-ent">summary</span>&gt;</span>
+    <span class="pl-c">/// The Users Endpoint.</span>
+    <span class="pl-c">/// &lt;/<span class="pl-ent">summary</span>&gt;</span>
+    [<span class="pl-e">Route</span>(<span class="pl-s">"api/users"</span>)]
+    <span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-e">UsersController</span>: <span class="pl-en">Controller</span>
+    {
+        <span class="pl-c">/// &lt;<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-c">/// The view to display on successful login.</span>
+        <span class="pl-c">/// &lt;/<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-k">private</span> <span class="pl-k">static</span> <span class="pl-k">readonly</span> <span class="pl-k">string</span> <span class="pl-v">Failure</span> = <span class="pl-s">"LoginFailure"</span>;
+
+        <span class="pl-c">/// &lt;<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-c">/// The view to display on a failed login.</span>
+        <span class="pl-c">/// &lt;/<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-k">private</span> <span class="pl-k">static</span> <span class="pl-k">readonly</span> <span class="pl-k">string</span> <span class="pl-v">Success</span> = <span class="pl-s">"LoginSuccess"</span>;
+
+        <span class="pl-c">/// &lt;<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-c">/// The application user manager.</span>
+        <span class="pl-c">/// &lt;/<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-k">private</span> <span class="pl-k">readonly</span> <span class="pl-en">UserManager</span><<span class="pl-en">User</span>> <span class="pl-v">userManager</span>;
+
+        <span class="pl-c">/// &lt;<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-c">/// The application sign-in manager.</span>
+        <span class="pl-c">/// &lt;/<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-k">private</span> <span class="pl-k">readonly</span> <span class="pl-en">SignInManager</span><<span class="pl-en">User</span>> <span class="pl-v">signInManager</span>;
+
+        <span class="pl-c">/// &lt;<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-c">/// Initializes a new instance of the &lt;<span class="pl-ent">see</span> <span class="pl-e">cref</span>=<span class="pl-s">"UsersController"</span>/&gt; class.</span>
+        <span class="pl-c">/// &lt;/<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-c">/// &lt;<span class="pl-ent">param</span> <span class="pl-e">name</span>=<span class="pl-s">"userManager"</span>&gt;The user manager.&lt;/<span class="pl-ent">param</span>&gt;</span>
+        <span class="pl-c">/// &lt;<span class="pl-ent">param</span> <span class="pl-e">name</span>=<span class="pl-s">"signInManager"</span>&gt;The sign-in manager.&lt;/<span class="pl-ent">param</span>&gt;</span>
+        <span class="pl-k">public</span> <span class="pl-e">UsersController</span>(<span class="pl-en">UserManager</span><<span class="pl-en">User</span>> <span class="pl-v">userManager</span>,
+                               <span class="pl-en">SignInManager</span><<span class="pl-en">User</span>> <span class="pl-v">signInManager</span>)
+        {
+            <span class="pl-c1">this</span>.<span class="pl-v">userManager</span> = <span class="pl-v">userManager</span>;
+            <span class="pl-c1">this</span>.<span class="pl-v">signInManager</span> = <span class="pl-v">signInManager</span>;
+        }
+
+        <span class="pl-c">/// &lt;<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-c">/// Gets the current user name.</span>
+        <span class="pl-c">/// &lt;/<span class="pl-ent">summary</span>&gt;</span>
+        [<span class="pl-e">HttpGet</span>(<span class="pl-s">"current"</span>)]
+        <span class="pl-k">public</span> <span class="pl-en">IActionResult</span> <span class="pl-e">GetName</span>()
+        {
+            <span class="pl-k">string</span> <span class="pl-v">userName</span> = <span class="pl-c1">null</span>;
+
+            <span class="pl-k">if</span> (<span class="pl-c1">this</span>.<span class="pl-v">HttpContext</span>.<span class="pl-e">User</span> != <span class="pl-c1">null</span>)
+            {
+                <span class="pl-v">userName</span> = <span class="pl-c1">this</span>.<span class="pl-v">HttpContext</span>.<span class="pl-e">User</span>.<span class="pl-e">Identity</span>.<span class="pl-e">Name</span>;
+            }
+
+            <span class="pl-k">return</span> <span class="pl-c1">this</span>.<span class="pl-e">Json</span>(<span class="pl-k">new</span> { <span class="pl-v">name</span> = <span class="pl-v">userName</span> });
+        }
+
+        <span class="pl-c">/// &lt;<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-c">/// Initiates login with an external provider.</span>
+        <span class="pl-c">/// &lt;/<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-c">/// &lt;<span class="pl-ent">param</span> <span class="pl-e">name</span>=<span class="pl-s">"provider"</span>&gt;The external login provider.&lt;/<span class="pl-ent">param</span>&gt;</span>
+        [<span class="pl-e">HttpGet</span>(<span class="pl-s">"login/{provider}"</span>)]
+        <span class="pl-k">public</span> <span class="pl-en">async</span> <span class="pl-v">Task</span><<span class="pl-en">IActionResult</span>> <span class="pl-e">Login</span>(<span class="pl-k">string</span> <span class="pl-v">provider</span>)
+        {
+            <span class="pl-c">// When already signed in with external provider, continue to Register.</span>
+            <span class="pl-c">// https://github.com/aspnet/Identity/issues/915</span>
+            <span class="pl-k">var</span> <span class="pl-v">info</span> = <span class="pl-v">await</span> <span class="pl-c1">this</span>.<span class="pl-v">signInManager</span>.<span class="pl-e">GetExternalLoginInfoAsync</span>();
+
+            <span class="pl-k">if</span> (<span class="pl-v">info</span> != <span class="pl-c1">null</span>)
+            {
+                <span class="pl-k">return</span> <span class="pl-c1">this</span>.<span class="pl-e">Redirect</span>(<span class="pl-s">"~/api/users/callback?interrupted=true"</span>);
+            }
+
+            <span class="pl-c">// Request a redirect to the external login provider.</span>
+            <span class="pl-k">var</span> <span class="pl-v">properties</span> = <span class="pl-c1">this</span>.<span class="pl-v">signInManager</span>.<span class="pl-e">ConfigureExternalAuthenticationProperties</span>(
+                <span class="pl-v">provider</span>,
+                <span class="pl-s">"api/users/callback"</span>);
+
+            <span class="pl-k">return</span> <span class="pl-c1">this</span>.<span class="pl-e">Challenge</span>(<span class="pl-v">properties</span>, <span class="pl-v">provider</span>);
+        }
+    }
+}</pre>
+</body>
+</html>
