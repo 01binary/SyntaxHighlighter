@@ -100,12 +100,10 @@ function showTooltip($element) {
     $tooltip.html(tooltipContent($element));
     $element.addClass('token-highlighted');
 
-    window.setTimeout(function () {
-        var y = Math.max(0, $element.offset().top - $tooltip.height() - 20);
-        var x = Math.max(0, $element.offset().left + $element.width() / 2 - $tooltip.width() / 2 - 18);
+    var y = Math.max(0, $element.offset().top - $tooltip.height() - 16);
+    var x = Math.max(0, $element.offset().left + $element.width() / 2 - $tooltip.width() / 2 - 18);
 
-        $tooltip.css({ left: x, top: y }).stop().fadeIn();
-    }, 100);
+    $tooltip.css({ left: x, top: y }).stop().fadeIn();
 }
 
 /*
