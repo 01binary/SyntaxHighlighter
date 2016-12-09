@@ -86,7 +86,8 @@ pre {
     padding-right: 10px;
 }
 
-.token-tooltip-arrow {
+.token-tooltip:after {
+    content: '';
     position: absolute;
     border-width: 7px;
     border-style: solid;
@@ -104,11 +105,11 @@ pre {
 }
 
 .token-class {
-    color: deepskyblue;
+    color: orchid;
 }
 
 .token-transform {
-    color: hotpink;
+    color: aqua;
 }
 
 .token-description {

@@ -130,7 +130,6 @@ function tooltipContent($element) {
     var tokenDescription = getTransformDescription(tokenTransform);
 
     var display =
-        '<div class="token-tooltip-arrow"></div>' +
         '<span class="token-class">' + tokenClass + '</span>' +
         '<br><span class="token-transform">' + tokenTransform + '</span>' +
         '<br><span class="token-description">' + tokenDescription + '</span>';
