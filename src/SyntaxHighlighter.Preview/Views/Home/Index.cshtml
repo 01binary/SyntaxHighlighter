@@ -6,6 +6,10 @@
             foreach (var transform in definition.Transforms)
             {
                 <li>
+                    <div class="transform-tokentype">
+                        @Shared.GetTransformDisplayName(transform)
+                    </div>
+
                     <p class="transform-name">@transform.Name</p>
                     <p class="transform-description">@transform.Description</p>
                     <p class="transform-class">@transform.ClassName</p>
