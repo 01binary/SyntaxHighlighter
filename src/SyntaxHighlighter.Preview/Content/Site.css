@@ -108,6 +108,7 @@ pre {
     padding-bottom: 5px;
     padding-left: 10px;
     padding-right: 10px;
+    z-index: 2000;
 }
 
 .token-tooltip:after {
