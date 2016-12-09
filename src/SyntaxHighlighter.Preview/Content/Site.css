@@ -3,10 +3,13 @@
     padding-bottom: 20px;
 }
 
-/* Set padding to keep content from hitting the edges */
+.container {
+    width: 100% !important;
+}
+
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 15px !important;
+    padding-right: 15px !important;
 }
 
 span {
@@ -109,12 +112,26 @@ pre {
     top: 100%;
 }
 
+.transform-highlighted:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: cornsilk;
+    left: -6px;
+    top: -2px;
+    right: -6px;
+    bottom: -2px;
+    border-radius: 3px;
+    z-index: -1;
+}
+
 .token-highlighted:before {
     content: '';
     position: absolute;
     left: 0;
     top: 0;
-    background-color: yellow;
+    background-color: yellow !important;
     left: -6px;
     top: -2px;
     right: -6px;
@@ -148,25 +165,33 @@ pre {
     padding: 10px;
     margin: 0;
     border-radius: 4px;
-    border-top: solid dashed;
-    border-top-width: 1px;
     border-color: darkgray;
     position: relative;
 }
 
-.transform-list li:hover {
-    background-color: #EFEFEF;
-}
-
-.transform-list li:hover:after {
+.transform-list li:after {
     content: '';
     position: absolute;
     left: 100%;
     top: calc(50% - 15px);
     border-width: 15px;
     border-style: solid;
-    border-color: transparent transparent transparent #EFEFEF;
+    border-color: transparent transparent transparent floralwhite;
     pointer-events: none;
+    display: none;
+}
+
+.transform-list li:hover {
+    background-color: floralwhite;
+}
+
+.transform-list li.selected {
+    background-color: antiquewhite;
+}
+
+.transform-list li.selected:after {
+    display: block;
+    border-color: transparent transparent transparent antiquewhite;
 }
 
 @media (max-width: 768px) {
