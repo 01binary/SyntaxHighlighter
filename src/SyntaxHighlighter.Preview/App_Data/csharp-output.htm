@@ -745,12 +745,12 @@
 
         <span class="pl-k" data-transform="Keywords">if</span> (<span class="pl-v" data-transform="Variables">token</span>.<span class="pl-e" data-transform="Member Entities">Type</span> == <span class="pl-v" data-transform="Variables">TokenType</span>.<span class="pl-e" data-transform="Member Entities">Tag</span>)
         {
-            <span class="pl-v" data-transform="Variables">value</span> = <span class="pl-v" data-transform="Variables">value</span>.<span class="pl-e" data-transform="Member Entities">Replace</span>(<span class="pl-s" data-transform="Strings">@"\"</span>, <span class="pl-en" data-transform="Exclusive Entity Names">_escapeTable</span>[<span class="pl-s" data-transform="Strings">@"\"</span>]);
+            <span class="pl-v" data-transform="Variables">value</span> = <span class="pl-v" data-transform="Variables">value</span>.<span class="pl-e" data-transform="Member Entities">Replace</span>(<span class="pl-s" data-transform="Strings">@"\"</span>, <span class="pl-v" data-transform="Variables">_escapeTable</span>[<span class="pl-s" data-transform="Strings">@"\"</span>]);
                     
             <span class="pl-k" data-transform="Keywords">if</span> (<span class="pl-en" data-transform="Exclusive Entity Names">_autoHyperlink</span> && <span class="pl-v" data-transform="Variables">value</span>.<span class="pl-e" data-transform="Member Entities">StartsWith</span>(<span class="pl-s" data-transform="Strings">"&lt;!"</span>)) <span class="pl-c" data-transform="Comments">// escape slashes in comments to prevent autolinking there -- http://meta.stackexchange.com/questions/95987/html-comment-containing-url-breaks-if-followed-by-another-html-comment</span>
-                <span class="pl-v" data-transform="Variables">value</span> = <span class="pl-v" data-transform="Variables">value</span>.<span class="pl-e" data-transform="Member Entities">Replace</span>(<span class="pl-s" data-transform="Strings">"/"</span>, <span class="pl-en" data-transform="Exclusive Entity Names">_escapeTable</span>[<span class="pl-s" data-transform="Strings">"/"</span>]);
+                <span class="pl-v" data-transform="Variables">value</span> = <span class="pl-v" data-transform="Variables">value</span>.<span class="pl-e" data-transform="Member Entities">Replace</span>(<span class="pl-s" data-transform="Strings">"/"</span>, <span class="pl-v" data-transform="Variables">_escapeTable</span>[<span class="pl-s" data-transform="Strings">"/"</span>]);
                     
-            <span class="pl-v" data-transform="Variables">value</span> = <span class="pl-v" data-transform="Variables">Regex</span>.<span class="pl-e" data-transform="Member Entities">Replace</span>(<span class="pl-v" data-transform="Variables">value</span>, <span class="pl-s" data-transform="Strings">"(?&lt;=.)&lt;/?code&gt;(?=.)"</span>, <span class="pl-en" data-transform="Exclusive Entity Names">_escapeTable</span>[<span class="pl-s" data-transform="Strings">@"`"</span>]);
+            <span class="pl-v" data-transform="Variables">value</span> = <span class="pl-v" data-transform="Variables">Regex</span>.<span class="pl-e" data-transform="Member Entities">Replace</span>(<span class="pl-v" data-transform="Variables">value</span>, <span class="pl-s" data-transform="Strings">"(?&lt;=.)&lt;/?code&gt;(?=.)"</span>, <span class="pl-v" data-transform="Variables">_escapeTable</span>[<span class="pl-s" data-transform="Strings">@"`"</span>]);
             <span class="pl-v" data-transform="Variables">value</span> = <span class="pl-e" data-transform="Call Entities">EscapeBoldItalic</span>(<span class="pl-v" data-transform="Variables">value</span>);
         }
 
@@ -774,7 +774,7 @@
 
     <span class="pl-k" data-transform="Keywords">for</span> (<span class="pl-k" data-transform="Keywords">int</span> <span class="pl-v" data-transform="Variables">i</span> = <span class="pl-c1" data-transform="Numbers">0</span>; <span class="pl-en" data-transform="Exclusive Entity Names">i</span> < <span class="pl-v" data-transform="Variables">text</span>.<span class="pl-e" data-transform="Member Entities">Length</span>; <span class="pl-v" data-transform="Variables">i</span>++)
     {
-        <span class="pl-k" data-transform="Keywords">switch</span> (<span class="pl-en" data-transform="Exclusive Entity Names">text</span>[<span class="pl-v" data-transform="Variables">i</span>])
+        <span class="pl-k" data-transform="Keywords">switch</span> (<span class="pl-v" data-transform="Variables">text</span>[<span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">i</span>])
         {
             <span class="pl-k" data-transform="Keywords">case</span> <span class="pl-s" data-transform="Strings">'\n'</span>:
                 <span class="pl-k" data-transform="Keywords">if</span> (<span class="pl-v" data-transform="Variables">valid</span>) <span class="pl-v" data-transform="Variables">output</span>.<span class="pl-e" data-transform="Member Entities">Append</span>(<span class="pl-v" data-transform="Variables">line</span>);
@@ -782,7 +782,7 @@
                 <span class="pl-v" data-transform="Variables">line</span>.<span class="pl-e" data-transform="Member Entities">Length</span> = <span class="pl-c1" data-transform="Numbers">0</span>; <span class="pl-v" data-transform="Variables">valid</span> = <span class="pl-c1" data-transform="Constant Literals">false</span>;
                 <span class="pl-k" data-transform="Keywords">break</span>;
             <span class="pl-k" data-transform="Keywords">case</span> <span class="pl-s" data-transform="Strings">'\r'</span>:
-                <span class="pl-k" data-transform="Keywords">if</span> ((<span class="pl-en" data-transform="Exclusive Entity Names">i</span> < <span class="pl-v" data-transform="Variables">text</span>.<span class="pl-e" data-transform="Member Entities">Length</span> - <span class="pl-c1" data-transform="Numbers">1</span>) && (<span class="pl-en" data-transform="Exclusive Entity Names">text</span>[<span class="pl-v" data-transform="Variables">i</span> + <span class="pl-c1" data-transform="Numbers">1</span>] != <span class="pl-s" data-transform="Strings">'\n'</span>))
+                <span class="pl-k" data-transform="Keywords">if</span> ((<span class="pl-en" data-transform="Exclusive Entity Names">i</span> < <span class="pl-v" data-transform="Variables">text</span>.<span class="pl-e" data-transform="Member Entities">Length</span> - <span class="pl-c1" data-transform="Numbers">1</span>) && (<span class="pl-v" data-transform="Variables">text</span>[<span class="pl-en" data-transform="Exclusive Entity Names">i</span> + <span class="pl-c1" data-transform="Numbers">1</span>] != <span class="pl-s" data-transform="Strings">'\n'</span>))
                 {
                     <span class="pl-k" data-transform="Keywords">if</span> (<span class="pl-v" data-transform="Variables">valid</span>) <span class="pl-v" data-transform="Variables">output</span>.<span class="pl-e" data-transform="Member Entities">Append</span>(<span class="pl-v" data-transform="Variables">line</span>);
                     <span class="pl-v" data-transform="Variables">output</span>.<span class="pl-e" data-transform="Member Entities">Append</span>(<span class="pl-s" data-transform="Strings">'\n'</span>);
@@ -798,7 +798,7 @@
                 <span class="pl-k" data-transform="Keywords">break</span>;
             <span class="pl-k" data-transform="Keywords">default</span>:
                 <span class="pl-k" data-transform="Keywords">if</span> (!<span class="pl-v" data-transform="Variables">valid</span> && <span class="pl-v" data-transform="Variables">text</span>[<span class="pl-v" data-transform="Variables">i</span>] != <span class="pl-s" data-transform="Strings">' '</span>) <span class="pl-v" data-transform="Variables">valid</span> = <span class="pl-c1" data-transform="Constant Literals">true</span>;
-                <span class="pl-v" data-transform="Variables">line</span>.<span class="pl-e" data-transform="Member Entities">Append</span>(<span class="pl-en" data-transform="Exclusive Entity Names">text</span>[<span class="pl-v" data-transform="Variables">i</span>]);
+                <span class="pl-v" data-transform="Variables">line</span>.<span class="pl-e" data-transform="Member Entities">Append</span>(<span class="pl-v" data-transform="Variables">text</span>[<span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">i</span>]);
                 <span class="pl-k" data-transform="Keywords">break</span>;
         }
     }
