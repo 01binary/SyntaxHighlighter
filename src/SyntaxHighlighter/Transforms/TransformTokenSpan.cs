@@ -54,7 +54,7 @@ namespace SyntaxHighlighter
                 }
                 else
                 {
-                    content = match.Value;
+                    content = Buffer.EncodeContent(match.Value);
                 }
 
                 buffer.ReplaceSpan(match, Buffer.FormatToken(content, this.ClassName, this.Name));

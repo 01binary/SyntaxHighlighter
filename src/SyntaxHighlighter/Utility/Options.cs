@@ -41,5 +41,10 @@ namespace SyntaxHighlighter
         /// Gets or sets the number of matches to skip before breaking.
         /// </summary>
         public int BreakSkip { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to break only when token matches, if BreakOnNotClass was not provided.
+        /// </summary>
+        public bool BreakOnMatch { get; set; }
     }
 }

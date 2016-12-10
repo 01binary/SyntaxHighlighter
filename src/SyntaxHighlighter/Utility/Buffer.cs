@@ -328,15 +328,17 @@ namespace SyntaxHighlighter
                         this.Options.BreakOnToken,
                         reason,
                         this.Options.BreakOnNotClass.ToString());
+
+                    System.Diagnostics.Debugger.Break();
                 }
-                else
+                else if (!this.Options.BreakOnMatch || (this.Options.BreakOnMatch && match))
                 {
                     System.Diagnostics.Debug.WriteLine(
                         "Breaking on {0}",
                         this.Options.BreakOnToken);
-                }
 
-                System.Diagnostics.Debugger.Break();
+                    System.Diagnostics.Debugger.Break();
+                }
             }
         }
     }

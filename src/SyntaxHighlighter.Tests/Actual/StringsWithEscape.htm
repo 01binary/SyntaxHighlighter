@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Code Highlight Preview</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" type="text/css" href="../Template/Styles.css">
+</head>
+<body>
+<pre><span class="pl-c">/// &lt;<span class="pl-ent">summary</span>&gt;</span>
+<span class="pl-c">/// Within tags -- meaning between &lt; and &gt; -- encode [\ ` * _] so they </span>
+<span class="pl-c">/// don't conflict with their use in Markdown for code, italics and strong. </span>
+<span class="pl-c">/// We're replacing each such character with its corresponding hash </span>
+<span class="pl-c">/// value; this is likely overkill, but it should prevent us from colliding </span>
+<span class="pl-c">/// with the escape values by accident.</span>
+<span class="pl-c">/// &lt;/<span class="pl-ent">summary</span>&gt;</span>
+<span class="pl-k">private</span> <span class="pl-k">string</span> <span class="pl-v">EscapeSpecialCharsWithinTagAttributes</span>(<span class="pl-k">string</span> <span class="pl-v">text</span>)
+{
+    <span class="pl-k">var</span> <span class="pl-v">tokens</span> = <span class="pl-e">TokenizeHTML</span>(<span class="pl-v">text</span>);
+
+    <span class="pl-c">// now, rebuild text from the tokens</span>
+    <span class="pl-k">var</span> <span class="pl-v">sb</span> = <span class="pl-k">new</span> <span class="pl-e">StringBuilder</span>(<span class="pl-v">text</span>.<span class="pl-e">Length</span>);
+
+    <span class="pl-k">foreach</span> (<span class="pl-k">var</span> <span class="pl-v">token</span> <span class="pl-k">in</span> <span class="pl-v">tokens</span>)
+    {
+        <span class="pl-k">string</span> <span class="pl-v">value</span> = <span class="pl-v">token</span>.<span class="pl-e">Value</span>;
+
+        <span class="pl-k">if</span> (<span class="pl-v">token</span>.<span class="pl-e">Type</span> == <span class="pl-v">TokenType</span>.<span class="pl-e">Tag</span>)
+        {
+            <span class="pl-v">value</span> = <span class="pl-v">value</span>.<span class="pl-e">Replace</span>(<span class="pl-s">@"\"</span>, <span class="pl-en">_escapeTable</span>[<span class="pl-s">@"\"</span>]);
+                    
+            <span class="pl-k">if</span> (<span class="pl-en">_autoHyperlink</span> && <span class="pl-v">value</span>.<span class="pl-e">StartsWith</span>(<span class="pl-s">"&lt;!"</span>)) <span class="pl-c">// escape slashes in comments to prevent autolinking there -- http://meta.stackexchange.com/questions/95987/html-comment-containing-url-breaks-if-followed-by-another-html-comment</span>
+                <span class="pl-v">value</span> = <span class="pl-v">value</span>.<span class="pl-e">Replace</span>(<span class="pl-s">"/"</span>, <span class="pl-en">_escapeTable</span>[<span class="pl-s">"/"</span>]);
+                    
+            <span class="pl-v">value</span> = <span class="pl-v">Regex</span>.<span class="pl-e">Replace</span>(<span class="pl-v">value</span>, <span class="pl-s">"(?&lt;=.)&lt;/?code&gt;(?=.)"</span>, <span class="pl-en">_escapeTable</span>[<span class="pl-s">@"`"</span>]);
+            <span class="pl-v">value</span> = <span class="pl-e">EscapeBoldItalic</span>(<span class="pl-v">value</span>);
+        }
+
+        <span class="pl-v">sb</span>.<span class="pl-e">Append</span>(<span class="pl-v">value</span>);
+    }
+
+    <span class="pl-k">return</span> <span class="pl-v">sb</span>.<span class="pl-e">ToString</span>();
+}
+
+<span class="pl-c">/// &lt;<span class="pl-ent">summary</span>&gt;</span>
+<span class="pl-c">/// convert all tabs to _tabWidth spaces; </span>
+<span class="pl-c">/// standardizes line endings from DOS (CR LF) or Mac (CR) to UNIX (LF); </span>
+<span class="pl-c">/// makes sure text ends with a couple of newlines; </span>
+<span class="pl-c">/// removes any blank lines (only spaces) in the text</span>
+<span class="pl-c">/// &lt;/<span class="pl-ent">summary</span>&gt;</span>
+<span class="pl-k">private</span> <span class="pl-k">string</span> <span class="pl-v">Normalize</span>(<span class="pl-k">string</span> <span class="pl-v">text</span>)
+{
+    <span class="pl-k">var</span> <span class="pl-v">output</span> = <span class="pl-k">new</span> <span class="pl-e">StringBuilder</span>(<span class="pl-v">text</span>.<span class="pl-e">Length</span>);
+    <span class="pl-k">var</span> <span class="pl-v">line</span> = <span class="pl-k">new</span> <span class="pl-e">StringBuilder</span>();
+    <span class="pl-k">bool</span> <span class="pl-v">valid</span> = <span class="pl-c1">false</span>;
+
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> <span class="pl-v">i</span> = <span class="pl-c1">0</span>; <span class="pl-en">i</span> < <span class="pl-v">text</span>.<span class="pl-e">Length</span>; <span class="pl-v">i</span>++)
+    {
+        <span class="pl-k">switch</span> (<span class="pl-en">text</span>[<span class="pl-v">i</span>])
+        {
+            <span class="pl-k">case</span> <span class="pl-s">'\n'</span>:
+                <span class="pl-k">if</span> (<span class="pl-v">valid</span>) <span class="pl-v">output</span>.<span class="pl-e">Append</span>(<span class="pl-v">line</span>);
+                <span class="pl-v">output</span>.<span class="pl-e">Append</span>(<span class="pl-s">'\n'</span>);
+                <span class="pl-v">line</span>.<span class="pl-e">Length</span> = <span class="pl-c1">0</span>; <span class="pl-v">valid</span> = <span class="pl-c1">false</span>;
+                <span class="pl-k">break</span>;
+            <span class="pl-k">case</span> <span class="pl-s">'\r'</span>:
+                <span class="pl-k">if</span> ((<span class="pl-en">i</span> < <span class="pl-v">text</span>.<span class="pl-e">Length</span> - <span class="pl-c1">1</span>) && (<span class="pl-en">text</span>[<span class="pl-v">i</span> + <span class="pl-c1">1</span>] != <span class="pl-s">'\n'</span>))
+                {
+                    <span class="pl-k">if</span> (<span class="pl-v">valid</span>) <span class="pl-v">output</span>.<span class="pl-e">Append</span>(<span class="pl-v">line</span>);
+                    <span class="pl-v">output</span>.<span class="pl-e">Append</span>(<span class="pl-s">'\n'</span>);
+                    <span class="pl-v">line</span>.<span class="pl-e">Length</span> = <span class="pl-c1">0</span>; <span class="pl-v">valid</span> = <span class="pl-c1">false</span>;
+                }
+                <span class="pl-k">break</span>;
+            <span class="pl-k">case</span> <span class="pl-s">'\t'</span>:
+                <span class="pl-k">int</span> <span class="pl-v">width</span> = (<span class="pl-en">_tabWidth</span> - <span class="pl-v">line</span>.<span class="pl-e">Length</span> % <span class="pl-e">_tabWidth</span>);
+                <span class="pl-k">for</span> (<span class="pl-k">int</span> <span class="pl-v">k</span> = <span class="pl-c1">0</span>; <span class="pl-en">k</span> < <span class="pl-en">width</span>; <span class="pl-v">k</span>++)
+                    <span class="pl-v">line</span>.<span class="pl-e">Append</span>(<span class="pl-s">' '</span>);
+                <span class="pl-k">break</span>;
+            <span class="pl-k">case</span> <span class="pl-s">'\x1A'</span>:
+                <span class="pl-k">break</span>;
+            <span class="pl-k">default</span>:
+                <span class="pl-k">if</span> (!<span class="pl-v">valid</span> && <span class="pl-v">text</span>[<span class="pl-v">i</span>] != <span class="pl-s">' '</span>) <span class="pl-v">valid</span> = <span class="pl-c1">true</span>;
+                <span class="pl-v">line</span>.<span class="pl-e">Append</span>(<span class="pl-en">text</span>[<span class="pl-v">i</span>]);
+                <span class="pl-k">break</span>;
+        }
+    }
+
+    <span class="pl-k">if</span> (<span class="pl-v">valid</span>) <span class="pl-v">output</span>.<span class="pl-e">Append</span>(<span class="pl-v">line</span>);
+    <span class="pl-v">output</span>.<span class="pl-e">Append</span>(<span class="pl-s">'\n'</span>);
+
+    <span class="pl-c">// add two newlines to the end before return</span>
+    <span class="pl-k">return</span> <span class="pl-v">output</span>.<span class="pl-e">Append</span>(<span class="pl-s">"\n\n"</span>).<span class="pl-e">ToString</span>();
+}</pre>
+</body>
+</html>

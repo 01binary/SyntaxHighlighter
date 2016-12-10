@@ -90,6 +90,7 @@ namespace SyntaxHighlighter.Tests
         [TestCategory("C# Syntax Highlighting")]
         public void TestStringsWithEscape()
         {
+            this.AssertTransformedNotInside("StringsWithEscape", "pl-s", "pl-c");
         }
 
         /// <summary>

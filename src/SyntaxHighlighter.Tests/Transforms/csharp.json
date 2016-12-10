@@ -4,7 +4,7 @@
 
     "comments": "\\/\\/\\w*[^\\n\\r]* | \\/\\*[\\w\\W]+?\\*\\/",
 
-    "strings": "'(?:[^'\\\\]|\\.)*' | \"(?:[^\"\\\\]|\\.)*\"",
+    "strings": "'(?:[^'\\\\]|\\\\.)*' | \"(?:[^\"\\\\]|\\\\.)*\" | @\\\"(?:[^\"]|\\\\.|\\\"\\\")*\\\"",
 
     "numbers": {
       "pattern": "(?<literal> [+-]? (0x)? ( (\\d+\\.?\\d*) | (\\.\\d+) ) ( [uU][lL]{0,2} | ([eE][-+]\\d*)?[fFlL]* ))",
@@ -25,8 +25,8 @@
     "entityModifiers": "public\\W*$ | private\\W*$ | protected\\W*$ | class\\W*$ | interface\\W*$ | struct\\W*$ | enum\\W*$ | namespace\\W*$ | using\\W*$ | \\. | \\[",
 
     "entitiesAssign": "(\\w+)\\s*={1,2}\\s* | (\\w+)\\s*[\\+-\\/\\*]?=\\s* | (\\w+)\\s*\\+{1,2}\\s* | (\\w+)\\s*-{1,2}\\s* | (\\w+)\\s*\\*\\s* | (\\w+)\\s*\\/\\s* | (\\w+)\\s*,\\s*",
-    
-    "entitiesMembers":  "(\\w+)\\s*\\W*",
+
+    "entitiesMembers": "(\\w+)\\s*\\W*",
     "entityMemberModifiers": "\\.",
 
     "entityNamesExclusive": "(\\w+)\\s*[^=\\(\\)\\.,:{]*$",
@@ -151,7 +151,7 @@
     },
 
     {
-      "name": "Exclusive Entities",
+      "name": "Exclusive Entity Names",
       "description": "Identifiers not preceded by constant or type",
 
       "transformType": "TokenModifier",
