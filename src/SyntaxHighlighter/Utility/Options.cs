@@ -38,6 +38,11 @@ namespace SyntaxHighlighter
         public string BreakOnNotClass { get; set; }
 
         /// <summary>
+        /// Gets or sets the transform name to break on, if DebugInfo option is enabled.
+        /// </summary>
+        public string BreakOnTransform { get; set; }
+
+        /// <summary>
         /// Gets or sets the number of matches to skip before breaking.
         /// </summary>
         public int BreakSkip { get; set; }

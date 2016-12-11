@@ -19,16 +19,24 @@ namespace SyntaxHighlighter
         /// </summary>
         /// <param name="name">The transform name for debugging.</param>
         /// <param name="description">The transform description for debugging.</param>
+        /// <param name="patternName">The pattern name for debugging.</param>
         /// <param name="pattern">The pattern to match to the current token.</param>
+        /// <param name="modifierPatternName">The modifier pattern name for debugging.</param>
         /// <param name="modifierPattern">The pattern to match to the previous token and previous separator, whichever succeeds.</param>
         /// <param name="className">The transformed token class.</param>
         /// <param name="excludeClassNames">The class name the previous token must not match.</param>
-        public TransformTokenModifier(string name, string description, Regex pattern, Regex modifierPattern, string className, params string[] excludeClassNames)
-            : base(name, description, pattern, className)
+        public TransformTokenModifier(string name, string description, string patternName, Regex pattern, string modifierPatternName, Regex modifierPattern, string className, params string[] excludeClassNames)
+            : base(name, description, patternName, pattern, className)
         {
+            this.ModifierPatternName = modifierPatternName;
             this.ModifierPattern = modifierPattern;
             this.ExcludeClassNames = excludeClassNames;
         }
+
+        /// <summary>
+        /// Gets or sets the modifier pattern name for debugging.
+        /// </summary>
+        public string ModifierPatternName { get; set; }
 
         /// <summary>
         /// Gets or sets the modifier pattern.
@@ -62,7 +70,7 @@ namespace SyntaxHighlighter
             bool matchesType = !this.ExcludeClassNames.Any(
                 exclude => exclude != null && buffer.PrevClass == exclude);
 #if DEBUG
-            buffer.Break(matchesModifier && matchesToken && matchesType, this.ClassName);
+            buffer.Break(matchesModifier && matchesToken && matchesType, this.Name, this.ClassName);
 #endif
             if (matchesType && matchesModifier && matchesToken)
             {

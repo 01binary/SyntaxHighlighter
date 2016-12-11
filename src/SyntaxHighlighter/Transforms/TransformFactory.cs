@@ -90,6 +90,7 @@ namespace SyntaxHighlighter
 
             string name = null;
             string description = null;
+            string patternName = null;
 
             if (options.DebugInfo)
             {
@@ -102,25 +103,29 @@ namespace SyntaxHighlighter
                 {
                     description = node.Property(DescriptionKey).Value.ToString();
                 }
+
+                patternName = node.Property(TokenPatternKey).Value.ToString();
             }
 
             switch (transformType)
             {
                 default:
                 case TokenType:
-                    return new TransformToken(name, description, pattern, className);
+                    return new TransformToken(name, description, patternName, pattern, className);
                 case TokenModifierType:
                     {
                         string[] excludeClassNames = node[ExcludeClassesKey] != null ?
                             node[ExcludeClassesKey].ToObject<string[]>() : new string[0];
 
-                        Regex modifierPattern = definition
-                            .Patterns[node[ModifierPatternKey].ToString()];
+                        string modifierPatternName = node[ModifierPatternKey].ToString();
+                        Regex modifierPattern = definition.Patterns[modifierPatternName];
 
                         return new TransformTokenModifier(
                             name,
                             description,
+                            patternName,
                             pattern,
+                            options.DebugInfo ? modifierPatternName : null,
                             modifierPattern,
                             className,
                             excludeClassNames);
@@ -143,6 +148,7 @@ namespace SyntaxHighlighter
                         return new TransformTokenSpan(
                             name,
                             description,
+                            patternName,
                             pattern,
                             className,
                             transforms);

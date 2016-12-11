@@ -283,9 +283,10 @@ namespace SyntaxHighlighter
         /// Breaks on the specified token and class if the debug options are turned on.
         /// </summary>
         /// <param name="match">Whether the token has the specified class name.</param>
+        /// <param name="transformName">The name of the transform if debug info is enabled.</param>
         /// <param name="className">The detected token class.</param>
         /// <param name="token">The token to evaluate.</param>
-        public void Break(bool match, string className, string token = null)
+        public void Break(bool match, string transformName, string className, string token = null)
         {
             if (this.Options == null)
             {
@@ -296,6 +297,17 @@ namespace SyntaxHighlighter
             {
                 token = this.Data.Substring(
                     this.Position, this.Next - this.Position);
+            }
+
+            if (!string.IsNullOrEmpty(this.Options.BreakOnTransform) &&
+                !string.IsNullOrEmpty(transformName) &&
+                transformName == this.Options.BreakOnTransform)
+            {
+                System.Diagnostics.Debug.WriteLine(
+                    "Breaking on transform {0}",
+                    this.Options.BreakOnTransform);
+
+                System.Diagnostics.Debugger.Break();
             }
 
             if (!string.IsNullOrEmpty(this.Options.BreakOnToken) &&

@@ -20,11 +20,12 @@ namespace SyntaxHighlighter
         /// </summary>
         /// <param name="name">The transform name for debugging.</param>
         /// <param name="description">The transform description for debugging.</param>
+        /// <param name="patternName">The pattern name for debugging.</param>
         /// <param name="pattern">The pattern to match.</param>
         /// <param name="className">The class name of the transformed token.</param>
         /// <param name="transforms">The transforms to apply to inner token content.</param>
-        public TransformTokenSpan(string name, string description, Regex pattern, string className, List<TransformToken> transforms)
-            : base(name, description, pattern, className)
+        public TransformTokenSpan(string name, string description, string patternName, Regex pattern, string className, List<TransformToken> transforms)
+            : base(name, description, patternName, pattern, className)
         {
             this.Transforms = transforms;
         }

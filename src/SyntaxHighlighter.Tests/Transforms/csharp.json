@@ -1,6 +1,6 @@
 ﻿{
   "patterns": {
-    "separators": "(\\s) | (;) | (:) | (=) | (-) | (\\+) | (\\/)[^\\/\\*] | (\\*) | (\\>) | (\\<) | (\\!) | (\\[) | (\\]) | ({) | (}) | (\\s\\() | (\\() | (\\)) | (\\.) | (,)",
+    "separators": "(\\s) | (;) | (:) | (=) | (-) | (\\+) | (\\/)[^\\/\\*] | (\\*) | (\\>) | (\\<) | (\\!) | (\\[) | (\\]) | ({) | (}) | (\\s\\() | (\\() | (\\)) | (\\.) | (,) | (\\|) | (&) | (%)",
 
     "comments": "\\/\\/\\w*[^\\n\\r]* | \\/\\*[\\w\\W]+?\\*\\/",
 
@@ -21,18 +21,18 @@
     "constantModifiers": "^case\\W*$ | ^const\\W*$",
 
     "entities": "(\\w+)\\s*[\\(]",
-    "entitiesExclusive": "(\\w+)\\s*[^=]*$ | (\\w+)\\s*: | (\\w+)\\. | value\\W*$",
-    "entityModifiers": "public\\W*$ | private\\W*$ | protected\\W*$ | class\\W*$ | interface\\W*$ | struct\\W*$ | enum\\W*$ | namespace\\W*$ | using\\W*$ | \\. | \\[",
+    "entitiesExclusive": "(\\w+)\\s*[^=+-]*$ | (\\w+)\\s*: | (\\w+)\\. | value\\W*$",
+    "entityModifiers": "public\\W*$ | private\\W*$ | protected\\W*$ | class\\W*$ | interface\\W*$ | struct\\W*$ | enum\\W*$ | namespace\\W*$ | using\\W*$ | \\.",
 
     "entitiesAssign": "(\\w+)\\s*={1,2}\\s* | (\\w+)\\s*[\\+-\\/\\*]?=\\s* | (\\w+)\\s*\\+{1,2}\\s* | (\\w+)\\s*-{1,2}\\s* | (\\w+)\\s*\\*\\s* | (\\w+)\\s*\\/\\s* | (\\w+)\\s*,\\s*",
 
     "entitiesMembers": "(\\w+)\\s*\\W*",
     "entityMemberModifiers": "\\.",
 
-    "entityNamesExclusive": "(\\w+)\\s*[^=\\(\\)\\.,:{\\[&|*+-<>]*$",
+    "entityNamesExclusive": "(\\w+)\\s*[^=\\(\\)\\.,:{\\[&|*+-<>\\/]?[;\\s]*$",
     "entityNameModifiersExclusive": "; | \\[ | { | \\( | , | is\\W*$ | as\\W*$ | public\\W*$ | private\\W*$ | protected\\W*$ | static\\W*$",
 
-    "entityNames": "(\\w+)\\s*[^=\\(\\.]*$",
+    "entityNames": "(\\w+)\\s*[^=\\(\\.;]*$",
     "entityNameModifiers": "< | : | typeof\\W*$ | new\\W*$",
 
     "entityNamesTemplate": "(\\w+)\\s*\\??>\\W*",

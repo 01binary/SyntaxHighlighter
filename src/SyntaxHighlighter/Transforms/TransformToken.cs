@@ -18,12 +18,14 @@ namespace SyntaxHighlighter
         /// </summary>
         /// <param name="name">The transform name for debugging.</param>
         /// <param name="description">The transform description for debugging.</param>
+        /// <param name="patternName">The pattern name for debugging.</param>
         /// <param name="pattern">The pattern to match.</param>
         /// <param name="className">The class name for the transformed token.</param>
-        public TransformToken(string name, string description, Regex pattern, string className)
+        public TransformToken(string name, string description, string patternName, Regex pattern, string className)
         {
             this.Name = name;
             this.Description = description;
+            this.PatternName = patternName;
             this.Pattern = pattern;
             this.ClassName = className;
         }
@@ -44,6 +46,11 @@ namespace SyntaxHighlighter
         public Regex Pattern { get; set; }
 
         /// <summary>
+        /// Gets or sets the pattern name for debugging.
+        /// </summary>
+        public string PatternName { get; set; }
+
+        /// <summary>
         /// Gets or sets the token class name.
         /// </summary>
         public string ClassName { get; set; }
@@ -61,7 +68,7 @@ namespace SyntaxHighlighter
                 buffer.Position,
                 buffer.Next - buffer.Position);
 #if DEBUG
-            buffer.Break(match.Success, this.ClassName);
+            buffer.Break(match.Success, this.Name, this.ClassName);
 #endif
             if (match.Success)
             {
