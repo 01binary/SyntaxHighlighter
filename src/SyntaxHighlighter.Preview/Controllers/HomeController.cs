@@ -75,8 +75,7 @@ namespace SyntaxHighlighter.Preview.Controllers
 
             Options options = new Options()
             {
-                DebugInfo = true,
-                BreakOnToken = "IDataStore;"
+                DebugInfo = true
             };
 
             string transformFileName = string.Format(TransformFormat, language);

@@ -78,7 +78,7 @@
         {
             <span class="pl-k" data-transform="Keywords">try</span>
             {
-                <span class="pl-en" data-transform="Exclusive Entity Names">IDataStore</span> <span class="pl-v" data-transform="Variables">store</span> = <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-v" data-transform="Variables">services</span>.<span class="pl-e" data-transform="Member Entities">GetService</span>(<span class="pl-k" data-transform="Keywords">typeof</span>(<span class="pl-en" data-transform="Entity Names">IDataStore</span>)) <span class="pl-k" data-transform="Keywords">as</span> <span class="pl-en" data-transform="Exclusive Entity Names">IDataStore</span>;
+                <span class="pl-en" data-transform="Exclusive Entity Names">IDataStore</span> <span class="pl-v" data-transform="Variables">store</span> = <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-v" data-transform="Variables">services</span>.<span class="pl-e" data-transform="Member Entities">GetService</span>(<span class="pl-k" data-transform="Keywords">typeof</span>(<span class="pl-en" data-transform="Entity Name Operators">IDataStore</span>)) <span class="pl-k" data-transform="Keywords">as</span> <span class="pl-en" data-transform="Exclusive Entity Names">IDataStore</span>;
                 <span class="pl-k" data-transform="Keywords">string</span> <span class="pl-v" data-transform="Variables">excludeTag</span> = <span class="pl-v" data-transform="Variables">Tags</span>.<span class="pl-e" data-transform="Member Entities">Story</span>.<span class="pl-e" data-transform="Member Entities">ToString</span>().<span class="pl-e" data-transform="Member Entities">ToLower</span>();
 
                 <span class="pl-k" data-transform="Keywords">return</span> <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-e" data-transform="Call Entities">Json</span>(
@@ -116,7 +116,7 @@
         {
             <span class="pl-k" data-transform="Keywords">try</span>
             {
-                <span class="pl-en" data-transform="Exclusive Entity Names">IDataStore</span> <span class="pl-v" data-transform="Variables">store</span> = <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-v" data-transform="Variables">services</span>.<span class="pl-e" data-transform="Member Entities">GetService</span>(<span class="pl-k" data-transform="Keywords">typeof</span>(<span class="pl-en" data-transform="Entity Names">IDataStore</span>)) <span class="pl-k" data-transform="Keywords">as</span> <span class="pl-en" data-transform="Exclusive Entity Names">IDataStore</span>;
+                <span class="pl-en" data-transform="Exclusive Entity Names">IDataStore</span> <span class="pl-v" data-transform="Variables">store</span> = <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-v" data-transform="Variables">services</span>.<span class="pl-e" data-transform="Member Entities">GetService</span>(<span class="pl-k" data-transform="Keywords">typeof</span>(<span class="pl-en" data-transform="Entity Name Operators">IDataStore</span>)) <span class="pl-k" data-transform="Keywords">as</span> <span class="pl-en" data-transform="Exclusive Entity Names">IDataStore</span>;
                 <span class="pl-k" data-transform="Keywords">var</span> <span class="pl-v" data-transform="Variables">story</span> = <span class="pl-v" data-transform="Variables">store</span>.<span class="pl-e" data-transform="Member Entities">GetArticle</span>(<span class="pl-v" data-transform="Variables">id</span>);
 
                 <span class="pl-k" data-transform="Keywords">if</span> (<span class="pl-v" data-transform="Variables">story</span> == <span class="pl-c1" data-transform="Constant Literals">null</span>)
@@ -164,7 +164,7 @@
         {
             <span class="pl-k" data-transform="Keywords">try</span>
             {
-                <span class="pl-en" data-transform="Exclusive Entity Names">IDataStore</span> <span class="pl-v" data-transform="Variables">store</span> = <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-v" data-transform="Variables">services</span>.<span class="pl-e" data-transform="Member Entities">GetService</span>(<span class="pl-k" data-transform="Keywords">typeof</span>(<span class="pl-en" data-transform="Entity Names">IDataStore</span>)) <span class="pl-k" data-transform="Keywords">as</span> <span class="pl-en" data-transform="Exclusive Entity Names">IDataStore</span>;
+                <span class="pl-en" data-transform="Exclusive Entity Names">IDataStore</span> <span class="pl-v" data-transform="Variables">store</span> = <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-v" data-transform="Variables">services</span>.<span class="pl-e" data-transform="Member Entities">GetService</span>(<span class="pl-k" data-transform="Keywords">typeof</span>(<span class="pl-en" data-transform="Entity Name Operators">IDataStore</span>)) <span class="pl-k" data-transform="Keywords">as</span> <span class="pl-en" data-transform="Exclusive Entity Names">IDataStore</span>;
                 <span class="pl-k" data-transform="Keywords">var</span> <span class="pl-v" data-transform="Variables">story</span> = <span class="pl-v" data-transform="Variables">store</span>.<span class="pl-e" data-transform="Member Entities">GetArticle</span>(<span class="pl-v" data-transform="Variables">id</span>);
 
                 <span class="pl-k" data-transform="Keywords">if</span> (<span class="pl-v" data-transform="Variables">story</span> == <span class="pl-c1" data-transform="Constant Literals">null</span>)
@@ -274,7 +274,7 @@
                     .<span class="pl-e" data-transform="Member Entities">AddEntityFrameworkStores</span><<span class="pl-en" data-transform="Templated Entity Names">Context</span>>()
                     .<span class="pl-e" data-transform="Member Entities">AddDefaultTokenProviders</span>();
 
-            <span class="pl-v" data-transform="Variables">services</span>.<span class="pl-e" data-transform="Member Entities">AddScoped</span>(<span class="pl-k" data-transform="Keywords">typeof</span>(<span class="pl-en" data-transform="Entity Names">IDataStore</span>), <span class="pl-k" data-transform="Keywords">typeof</span>(<span class="pl-en" data-transform="Entity Names">SiteDataStore</span>));
+            <span class="pl-v" data-transform="Variables">services</span>.<span class="pl-e" data-transform="Member Entities">AddScoped</span>(<span class="pl-k" data-transform="Keywords">typeof</span>(<span class="pl-en" data-transform="Entity Name Operators">IDataStore</span>), <span class="pl-k" data-transform="Keywords">typeof</span>(<span class="pl-en" data-transform="Entity Name Operators">SiteDataStore</span>));
         }
         
         <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
@@ -661,7 +661,7 @@
 
 <span class="pl-k" data-transform="Keywords">namespace</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">zeroweb</span>.<span class="pl-e" data-transform="Member Entities">Migrations</span>
 {
-    [<span class="pl-e" data-transform="Call Entities">DbContext</span>(<span class="pl-k" data-transform="Keywords">typeof</span>(<span class="pl-en" data-transform="Entity Names">Context</span>))]
+    [<span class="pl-e" data-transform="Call Entities">DbContext</span>(<span class="pl-k" data-transform="Keywords">typeof</span>(<span class="pl-en" data-transform="Entity Name Operators">Context</span>))]
     <span class="pl-k" data-transform="Keywords">partial</span> <span class="pl-k" data-transform="Keywords">class</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">ContextModelSnapshot</span> : <span class="pl-en" data-transform="Entity Names">ModelSnapshot</span>
     {
         <span class="pl-k" data-transform="Keywords">protected</span> <span class="pl-k" data-transform="Keywords">override</span> <span class="pl-k" data-transform="Keywords">void</span> <span class="pl-e" data-transform="Call Entities">BuildModel</span>(<span class="pl-en" data-transform="Exclusive Entity Names">ModelBuilder</span> <span class="pl-v" data-transform="Variables">modelBuilder</span>)

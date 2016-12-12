@@ -33,7 +33,10 @@
     "entityNameModifiersExclusive": "; | \\[ | { | \\( | , | is\\W*$ | as\\W*$ | public\\W*$ | private\\W*$ | protected\\W*$ | static\\W*$",
 
     "entityNames": "(\\w+)\\s*[^=\\(\\.;]*$",
-    "entityNameModifiers": "< | : | typeof\\W*$ | new\\W*$",
+    "entityNameModifiers": "< | :",
+
+    "entityNameOperators": "(\\w+)\\s*\\)[\\W]*$",
+    "entityNameOperatorModifiers": "typeof\\W*$ | new\\W*$",
 
     "entityNamesTemplate": "(\\w+)\\s*\\??>\\W*",
     "entityNameTemplateModifiers": "< | ,",
@@ -179,6 +182,16 @@
       "tokenClass": "pl-en",
       "tokenPattern": "entityNamesTemplate",
       "modifierPattern": "entityNameTemplateModifiers"
+    },
+
+    {
+      "name": "Entity Name Operators",
+      "description": "Entity Names appearing after new and typeof operators",
+
+      "transformType": "TokenModifier",
+      "tokenClass": "pl-en",
+      "tokenPattern": "entityNameOperators",
+      "modifierPattern": "entityNameOperatorModifiers"
     },
 
     {
