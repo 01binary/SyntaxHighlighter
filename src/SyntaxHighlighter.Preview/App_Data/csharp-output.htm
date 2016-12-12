@@ -732,7 +732,7 @@
 <span class="pl-c" data-transform="Comments">/// value; this is likely overkill, but it should prevent us from colliding </span>
 <span class="pl-c" data-transform="Comments">/// with the escape values by accident.</span>
 <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
-<span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">string</span> <span class="pl-v" data-transform="Variables">EscapeSpecialCharsWithinTagAttributes</span>(<span class="pl-k" data-transform="Keywords">string</span> <span class="pl-v" data-transform="Variables">text</span>)
+<span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">string</span> <span class="pl-e" data-transform="Call Entities">EscapeSpecialCharsWithinTagAttributes</span>(<span class="pl-k" data-transform="Keywords">string</span> <span class="pl-v" data-transform="Variables">text</span>)
 {
     <span class="pl-k" data-transform="Keywords">var</span> <span class="pl-v" data-transform="Variables">tokens</span> = <span class="pl-e" data-transform="Call Entities">TokenizeHTML</span>(<span class="pl-v" data-transform="Variables">text</span>);
 
@@ -766,7 +766,7 @@
 <span class="pl-c" data-transform="Comments">/// makes sure text ends with a couple of newlines; </span>
 <span class="pl-c" data-transform="Comments">/// removes any blank lines (only spaces) in the text</span>
 <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
-<span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">string</span> <span class="pl-v" data-transform="Variables">Normalize</span>(<span class="pl-k" data-transform="Keywords">string</span> <span class="pl-v" data-transform="Variables">text</span>)
+<span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">string</span> <span class="pl-e" data-transform="Call Entities">Normalize</span>(<span class="pl-k" data-transform="Keywords">string</span> <span class="pl-v" data-transform="Variables">text</span>)
 {
     <span class="pl-k" data-transform="Keywords">var</span> <span class="pl-v" data-transform="Variables">output</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-e" data-transform="Call Entities">StringBuilder</span>(<span class="pl-v" data-transform="Variables">text</span>.<span class="pl-e" data-transform="Member Entities">Length</span>);
     <span class="pl-k" data-transform="Keywords">var</span> <span class="pl-v" data-transform="Variables">line</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-e" data-transform="Call Entities">StringBuilder</span>();
