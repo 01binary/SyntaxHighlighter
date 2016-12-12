@@ -63,8 +63,8 @@
 
 			<span class="pl-v" data-transform="Variables">MyConsole</span>.<span class="pl-e" data-transform="Member Entities">WriteLine</span>();
 
-			<span class="pl-en" data-transform="Exclusive Entity Names">MyFunc</span><<span class="pl-k" data-transform="Keywords">string</span>> <span class="pl-v" data-transform="Variables">test</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-e" data-transform="Call Entities">test</span>();
-			<span class="pl-en" data-transform="Exclusive Entity Names">MyFunc</span><<span class="pl-en" data-transform="Entity Names">ICat</span>> <span class="pl-v" data-transform="Variables">testing</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-e" data-transform="Call Entities">testing</span>();
+			<span class="pl-v" data-transform="Variables">MyFunc</span><<span class="pl-k" data-transform="Keywords">string</span>> <span class="pl-v" data-transform="Variables">test</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-e" data-transform="Call Entities">test</span>();
+			<span class="pl-v" data-transform="Variables">MyFunc</span><<span class="pl-en" data-transform="Entity Names">ICat</span>> <span class="pl-v" data-transform="Variables">testing</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-e" data-transform="Call Entities">testing</span>();
 
 			<span class="pl-k" data-transform="Keywords">const</span> <span class="pl-c1" data-transform="Constant Identifiers">whatever</span> = <span class="pl-s" data-transform="Strings">"testing"</span>;
 
@@ -544,7 +544,7 @@
         <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">param</span> <span class="pl-e" data-transform="Comments">name</span>=<span class="pl-s" data-transform="Comments">"app"</span>&gt;The application configuration.&lt;/<span class="pl-ent" data-transform="Comments">param</span>&gt;</span>
         <span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">void</span> <span class="pl-e" data-transform="Call Entities">ConfigureGithubAuthentication</span>(<span class="pl-en" data-transform="Exclusive Entity Names">IApplicationBuilder</span> <span class="pl-v" data-transform="Variables">app</span>)
         {
-            <span class="pl-k" data-transform="Keywords">var</span> <span class="pl-v" data-transform="Variables">githubOptions</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-en" data-transform="Entity Names">GitHubAuthenticationOptions</span>
+            <span class="pl-k" data-transform="Keywords">var</span> <span class="pl-v" data-transform="Variables">githubOptions</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-en" data-transform="Entity Name Operators">GitHubAuthenticationOptions</span>
             {
                 <span class="pl-v" data-transform="Variables">ClientId</span> = <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-v" data-transform="Variables">Configuration</span>[<span class="pl-s" data-transform="Strings">"githubId"</span>],
                 <span class="pl-v" data-transform="Variables">ClientSecret</span> = <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-v" data-transform="Variables">Configuration</span>[<span class="pl-s" data-transform="Strings">"githubSecret"</span>],

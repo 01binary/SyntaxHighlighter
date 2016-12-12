@@ -35,7 +35,7 @@
     "entityNames": "(\\w+)\\s*[^=\\(\\.;]*$",
     "entityNameModifiers": "< | :",
 
-    "entityNameOperators": "(\\w+)\\s*\\)[\\W]*$",
+    "entityNameOperators": "(\\w+)\\s*[\\){][\\W]*$",
     "entityNameOperatorModifiers": "typeof\\W*$ | new\\W*$",
 
     "entityNamesTemplate": "(\\w+)\\s*\\??>\\W*",
