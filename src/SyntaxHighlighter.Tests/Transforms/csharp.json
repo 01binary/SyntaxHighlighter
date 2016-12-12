@@ -29,7 +29,7 @@
     "entitiesMembers": "(\\w+)\\s*\\W*",
     "entityMemberModifiers": "\\.",
 
-    "entityNamesExclusive": "(\\w+)\\s*[^=\\(\\)\\.,:{\\[&|*+-<>\\/]?[;\\s]*$",
+    "entityNamesExclusive": "(\\w+)\\s*[^=\\(\\)\\.,:{\\[&|*+-<>\\/]?[;\\s]*$ | (\\w+)\\<[\\s\\W]*",
     "entityNameModifiersExclusive": "; | \\[ | { | \\( | , | is\\W*$ | as\\W*$ | public\\W*$ | private\\W*$ | protected\\W*$ | static\\W*$",
 
     "entityNames": "(\\w+)\\s*[^=\\(\\.;]*$",
