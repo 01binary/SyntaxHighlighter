@@ -53,11 +53,14 @@
     <Compile Include="CSharpTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shared\Shared.cs" />
+    <Compile Include="Shared\SharedTests.cs" />
+    <Compile Include="Shared\TestTransformAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Actual\CommentAttributeValues.htm" />
     <Content Include="Actual\CommentAttributes.htm" />
     <Content Include="Actual\CommentTags.htm" />
+    <Content Include="Actual\DecimalNumbers.htm" />
     <Content Include="Actual\MultilineComments.htm" />
     <Content Include="Actual\SingleLineComments.htm" />
     <Content Include="Actual\Strings.htm">
@@ -73,6 +76,9 @@
     <Content Include="Expected\CommentTags.htm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Expected\DecimalNumbers.htm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Expected\MultilineComments.htm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -82,11 +88,16 @@
     <Content Include="Expected\Strings.htm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Expected\StringsWithEscape.htm" />
+    <Content Include="Expected\StringsWithEscape.htm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Input\CommentAttributeValues.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Input\CommentAttributes.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Input\DecimalNumbers.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Input\MultilineComments.txt">

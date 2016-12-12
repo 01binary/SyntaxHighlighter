@@ -12,17 +12,13 @@ namespace SyntaxHighlighter.Tests
     /// Tests the C# language transforms.
     /// </summary>
     [TestClass]
+    [TestTransform("csharp")]
     [DeploymentItem("Input", "Input")]
     [DeploymentItem("Expected", "Expected")]
     [DeploymentItem("Template", "Template")]
     [DeploymentItem("Transforms", "Transforms")]
-    public class CSharpTests
+    public class CSharpTests: SharedTests
     {
-        /// <summary>
-        /// Gets or sets the automatic test context.
-        /// </summary>
-        public TestContext TestContext { get; set; }
-
         /// <summary>
         /// Verifies that single line comments are decorated with "pl-c".
         /// </summary>
@@ -94,16 +90,17 @@ namespace SyntaxHighlighter.Tests
         }
 
         /// <summary>
-        /// Verifies that decimal number literals are decorated with "pl-c1".
+        /// Verifies that signed and unsigned decimal number literals are decorated with "pl-c1".
         /// </summary>
         [TestMethod]
         [TestCategory("C# Syntax Highlighting")]
         public void TestDecimalNumbers()
         {
+            this.AssertTransformedOnlyPattern("DecimalNumbers", "pl-c1", @"\W?\d+\W?");
         }
 
         /// <summary>
-        /// Verifies that decimal number literals are decorated with "pl-c1".
+        /// Verifies that decimal number literals are decorated with "pl -c1".
         /// </summary>
         [TestMethod]
         [TestCategory("C# Syntax Highlighting")]
@@ -241,38 +238,6 @@ namespace SyntaxHighlighter.Tests
         [TestCategory("C# Syntax Highlighting")]
         public void TestNewEntityNames()
         {
-        }
-
-        /// <summary>
-        /// Verifies whether transforming the specified sample produced the expected output.
-        /// </summary>
-        /// <param name="sample">The sample file name.</param>
-        /// <param name="className">The class name of tokens to verify.</param>
-        private void AssertTransformed(string sample, string className)
-        {
-            Shared.VerifyTransform(TestContext.DeploymentDirectory, sample, "csharp", className, null, null);
-        }
-
-        /// <summary>
-        /// Verifies whether transforming the specified sample produced the expected output.
-        /// </summary>
-        /// <param name="sample">The sample file name.</param>
-        /// <param name="className">The class name of tokens to verify.</param>
-        /// <param name="insideClassName">Verify only tokens inside a span of this class.</param>
-        private void AssertTransformedInside(string sample, string className, string insideClassName)
-        {
-            Shared.VerifyTransform(TestContext.DeploymentDirectory, sample, "csharp", className, insideClassName, null);
-        }
-
-        /// <summary>
-        /// Verifies whether transforming the specified sample produced the expected output.
-        /// </summary>
-        /// <param name="sample">The sample file name.</param>
-        /// <param name="className">The class name of tokens to verify.</param>
-        /// <param name="outsideClassName">Verify only tokens inside a span of this class.</param>
-        private void AssertTransformedNotInside(string sample, string className, string outsideClassName)
-        {
-            Shared.VerifyTransform(TestContext.DeploymentDirectory, sample, "csharp", className, null, outsideClassName);
         }
     }
 }

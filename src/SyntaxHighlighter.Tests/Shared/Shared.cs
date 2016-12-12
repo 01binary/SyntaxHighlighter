@@ -9,6 +9,7 @@ namespace SyntaxHighlighter.Tests
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Text.RegularExpressions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
@@ -45,7 +46,8 @@ namespace SyntaxHighlighter.Tests
         /// <param name="className">The class name of the tokens to verify.</param>
         /// <param name="insideClassName">The class name of enclosing token, if only verifying tokens inside of another (can be null).</param>
         /// <param name="outsideClassName">The class name of span that the token should not be enclosed in.</param>
-        public static void VerifyTransform(string baseDirectory, string sample, string codeType, string className, string insideClassName, string outsideClassName)
+        /// <param name="pattern">Ignore token content that doesn't fit the pattern.</param>
+        public static void VerifyTransform(string baseDirectory, string sample, string codeType, string className, string insideClassName, string outsideClassName, string pattern)
         {
             // Initialize highlighter with transforms from test deployment folder.
             Options options = new Options
@@ -105,6 +107,7 @@ namespace SyntaxHighlighter.Tests
                     className,
                     insideClassName,
                     outsideClassName,
+                    pattern,
                     out assertPos,
                     tested);
             }
@@ -156,10 +159,12 @@ namespace SyntaxHighlighter.Tests
         /// <param name="className">The span class name.</param>
         /// <param name="insideClassName">The enclosing span class name, if any.</param>
         /// <param name="outsideClassName">The span class name the token should not be inside, if any.</param>
+        /// <param name="pattern">Ignore transform content that doesn't match the pattern.</param>
         /// <param name="pos">Character offset in actual string where the error occurred.</param>
         /// <param name="tested">The spans verified, null if this information is not desired.</param>
-        private static void VerifySpans(string expected, string actual, string className, string insideClassName, string outsideClassName, out int pos, List<string> tested)
+        private static void VerifySpans(string expected, string actual, string className, string insideClassName, string outsideClassName, string pattern, out int pos, List<string> tested)
         {
+            Regex contentPattern = null;
             int expectedPos = 0;
             int actualPos = pos = 0;
             int count = 0;
@@ -168,6 +173,12 @@ namespace SyntaxHighlighter.Tests
             string actualClass;
             string expectedContent;
             string actualContent;
+
+            if (!string.IsNullOrEmpty(pattern))
+            {
+                contentPattern = new Regex(
+                    pattern, RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
+            }
 
             while (NextSpan(expected, ref expectedPos, out expectedClass, out expectedContent))
             {
@@ -184,6 +195,11 @@ namespace SyntaxHighlighter.Tests
                 }
 
                 if (outsideClassName != null && IsInsideSpan(expected, expectedPos, outsideClassName))
+                {
+                    continue;
+                }
+
+                if (contentPattern != null && !contentPattern.IsMatch(expectedContent))
                 {
                     continue;
                 }

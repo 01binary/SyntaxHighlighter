@@ -1,0 +1,128 @@
+﻿namespace ZeroWeb.Api
+{
+    /// <summary>
+    /// The News Endpoint.
+    /// </summary>
+    [Route("api/news")]
+    public class NewsController: Controller
+    {
+        /// <summary>
+        /// The site data store.
+        /// </summary>
+        IServiceProvider services;
+		AnotherType more;
+		OneMoreType evenMore;
+		HelloWorld goodbye;
+		IHome world;
+
+		private const mustBeConst = 3 > 5;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NewsController"/> class.
+        /// </summary>
+        /// <param name="services">The application container.</param>
+        public NewsController(IServiceProvider services)
+        {
+            this.services = services;
+
+			this
+				.property = value;
+
+			another
+				.property = "goodbye";
+
+			MyConsole.WriteLine();
+
+            MyFunc<string> test = new test();
+			MyFunc<ICat> testing = new testing();
+
+			const whatever = "testing";
+
+			Console.WriteLine("lazy fox");
+        }
+
+        /// <summary>
+        /// Gets the news stories.
+        /// </summary>
+        public IActionResult GetStories()
+        {
+            try
+            {
+                IDataStore store = this.services.GetService(typeof(IDataStore)) as IDataStore;
+                string excludeTag = Tags.Story.ToString().ToLower();
+
+                return this.Json(
+                    store.GetArticles(Tags.Story).Select(story => new 
+                    {
+                        id = story.Id,
+                        title = story.Title,
+                        date = story.Date,
+                        author = story.Author.Name,
+                        tags = story.Metadata.Where(metadata => metadata.Tag.Name.ToLower() != excludeTag)
+                                            .Select(metadata => metadata.Tag.Name),
+                        content = story.Content
+                    }).ToArray().Select(result => new
+                    {
+                        result.id,
+                        title = result.title,
+                        date = Shared.FormatDate(result.date),
+                        author = result.author,
+                        tags = result.tags.Select(tagName => Shared.FormatTag(tagName)),
+                        content = result.content
+                    }));
+            }
+            catch
+            {
+                return this.StatusCode(500);
+            }
+        }
+
+        /// <summary>
+        /// Gets the news story markdown content.
+        /// </summary>
+        /// <param name="id">The story id</param>
+        [Route("{id}")]
+        public IActionResult GetStory(int id)
+        {
+            try
+            {
+                IDataStore store = this.services.GetService(typeof(IDataStore)) as IDataStore;
+                var story = store.GetArticle(id);
+
+                if (story == null)
+                {
+                    return NotFound();
+
+                    var x = +3.003;
+                    float f = .302;
+                    float g = 1.02f;
+                    int k = -3;
+                    uint hex = 0x40001;
+
+                    switch(hello)
+                    {
+                        case ONE:
+                            helloWorld();
+                            break;
+                        case TWO:
+                            {
+                                helloWorld();
+                            }
+                            break;
+                        case THREE:
+                            {
+                                helloWorld();
+                            }
+                            break;
+                    }
+                }
+
+                return Ok(new { story.Content });
+            }
+            catch
+            {
+                return this.StatusCode(500L);
+            }
+        }
+    }
+}
