@@ -24,9 +24,7 @@
     "entitiesExclusive": "(\\w+)\\s*[^=+-]*$ | (\\w+)\\s*: | (\\w+)\\. | value\\W*$",
     "entityModifiers": "public\\W*$ | private\\W*$ | protected\\W*$ | class\\W*$ | interface\\W*$ | struct\\W*$ | enum\\W*$ | namespace\\W*$ | using\\W*$ | \\.",
 
-    "entitiesAssign": "(\\w+)\\s*={1,2}\\s* | (\\w+)\\s*[\\+-\\/\\*]?=\\s* | (\\w+)\\s*\\+{1,2}\\s* | (\\w+)\\s*-{1,2}\\s* | (\\w+)\\s*\\*\\s* | (\\w+)\\s*\\/\\s* | (\\w+)\\s*,\\s*",
-
-    "entitiesMembers": "(\\w+)\\s*\\W*",
+    "entitiesMembers": "(\\w+)\\s*={1,2}\\s* | (\\w+)\\s*[\\+-\\/\\*]?=\\s* | (\\w+)\\s*\\+{1,2}\\s* | (\\w+)\\s*-{1,2}\\s* | (\\w+)\\s*\\*\\s* | (\\w+)\\s*\\/\\s* | (\\w+)\\s*,\\s* | (\\w+)\\s*\\W*",
     "entityMemberModifiers": "\\.",
 
     "entityNamesExclusive": "(\\w+)\\s*[^=\\(\\)\\.,:{\\[&|*+-<>\\/]?[;\\s]*$ | (\\w+)\\<[\\s\\W]*",
@@ -125,17 +123,6 @@
       "transformType": "TokenModifier",
       "tokenClass": "pl-e",
       "tokenPattern": "entitiesMembers",
-      "modifierPattern": "entityMemberModifiers",
-      "excludeClasses": [ "pl-c1" ]
-    },
-
-    {
-      "name": "Property Assignments",
-      "description": "Properties with assignments (not variables)",
-
-      "transformType": "TokenModifier",
-      "tokenClass": "pl-e",
-      "tokenPattern": "entitiesAssign",
       "modifierPattern": "entityMemberModifiers",
       "excludeClasses": [ "pl-c1" ]
     },
