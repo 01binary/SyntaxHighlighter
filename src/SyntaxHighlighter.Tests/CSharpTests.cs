@@ -17,8 +17,13 @@ namespace SyntaxHighlighter.Tests
     [DeploymentItem("Expected", "Expected")]
     [DeploymentItem("Template", "Template")]
     [DeploymentItem("Transforms", "Transforms")]
-    public class CSharpTests: SharedTests
+    public class CSharpTests : SharedTests
     {
+        /// <summary>
+        /// The pattern used to test only number literal tokens.
+        /// </summary>
+        private static readonly string NumberPattern = @"\W?\d+\W?";
+
         /// <summary>
         /// Verifies that single line comments are decorated with "pl-c".
         /// </summary>
@@ -96,7 +101,7 @@ namespace SyntaxHighlighter.Tests
         [TestCategory("C# Syntax Highlighting")]
         public void TestDecimalNumbers()
         {
-            this.AssertTransformedOnlyPattern("DecimalNumbers", "pl-c1", @"\W?\d+\W?");
+            this.AssertTransformedOnlyPattern("DecimalNumbers", "pl-c1", NumberPattern);
         }
 
         /// <summary>
@@ -106,7 +111,7 @@ namespace SyntaxHighlighter.Tests
         [TestCategory("C# Syntax Highlighting")]
         public void TestDecimalNumbersWithPostfix()
         {
-            // U, u, L, l, F, f, UL, Ul, ul, LL, Ll, ll
+            this.AssertTransformedOnlyPattern("DecimalNumbersWithPostfix", "pl-c1", NumberPattern);
         }
 
         /// <summary>

@@ -132,7 +132,7 @@ namespace SyntaxHighlighter.Tests
                 // Test shouldn't fail because of this optional step.
             }
 
-            if (assert != null)
+            if (assert != null && assertPos >= 0 && assertPos < actualContent.Length)
             {
                 // Modify actual result written to the Output folder and insert an error marker.
                 actualContent = string.Concat(
@@ -242,7 +242,7 @@ namespace SyntaxHighlighter.Tests
         /// <returns>Whether a span was found at or after the current position.</returns>
         private static bool NextSpan(string content, ref int pos, out string spanClass, out string spanContent)
         {
-            pos = content.IndexOf(SpanMarker, pos);
+            pos = pos == -1 ? -1 : content.IndexOf(SpanMarker, pos);
             spanClass = string.Empty;
             spanContent = string.Empty;
 

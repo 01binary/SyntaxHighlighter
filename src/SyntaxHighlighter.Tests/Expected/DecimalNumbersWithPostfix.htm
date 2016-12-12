@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Code Highlight Preview</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" type="text/css" href="../Template/Styles.css">
+</head>
+<body>
+<pre><span class="pl-k">using</span> <span class="pl-e">System</span>;
+
+<span class="pl-k">class</span> <span class="pl-e">Class1</span>
+{
+    [<span class="pl-e">DllImport</span>(<span class="pl-s">"kernel32"</span>)]
+    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">extern</span> <span class="pl-k">ulong</span>
+    <span class="pl-e">GetPrivateProfileString</span>([<span class="pl-e">MarshalAs</span>(<span class="pl-v">UnmanagedType</span>.<span class="pl-e">LPStr</span>)]<span class="pl-k">string</span> <span class="pl-v">app</span>,
+
+    [<span class="pl-e">MarshalAs</span>(<span class="pl-v">UnmanagedType</span>.<span class="pl-e">LPStr</span>)]<span class="pl-k">string</span> <span class="pl-v">key</span>,
+
+    [<span class="pl-e">MarshalAs</span>(<span class="pl-v">UnmanagedType</span>.<span class="pl-e">LPStr</span>)]<span class="pl-k">string</span> <span class="pl-v">def</span>,
+
+    <span class="pl-en">StringBuilder</span> <span class="pl-v">retval</span>,
+
+    <span class="pl-k">ulong</span> <span class="pl-v">size</span>,
+
+    [<span class="pl-e">MarshalAs</span>(<span class="pl-v">UnmanagedType</span>.<span class="pl-e">LPStr</span>)]<span class="pl-k">string</span> <span class="pl-v">file</span>);
+    [<span class="pl-e">DllImport</span>(<span class="pl-s">"kernel32"</span>)]
+    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">extern</span> <span class="pl-k">ulong</span> <span class="pl-e">GetLastError</span>();
+
+    [<span class="pl-en">STAThread</span>]
+    <span class="pl-k">static</span> <span class="pl-k">void</span> <span class="pl-e">Main</span>(<span class="pl-k">string</span>[] <span class="pl-v">args</span>)
+    {
+        <span class="pl-k">string</span> <span class="pl-v">appname</span> = <span class="pl-s">"LOGON"</span>;
+        <span class="pl-k">string</span> <span class="pl-v">key</span> = <span class="pl-s">"USER"</span>;
+        <span class="pl-k">string</span> <span class="pl-v">df</span> = <span class="pl-s">"Helpless"</span>;
+        <span class="pl-k">string</span> <span class="pl-v">fn</span> = <span class="pl-s">@"C:Work\ReadINI\ReadIni\bin\varisol.ini"</span>;
+
+        <span class="pl-en">UInt32</span> <span class="pl-v">sizeParam</span> = <span class="pl-c1">20u</span>;
+
+        <span class="pl-en">StringBuilder</span> <span class="pl-v">sb</span> = <span class="pl-k">new</span> <span class="pl-e">StringBuilder</span>(<span class="pl-v">sizeParam</span>);
+
+        <span class="pl-k">ulong</span> <span class="pl-v">errorcode</span> = <span class="pl-c1">0UL</span>;
+        <span class="pl-k">long</span> <span class="pl-v">justTesting</span> = <span class="pl-c1">33L</span>;
+        <span class="pl-k">float</span> <span class="pl-v">testNumber</span> = <span class="pl-c1">3.00232f</span>;
+
+        <span class="pl-v">errorcode</span> = <span class="pl-e">GetPrivateProfileString</span>(<span class="pl-v">appname</span>, <span class="pl-v">key</span>, <span class="pl-v">df</span>, <span class="pl-v">sb</span>, <span class="pl-c1">21ul</span>, <span class="pl-v">fn</span>);
+
+        <span class="pl-v">errorcode</span> = <span class="pl-e">GetLastError</span>();
+
+    }
+}</pre>
+</body>
+</html>

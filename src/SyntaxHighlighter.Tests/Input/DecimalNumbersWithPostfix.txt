@@ -1,0 +1,42 @@
+﻿using System;
+
+class Class1
+{
+    [DllImport("kernel32")]
+    public static extern ulong
+    GetPrivateProfileString([MarshalAs(UnmanagedType.LPStr)]string app,
+
+    [MarshalAs(UnmanagedType.LPStr)]string key,
+
+    [MarshalAs(UnmanagedType.LPStr)]string def,
+
+    StringBuilder retval,
+
+    ulong size,
+
+    [MarshalAs(UnmanagedType.LPStr)]string file);
+    [DllImport("kernel32")]
+    public static extern ulong GetLastError();
+
+    [STAThread]
+    static void Main(string[] args)
+    {
+        string appname = "LOGON";
+        string key = "USER";
+        string df = "Helpless";
+        string fn = @"C:Work\ReadINI\ReadIni\bin\varisol.ini";
+
+        UInt32 sizeParam = 20u;
+
+        StringBuilder sb = new StringBuilder(sizeParam);
+
+        ulong errorcode = 0UL;
+        long justTesting = 33L;
+        float testNumber = 3.00232f;
+
+        errorcode = GetPrivateProfileString(appname, key, df, sb, 21ul, fn);
+
+        errorcode = GetLastError();
+
+    }
+}
