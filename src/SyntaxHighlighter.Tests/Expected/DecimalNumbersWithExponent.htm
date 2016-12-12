@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Code Highlight Preview</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" type="text/css" href="../Template/Styles.css">
+</head>
+<body>
+<pre><span class="pl-c">// Evaluate [e ^ ln(X) == ln(e ^ X) == X] with selected values for X:</span>
+<span class="pl-v">Math</span>.<span class="pl-e">Exp</span>(<span class="pl-v">Math</span>.<span class="pl-e">Log</span>(<span class="pl-c1">0.1</span>)) == <span class="pl-c1">1.0000000000000001E-001</span>;
+<span class="pl-v">Math</span>.<span class="pl-e">Log</span>(<span class="pl-v">Math</span>.<span class="pl-e">Exp</span>(<span class="pl-c1">0.1</span>)) == <span class="pl-c1">1.0000000000000008E-001</span>;
+<span class="pl-v">Math</span>.<span class="pl-e">Exp</span>(<span class="pl-v">Math</span>.<span class="pl-e">Log</span>(<span class="pl-c1">1.2</span>)) == <span class="pl-c1">1.2000000000000000E+000</span>;
+<span class="pl-v">Math</span>.<span class="pl-e">Log</span>(<span class="pl-v">Math</span>.<span class="pl-e">Exp</span>(<span class="pl-c1">1.2</span>)) == <span class="pl-c1">1.2000000000000000E+000</span>;
+<span class="pl-v">Math</span>.<span class="pl-e">Exp</span>(<span class="pl-v">Math</span>.<span class="pl-e">Log</span>(<span class="pl-c1">4.9</span>)) == <span class="pl-c1">4.9000000000000012E+000</span>;
+<span class="pl-v">Math</span>.<span class="pl-e">Log</span>(<span class="pl-v">Math</span>.<span class="pl-e">Exp</span>(<span class="pl-c1">4.9</span>)) == <span class="pl-c1">4.9000000000000004E+000</span>;
+<span class="pl-v">Math</span>.<span class="pl-e">Exp</span>(<span class="pl-v">Math</span>.<span class="pl-e">Log</span>(<span class="pl-c1">9.9</span>)) == <span class="pl-c1">9.9000000000000004E+000</span>;
+<span class="pl-v">Math</span>.<span class="pl-e">Log</span>(<span class="pl-v">Math</span>.<span class="pl-e">Exp</span>(<span class="pl-c1">9.9</span>)) == <span class="pl-c1">9.9000000000000004E+000</span>;
+<span class="pl-v">Math</span>.<span class="pl-e">Exp</span>(<span class="pl-c1">0.1</span>) * <span class="pl-v">Math</span>.<span class="pl-e">Exp</span>(<span class="pl-c1">1.2</span>) == <span class="pl-c1">3.6692966676192444E+000</span>;
+    <span class="pl-v">Math</span>.<span class="pl-e">Exp</span>(<span class="pl-c1">0.1</span> + <span class="pl-c1">1.2</span>) == <span class="pl-c1">3.6692966676192444E+000</span>;
+    <span class="pl-v">Math</span>.<span class="pl-e">Pow</span>(<span class="pl-v">Math</span>.<span class="pl-e">Exp</span>(<span class="pl-c1">0.1</span>), <span class="pl-c1">1.2</span>) == <span class="pl-c1">1.1274968515793757e+000</span>;
+    <span class="pl-v">Math</span>.<span class="pl-e">Exp</span>(<span class="pl-c1">0.1</span> * <span class="pl-c1">1.2</span>) == <span class="pl-c1">1.1274968515793757e+000</span>;
+    <span class="pl-v">Math</span>.<span class="pl-e">Pow</span>(<span class="pl-c1">0.1</span>, <span class="pl-c1">1.2</span>) == <span class="pl-c1">6.3095734448019331E-002</span>;
+<span class="pl-v">Math</span>.<span class="pl-e">Exp</span>(<span class="pl-c1">1.2</span> * <span class="pl-v">Math</span>.<span class="pl-e">Log</span>(<span class="pl-c1">0.1</span>)) == <span class="pl-c1">6.3095734448019344E-002</span>;
+<span class="pl-v">Math</span>.<span class="pl-e">Exp</span>(<span class="pl-c1">1.2</span>) * <span class="pl-v">Math</span>.<span class="pl-e">Exp</span>(<span class="pl-c1">4.9</span>) == <span class="pl-c1">4.4585777008251705E+002</span>;
+    <span class="pl-v">Math</span>.<span class="pl-e">Exp</span>(<span class="pl-c1">1.2</span> + <span class="pl-c1">4.9</span>) == <span class="pl-c1">4.4585777008251716E+002</span>;
+    <span class="pl-v">Math</span>.<span class="pl-e">Pow</span>(<span class="pl-v">Math</span>.<span class="pl-e">Exp</span>(<span class="pl-c1">1.2</span>), <span class="pl-c1">4.9</span>) == <span class="pl-c1">3.5780924170885260e+002</span>;
+    <span class="pl-v">Math</span>.<span class="pl-e">Exp</span>(<span class="pl-c1">1.2</span> * <span class="pl-c1">4.9</span>) == <span class="pl-c1">3.5780924170885277E+002</span>;
+    <span class="pl-v">Math</span>.<span class="pl-e">Pow</span>(<span class="pl-c1">1.2</span>, <span class="pl-c1">4.9</span>) == <span class="pl-c1">2.4433636334442981E+000</span>;
+<span class="pl-v">Math</span>.<span class="pl-e">Exp</span>(<span class="pl-c1">4.9</span> * <span class="pl-v">Math</span>.<span class="pl-e">Log</span>(<span class="pl-c1">1.2</span>)) == <span class="pl-c1">2.4433636334442981E+000</span>;
+<span class="pl-v">Math</span>.<span class="pl-e">Exp</span>(<span class="pl-c1">4.9</span>) * <span class="pl-v">Math</span>.<span class="pl-e">Exp</span>(<span class="pl-c1">9.9</span>) == <span class="pl-c1">2.6764450551890982E+006</span>;
+    <span class="pl-v">Math</span>.<span class="pl-e">Exp</span>(<span class="pl-c1">4.9</span> + <span class="pl-c1">9.9</span>) == <span class="pl-c1">2.6764450551891015E+006</span>;
+    <span class="pl-v">Math</span>.<span class="pl-e">Pow</span>(<span class="pl-v">Math</span>.<span class="pl-e">Exp</span>(<span class="pl-c1">4.9</span>), <span class="pl-c1">9.9</span>) == <span class="pl-c1">1.1684908531676833E+021</span>;
+    <span class="pl-v">Math</span>.<span class="pl-e">Exp</span>(<span class="pl-c1">4.9</span> * <span class="pl-c1">9.9</span>) == <span class="pl-c1">1.1684908531676829e+021</span>;
+    <span class="pl-v">Math</span>.<span class="pl-e">Pow</span>(<span class="pl-c1">4.9</span>, <span class="pl-c1">9.9</span>) == <span class="pl-c1">6.8067718210957060E+006</span>;
+<span class="pl-v">Math</span>.<span class="pl-e">Exp</span>(<span class="pl-c1">9.9</span> * <span class="pl-v">Math</span>.<span class="pl-e">Log</span>(<span class="pl-c1">4.9</span>)) == <span class="pl-c1">6.8067718210956985E+006</span>;</pre>
+</body>
+</html>

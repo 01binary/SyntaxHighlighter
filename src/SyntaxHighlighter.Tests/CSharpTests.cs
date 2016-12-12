@@ -121,7 +121,7 @@ namespace SyntaxHighlighter.Tests
         [TestCategory("C# Syntax Highlighting")]
         public void TestDecimalNumbersWithExponent()
         {
-            // e, E
+            this.AssertTransformed("DecimalNumbersWithExponent", "pl-c1");
         }
 
         /// <summary>
