@@ -102,7 +102,7 @@
       "name": "Numbers",
       "description": "Number literals",
 
-      "transformType": "Token",
+      "transformType": "TokenSpan",
       "tokenClass": "pl-c1",
       "tokenPattern": "numbers"
     },
