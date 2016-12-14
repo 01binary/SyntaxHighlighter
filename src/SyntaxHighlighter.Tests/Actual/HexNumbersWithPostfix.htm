@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Code Highlight Preview</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" type="text/css" href="../Template/Styles.css">
+</head>
+<body>
+<pre><span class="pl-c">/// &lt;<span class="pl-ent">summary</span>&gt;</span>
+<span class="pl-c">/// See http://msdn.microsoft.com/en-us/library/windows/desktop/cc982162(v=vs.85).aspx</span>
+<span class="pl-c">/// &lt;/<span class="pl-ent">summary</span>&gt;</span>
+[<span class="pl-en">Flags</span>]
+<span class="pl-k">public</span> <span class="pl-k">enum</span> <span class="pl-e">DnsQueryOptions</span>
+{
+    <span class="pl-v">DNS_QUERY_STANDARD</span> = <span class="pl-c1">0x0</span>,
+    <span class="pl-v">DNS_QUERY_ACCEPT_TRUNCATED_RESPONSE</span> = <span class="pl-c1">0x1</span>,
+    <span class="pl-v">DNS_QUERY_USE_TCP_ONLY</span> = <span class="pl-c1">0x2</span>,
+    <span class="pl-v">DNS_QUERY_NO_RECURSION</span> = <span class="pl-c1">0x4</span>,
+    <span class="pl-v">DNS_QUERY_BYPASS_CACHE</span> = <span class="pl-c1">0x8</span>,
+    <span class="pl-v">DNS_QUERY_NO_WIRE_QUERY</span> = <span class="pl-c1">0x10UL</span>,
+    <span class="pl-v">DNS_QUERY_NO_LOCAL_NAME</span> = <span class="pl-c1">0x20UL</span>,
+    <span class="pl-v">DNS_QUERY_NO_HOSTS_FILE</span> = <span class="pl-c1">0x40</span>,
+    <span class="pl-v">DNS_QUERY_NO_NETBT</span> = <span class="pl-c1">0x80</span>,
+    <span class="pl-v">DNS_QUERY_WIRE_ONLY</span> = <span class="pl-c1">0x100</span>,
+    <span class="pl-v">DNS_QUERY_RETURN_MESSAGE</span> = <span class="pl-c1">0x200</span>,
+    <span class="pl-v">DNS_QUERY_MULTICAST_ONLY</span> = <span class="pl-c1">0x400ul</span>,
+    <span class="pl-v">DNS_QUERY_NO_MULTICAST</span> = <span class="pl-c1">0x800</span>,
+    <span class="pl-v">DNS_QUERY_TREAT_AS_FQDN</span> = <span class="pl-c1">0x1000</span>,
+    <span class="pl-v">DNS_QUERY_ADDRCONFIG</span> = <span class="pl-c1">0x2000l</span>,
+    <span class="pl-v">DNS_QUERY_DUAL_ADDR</span> = <span class="pl-c1">0x4000</span>,
+    <span class="pl-v">DNS_QUERY_MULTICAST_WAIT</span> = <span class="pl-c1">0x20000</span>,
+    <span class="pl-v">DNS_QUERY_MULTICAST_VERIFY</span> = <span class="pl-c1">0x40000UL</span>,
+    <span class="pl-v">DNS_QUERY_DONT_RESET_TTL_VALUES</span> = <span class="pl-c1">0x100000L</span>,
+    <span class="pl-v">DNS_QUERY_DISABLE_IDN_ENCODING</span> = <span class="pl-c1">0x200000ul</span>,
+    <span class="pl-v">DNS_QUERY_APPEND_MULTILABEL</span> = <span class="pl-c1">0x800000</span>,
+    <span class="pl-v">DNS_QUERY_RESERVED</span> = <span class="pl-k">unchecked</span>((<span class="pl-k">int</span>)<span class="pl-c1">0</span><span class="pl-v">xF0000000</span>)
+}
+
+<span class="pl-c">/// &lt;<span class="pl-ent">summary</span>&gt;</span>
+<span class="pl-c">/// See http://msdn.microsoft.com/en-us/library/windows/desktop/cc982162(v=vs.85).aspx</span>
+<span class="pl-c">/// Also see http://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml</span>
+<span class="pl-c">/// &lt;/<span class="pl-ent">summary</span>&gt;</span>
+<span class="pl-k">public</span> <span class="pl-k">enum</span> <span class="pl-e">DnsRecordTypes</span>
+{
+    <span class="pl-v">DNS_TYPE_A</span> = <span class="pl-c1">0x1</span>,
+    <span class="pl-v">DNS_TYPE_NS</span> = <span class="pl-c1">0x2</span>,
+    <span class="pl-v">DNS_TYPE_MD</span> = <span class="pl-c1">0x3</span>,
+    <span class="pl-v">DNS_TYPE_MF</span> = <span class="pl-c1">0x4</span>,
+    <span class="pl-v">DNS_TYPE_CNAME</span> = <span class="pl-c1">0x5</span>,
+    <span class="pl-v">DNS_TYPE_SOA</span> = <span class="pl-c1">0x6</span>,
+    <span class="pl-v">DNS_TYPE_MB</span> = <span class="pl-c1">0x7</span>,
+    <span class="pl-v">DNS_TYPE_MG</span> = <span class="pl-c1">0x8</span>,
+    <span class="pl-v">DNS_TYPE_MR</span> = <span class="pl-c1">0x9</span>,
+    <span class="pl-v">DNS_TYPE_NULL</span> = <span class="pl-c1">0</span><span class="pl-v">xA</span>,
+    <span class="pl-v">DNS_TYPE_WKS</span> = <span class="pl-c1">0</span><span class="pl-v">xB</span>,
+    <span class="pl-v">DNS_TYPE_PTR</span> = <span class="pl-c1">0</span><span class="pl-v">xC</span>,
+    <span class="pl-v">DNS_TYPE_HINFO</span> = <span class="pl-c1">0</span><span class="pl-v">xD</span>,
+    <span class="pl-v">DNS_TYPE_MINFO</span> = <span class="pl-c1">0</span><span class="pl-v">xE</span>,
+    <span class="pl-v">DNS_TYPE_MX</span> = <span class="pl-c1">0</span><span class="pl-v">xF</span>,
+    <span class="pl-v">DNS_TYPE_TEXT</span> = <span class="pl-c1">0x10</span>,       <span class="pl-c">// This is how it's specified on MSDN</span>
+    <span class="pl-v">DNS_TYPE_TXT</span> = <span class="pl-v">DNS_TYPE_TEXT</span>,
+    <span class="pl-v">DNS_TYPE_RP</span> = <span class="pl-c1">0x11</span>,
+    <span class="pl-v">DNS_TYPE_AFSDB</span> = <span class="pl-c1">0x12</span>,
+    <span class="pl-v">DNS_TYPE_X25</span> = <span class="pl-c1">0x13</span>,
+    <span class="pl-v">DNS_TYPE_ISDN</span> = <span class="pl-c1">0x14</span>,
+    <span class="pl-v">DNS_TYPE_RT</span> = <span class="pl-c1">0x15</span>,
+    <span class="pl-v">DNS_TYPE_NSAP</span> = <span class="pl-c1">0x16</span>,
+    <span class="pl-v">DNS_TYPE_NSAPPTR</span> = <span class="pl-c1">0x17</span>,
+    <span class="pl-v">DNS_TYPE_SIG</span> = <span class="pl-c1">0x18</span>,
+    <span class="pl-v">DNS_TYPE_KEY</span> = <span class="pl-c1">0x19</span>,
+    <span class="pl-v">DNS_TYPE_PX</span> = <span class="pl-c1">0x1</span><span class="pl-v">A</span>,
+    <span class="pl-v">DNS_TYPE_GPOS</span> = <span class="pl-c1">0x1</span><span class="pl-v">B</span>,
+    <span class="pl-v">DNS_TYPE_AAAA</span> = <span class="pl-c1">0x1</span><span class="pl-v">C</span>,
+    <span class="pl-v">DNS_TYPE_LOC</span> = <span class="pl-c1">0x1</span><span class="pl-v">D</span>,
+    <span class="pl-v">DNS_TYPE_NXT</span> = <span class="pl-c1">0x1</span><span class="pl-v">E</span>,
+    <span class="pl-v">DNS_TYPE_EID</span> = <span class="pl-c1">0x1F</span>,
+    <span class="pl-v">DNS_TYPE_NIMLOC</span> = <span class="pl-c1">0x20</span>,
+    <span class="pl-v">DNS_TYPE_SRV</span> = <span class="pl-c1">0x21</span>,
+    <span class="pl-v">DNS_TYPE_ATMA</span> = <span class="pl-c1">0x22</span>,
+    <span class="pl-v">DNS_TYPE_NAPTR</span> = <span class="pl-c1">0x23</span>,
+    <span class="pl-v">DNS_TYPE_KX</span> = <span class="pl-c1">0x24</span>,
+    <span class="pl-v">DNS_TYPE_CERT</span> = <span class="pl-c1">0x25</span>,
+    <span class="pl-v">DNS_TYPE_A6</span> = <span class="pl-c1">0x26</span>,
+    <span class="pl-v">DNS_TYPE_DNAME</span> = <span class="pl-c1">0x27</span>,
+    <span class="pl-v">DNS_TYPE_SINK</span> = <span class="pl-c1">0x28</span>,
+    <span class="pl-v">DNS_TYPE_OPT</span> = <span class="pl-c1">0x29</span>,
+    <span class="pl-v">DNS_TYPE_DS</span> = <span class="pl-c1">0x2</span><span class="pl-v">B</span>,
+    <span class="pl-v">DNS_TYPE_RRSIG</span> = <span class="pl-c1">0x2</span><span class="pl-v">E</span>,
+    <span class="pl-v">DNS_TYPE_NSEC</span> = <span class="pl-c1">0x2F</span>,
+    <span class="pl-v">DNS_TYPE_DNSKEY</span> = <span class="pl-c1">0x30</span>,
+    <span class="pl-v">DNS_TYPE_DHCID</span> = <span class="pl-c1">0x31</span>,
+    <span class="pl-v">DNS_TYPE_UINFO</span> = <span class="pl-c1">0x64</span>,
+    <span class="pl-v">DNS_TYPE_UID</span> = <span class="pl-c1">0x65</span>,
+    <span class="pl-v">DNS_TYPE_GID</span> = <span class="pl-c1">0x66</span>,
+    <span class="pl-v">DNS_TYPE_UNSPEC</span> = <span class="pl-c1">0x67</span>,
+    <span class="pl-v">DNS_TYPE_ADDRS</span> = <span class="pl-c1">0</span><span class="pl-v">xF8</span>,
+    <span class="pl-v">DNS_TYPE_TKEY</span> = <span class="pl-c1">0</span><span class="pl-v">xF9</span>,
+    <span class="pl-v">DNS_TYPE_TSIG</span> = <span class="pl-c1">0</span><span class="pl-v">xFA</span>,
+    <span class="pl-v">DNS_TYPE_IXFR</span> = <span class="pl-c1">0</span><span class="pl-v">xFB</span>,
+    <span class="pl-v">DNS_TYPE_AFXR</span> = <span class="pl-c1">0</span><span class="pl-v">xFC</span>,
+    <span class="pl-v">DNS_TYPE_MAILB</span> = <span class="pl-c1">0</span><span class="pl-v">xFD</span>,
+    <span class="pl-v">DNS_TYPE_MAILA</span> = <span class="pl-c1">0</span><span class="pl-v">xFE</span>,
+    <span class="pl-v">DNS_TYPE_ALL</span> = <span class="pl-c1">0</span><span class="pl-v">xFF</span>,
+    <span class="pl-v">DNS_TYPE_ANY</span> = <span class="pl-c1">0</span><span class="pl-v">xFF</span>,
+    <span class="pl-v">DNS_TYPE_WINS</span> = <span class="pl-c1">0</span><span class="pl-v">xFF01</span>,
+    <span class="pl-v">DNS_TYPE_WINSR</span> = <span class="pl-c1">0</span><span class="pl-v">xFF02</span>,
+    <span class="pl-v">DNS_TYPE_NBSTAT</span> = <span class="pl-v">DNS_TYPE_WINSR</span>
+}</pre>
+</body>
+</html>

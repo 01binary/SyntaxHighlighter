@@ -141,7 +141,7 @@ namespace SyntaxHighlighter.Tests
         [TestCategory("C# Syntax Highlighting")]
         public void TestHexNumbersWithPostfix()
         {
-            // U, u, L, l, F, f, UL, Ul, ul, LL, Ll, ll
+            this.AssertTransformedOnlyPattern("HexNumbersWithPostfix", "pl-c1", "0x.*[uULl]+");
         }
 
         /// <summary>

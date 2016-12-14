@@ -63,6 +63,7 @@
     <Content Include="Actual\DecimalNumbers.htm" />
     <Content Include="Actual\DecimalNumbersWithExponent.htm" />
     <Content Include="Actual\DecimalNumbersWithPostfix.htm" />
+    <Content Include="Actual\HexNumbersWithPostfix.htm" />
     <Content Include="Actual\HexNumbers.htm" />
     <Content Include="Actual\MultilineComments.htm" />
     <Content Include="Actual\SingleLineComments.htm" />
@@ -86,6 +87,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Expected\DecimalNumbersWithPostfix.htm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Expected\HexNumbersWithPostfix.htm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Expected\HexNumbers.htm">
@@ -116,6 +120,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Input\DecimalNumbersWithPostfix.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Input\HexNumbersWithPostfix.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Input\HexNumbers.txt">
