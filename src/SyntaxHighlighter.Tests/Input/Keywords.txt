@@ -1,0 +1,97 @@
+﻿//
+// Copyright (c) Microsoft Corporation.  All rights reserved.
+// Licensed under the MIT License. See License.txt in the project root for license information.
+//
+
+using System;
+using System.Web;
+using System.Web.SessionState;
+
+namespace Microsoft.Web.Redis
+{
+    public class RedisSessionStateProvider : SessionStateStoreProviderBase
+    {
+        // We want to release lock (if exists) during EndRequest, to do that we need session-id and lockId but EndRequest do not have these parameter passed to it. 
+        // So we are going to store 'sessionId' and 'lockId' when we acquire lock. so that EndRequest can release lock at the end. 
+        // If we removed the lock before that than we will clear these by our self so that EndRequest won't do that again (only Release item exclusive does that).
+        internal string sessionId;
+        internal object sessionLockId;
+        private const int FROM_MIN_TO_SEC = 60;
+
+        internal static ProviderConfiguration configuration;
+        internal static object configurationCreationLock = new object();
+        internal ICacheConnection cache;
+
+        private static object _lastException = new object();
+
+        /// <summary>
+        /// We do not want to throw exception from session state provider because this will break customer application and they can't get chance to handel it.
+        /// So if exception occurs because of some problem we store it in HttpContext using a key that we know and return null to customer. Now, when customer
+        /// get null from any of session operation they should call this method to identify if there was any exception and because of that got null.
+        /// </summary>
+        public static Exception LastException
+        {
+            get
+            {
+                if (HttpContext.Current != null)
+                {
+                    return (Exception)HttpContext.Current.Items[_lastException];
+                }
+                return null;
+            }
+
+            set
+            {
+                if (HttpContext.Current != null)
+                {
+                    HttpContext.Current.Items[_lastException] = value;
+                }
+            }
+        }
+
+        private void GetAccessToStore(string id)
+        {
+            if (cache == null)
+            {
+                cache = new RedisConnectionWrapper(configuration, id);
+            }
+            else
+            {
+                cache.Keys.RegenerateKeyStringIfIdModified(id, configuration.ApplicationName);
+            }
+        }
+
+        public override void Initialize(string name, System.Collections.Specialized.NameValueCollection config)
+        {
+            if (config == null)
+            {
+                throw new ArgumentNullException("config");
+            }
+
+            if (name == null || name.Length == 0)
+            {
+                name = "MyCacheStore";
+            }
+
+            if (String.IsNullOrEmpty(config["description"]))
+            {
+                config.Remove("description");
+                config.Add("description", "Redis as a session data store");
+            }
+
+            base.Initialize(name, config);
+
+            // If configuration exists then use it otherwise read from config file and create one
+            if (configuration == null)
+            {
+                lock (configurationCreationLock)
+                {
+                    if (configuration == null)
+                    {
+                        configuration = ProviderConfiguration.ProviderConfigurationForSessionState(config);
+                    }
+                }
+            }
+        }
+    }
+}

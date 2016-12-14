@@ -151,6 +151,7 @@ namespace SyntaxHighlighter.Tests
         [TestCategory("C# Syntax Highlighting")]
         public void TestKeywords()
         {
+            this.AssertTransformed("Keywords", "pl-k");
         }
 
         /// <summary>
