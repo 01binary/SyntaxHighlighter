@@ -131,6 +131,7 @@ namespace SyntaxHighlighter.Tests
         [TestCategory("C# Syntax Highlighting")]
         public void TestHexNumbers()
         {
+            this.AssertTransformedOnlyPattern("HexNumbers", "pl-c1", "0x");
         }
 
         /// <summary>
