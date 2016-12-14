@@ -1,0 +1,76 @@
+﻿const bool mustBeConst = 3 > 5;
+
+bool? IsGreen(int number)
+{
+	if (number == 4)
+		return true;
+	else if (number == 5)
+		return false;
+	else
+		return null;
+}
+
+void Output(int number)
+{
+	bool? green = IsGreen(number);
+
+	switch(green)
+	{
+		case true:
+			Console.WriteLine("<green>" + number + "</green>");
+			break;
+		case false:
+			Console.WriteLine("<gray>" + number + "</gray>");
+			break;
+		case null:
+			Console.WriteLine("<white>" + number + "</white>");
+			break;
+	}
+}
+
+/// <summary>
+/// Gets the news story markdown content.
+/// </summary>
+/// <param name="id">The story id</param>
+public IActionResult GetStory(int id)
+{
+    try
+    {
+        IDataStore store = this.services.GetService(typeof(IDataStore)) as IDataStore;
+        var story = store.GetArticle(id);
+
+        if (story == null)
+        {
+            return NotFound();
+
+            var x = +3.003;
+            float f = .302;
+            float g = 1.02f;
+            int k = -3;
+            uint hex = 0x40001fff;
+
+            switch (hello)
+            {
+                case ONE:
+                    helloWorld();
+                    break;
+                case TWO:
+                    {
+                        helloWorld();
+                    }
+                    break;
+                case THREE:
+                    {
+                        helloWorld();
+                    }
+                    break;
+            }
+        }
+
+        return Ok(new { story.Content });
+    }
+    catch
+    {
+        return this.StatusCode(500);
+    }
+}

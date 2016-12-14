@@ -60,6 +60,7 @@
     <Content Include="Actual\CommentAttributeValues.htm" />
     <Content Include="Actual\CommentAttributes.htm" />
     <Content Include="Actual\CommentTags.htm" />
+    <Content Include="Actual\ConstantLiterals.htm" />
     <Content Include="Actual\DecimalNumbers.htm" />
     <Content Include="Actual\DecimalNumbersWithExponent.htm" />
     <Content Include="Actual\DecimalNumbersWithPostfix.htm" />
@@ -108,6 +109,9 @@
     <Content Include="Expected\Strings.htm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Expected\ConstantLiterals.htm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Expected\StringsWithEscape.htm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -148,6 +152,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Input\StringsWithEscape.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Input\ConstantLiterals.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Template\Template.htm">

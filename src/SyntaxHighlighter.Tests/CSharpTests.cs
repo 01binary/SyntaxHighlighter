@@ -161,6 +161,7 @@ namespace SyntaxHighlighter.Tests
         [TestCategory("C# Syntax Highlighting")]
         public void TestConstantLiterals()
         {
+            this.AssertTransformedOnlyPattern("ConstantLiterals", "pl-c1", @"^[\D]*$");
         }
 
         /// <summary>

@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Code Highlight Preview</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" type="text/css" href="../Template/Styles.css">
+</head>
+<body>
+<pre><span class="pl-k">const</span> <span class="pl-c1">bool</span> <span class="pl-v">mustBeConst</span> = <span class="pl-c1">3</span> > <span class="pl-c1">5</span>;
+<span class="pl-k">bool</span>? <span class="pl-e">IsGreen</span>(<span class="pl-k">int</span> <span class="pl-v">number</span>)
+{
+    <span class="pl-k">if</span> (<span class="pl-v">number</span> == <span class="pl-c1">4</span>)
+    <span class="pl-k">return</span> <span class="pl-c1">true</span>;
+    <span class="pl-k">else</span> <span class="pl-k">if</span> (<span class="pl-v">number</span> == <span class="pl-c1">5</span>)
+    <span class="pl-k">return</span> <span class="pl-c1">false</span>;
+    <span class="pl-k">else</span>
+    <span class="pl-k">return</span> <span class="pl-c1">null</span>;
+}
+<span class="pl-k">void</span> <span class="pl-e">Output</span>(<span class="pl-k">int</span> <span class="pl-v">number</span>)
+{
+    <span class="pl-k">bool</span>? <span class="pl-v">green</span> = <span class="pl-e">IsGreen</span>(<span class="pl-v">number</span>);
+    <span class="pl-k">switch</span>(<span class="pl-v">green</span>)
+	{
+    <span class="pl-k">case</span> <span class="pl-c1">true</span>:
+    <span class="pl-c1">Console</span>.<span class="pl-e">WriteLine</span>(<span class="pl-s">"&lt;green&gt;"</span> + <span class="pl-v">number</span> + <span class="pl-s">"&lt;/green&gt;"</span>);
+    <span class="pl-k">break</span>;
+    <span class="pl-k">case</span> <span class="pl-c1">false</span>:
+    <span class="pl-c1">Console</span>.<span class="pl-e">WriteLine</span>(<span class="pl-s">"&lt;gray&gt;"</span> + <span class="pl-v">number</span> + <span class="pl-s">"&lt;/gray&gt;"</span>);
+    <span class="pl-k">break</span>;
+    <span class="pl-k">case</span> <span class="pl-c1">null</span>:
+    <span class="pl-c1">Console</span>.<span class="pl-e">WriteLine</span>(<span class="pl-s">"&lt;white&gt;"</span> + <span class="pl-v">number</span> + <span class="pl-s">"&lt;/white&gt;"</span>);
+    <span class="pl-k">break</span>;
+	}
+}
+<span class="pl-c">/// &lt;<span class="pl-ent">summary</span>&gt;</span>
+<span class="pl-c">/// Gets the news story markdown content.</span>
+<span class="pl-c">/// &lt;/<span class="pl-ent">summary</span>&gt;</span>
+<span class="pl-c">/// &lt;<span class="pl-ent">param</span> <span class="pl-e">name</span>=<span class="pl-s">"id"</span>&gt;The story id&lt;/<span class="pl-ent">param</span>&gt;</span>
+<span class="pl-k">public</span> <span class="pl-en">IActionResult</span> <span class="pl-e">GetStory</span>(<span class="pl-k">int</span> <span class="pl-v">id</span>)
+{
+    <span class="pl-k">try</span>
+    {
+    <span class="pl-en">IDataStore</span> <span class="pl-v">store</span> = <span class="pl-c1">this</span>.<span class="pl-v">services</span>.<span class="pl-e">GetService</span>(<span class="pl-k">typeof</span>(<span class="pl-en">IDataStore</span>)) <span class="pl-k">as</span> <span class="pl-en">IDataStore</span>;
+    <span class="pl-k">var</span> <span class="pl-v">story</span> = <span class="pl-v">store</span>.<span class="pl-e">GetArticle</span>(<span class="pl-v">id</span>);
+    <span class="pl-k">if</span> (<span class="pl-v">story</span> == <span class="pl-c1">null</span>)
+        {
+    <span class="pl-k">return</span> <span class="pl-e">NotFound</span>();
+    <span class="pl-k">var</span> <span class="pl-v">x</span> = <span class="pl-c1">+3.003</span>;
+    <span class="pl-k">float</span> <span class="pl-v">f</span> = <span class="pl-c1">.302</span>;
+    <span class="pl-k">float</span> <span class="pl-v">g</span> = <span class="pl-c1">1.02f</span>;
+    <span class="pl-k">int</span> <span class="pl-v">k</span> = <span class="pl-c1">-3</span>;
+    <span class="pl-k">uint</span> <span class="pl-v">hex</span> = <span class="pl-c1">0x40001fff</span>;
+    <span class="pl-k">switch</span> (<span class="pl-v">hello</span>)
+            {
+    <span class="pl-k">case</span> <span class="pl-c1">ONE</span>:
+    <span class="pl-e">helloWorld</span>();
+    <span class="pl-k">break</span>;
+    <span class="pl-k">case</span> <span class="pl-c1">TWO</span>:
+                    {
+    <span class="pl-e">helloWorld</span>();
+                    }
+    <span class="pl-k">break</span>;
+    <span class="pl-k">case</span> <span class="pl-c1">THREE</span>:
+                    {
+    <span class="pl-e">helloWorld</span>();
+                    }
+    <span class="pl-k">break</span>;
+            }
+        }
+    <span class="pl-k">return</span> <span class="pl-e">Ok</span>(<span class="pl-k">new</span> { <span class="pl-v">story</span>.<span class="pl-e">Content</span> });
+    }
+    <span class="pl-k">catch</span>
+    {
+    <span class="pl-k">return</span> <span class="pl-c1">this</span>.<span class="pl-e">StatusCode</span>(<span class="pl-c1">500</span>);
+    }
+}</pre>
+</body>
+</html>
