@@ -1,0 +1,187 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Code Highlight Preview</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" type="text/css" href="../Template/Styles.css">
+</head>
+<body>
+<pre><span class="pl-k">namespace</span> <span class="pl-e">SyntaxHighlighter</span>
+{
+    <span class="pl-c">/// &lt;<span class="pl-ent">summary</span>&gt;</span>
+    <span class="pl-c">/// Performs code syntax highlighting.</span>
+    <span class="pl-c">/// &lt;/<span class="pl-ent">summary</span>&gt;</span>
+    <span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-e">Highlighter</span>
+    {
+        <span class="pl-c">/// &lt;<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-c">/// The pre-defined name for pattern used to detect token separators.</span>
+        <span class="pl-c">/// &lt;/<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-k">private</span> <span class="pl-k">static</span> <span class="pl-k">readonly</span> <span class="pl-k">string</span> <span class="pl-v">SeparatorsPattern</span> = <span class="pl-s">"separators"</span>;
+
+        <span class="pl-c">/// &lt;<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-c">/// The base path for loading transform definitions.</span>
+        <span class="pl-c">/// &lt;/<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-k">private</span> <span class="pl-k">string</span> <span class="pl-v">transformPath</span>;
+
+        <span class="pl-c">/// &lt;<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-c">/// The debug options for diagnosing unexpected token transforms.</span>
+        <span class="pl-c">/// &lt;/<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-k">private</span> <span class="pl-en">Options</span> <span class="pl-v">options</span>;
+
+        <span class="pl-c">/// &lt;<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-c">/// The current transform definition for the current code block type.</span>
+        <span class="pl-c">/// &lt;/<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-k">private</span> <span class="pl-en">TransformDefinition</span> <span class="pl-v">transformDefinition</span>;
+
+        <span class="pl-c">/// &lt;<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-c">/// The transform buffer.</span>
+        <span class="pl-c">/// &lt;/<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-k">private</span> <span class="pl-en">Buffer</span> <span class="pl-v">buffer</span>;
+
+        <span class="pl-c">/// &lt;<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-c">/// Initializes a new instance of the &lt;<span class="pl-ent">see</span> <span class="pl-e">cref</span>=<span class="pl-s">"Highlighter"</span>/&gt; class.</span>
+        <span class="pl-c">/// &lt;/<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-k">public</span> <span class="pl-e">Highlighter</span>()
+        {
+        }
+
+        <span class="pl-c">/// &lt;<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-c">/// Initializes a new instance of the &lt;<span class="pl-ent">see</span> <span class="pl-e">cref</span>=<span class="pl-s">"Highlighter"</span>/&gt; class.</span>
+        <span class="pl-c">/// &lt;/<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-c">/// &lt;<span class="pl-ent">param</span> <span class="pl-e">name</span>=<span class="pl-s">"transformBasePath"</span>&gt;The base path for loading transform definitions.&lt;/<span class="pl-ent">param</span>&gt;</span>
+        <span class="pl-k">public</span> <span class="pl-e">Highlighter</span>(<span class="pl-k">string</span> <span class="pl-v">transformBasePath</span>)
+        {
+            <span class="pl-k">this</span>.<span class="pl-e">transformPath</span> = <span class="pl-v">transformBasePath</span>;
+        }
+
+        <span class="pl-c">/// &lt;<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-c">/// Initializes a new instance of the &lt;<span class="pl-ent">see</span> <span class="pl-e">cref</span>=<span class="pl-s">"Highlighter"</span>/&gt; class.</span>
+        <span class="pl-c">/// &lt;/<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-c">/// &lt;<span class="pl-ent">param</span> <span class="pl-e">name</span>=<span class="pl-s">"transformBasePath"</span>&gt;The base path for loading transform definitions.&lt;/<span class="pl-ent">param</span>&gt;</span>
+        <span class="pl-c">/// &lt;<span class="pl-ent">param</span> <span class="pl-e">name</span>=<span class="pl-s">"highlightOptions"</span>&gt;The debug options for diagnosing unexpected token transforms.&lt;/<span class="pl-ent">param</span>&gt;</span>
+        <span class="pl-k">public</span> <span class="pl-e">Highlighter</span>(<span class="pl-k">string</span> <span class="pl-v">transformBasePath</span>, <span class="pl-en">Options</span> <span class="pl-v">highlightOptions</span>)
+        {
+            <span class="pl-k">this</span>.<span class="pl-e">transformPath</span> = <span class="pl-v">transformBasePath</span>;
+            <span class="pl-k">this</span>.<span class="pl-e">options</span> = <span class="pl-v">highlightOptions</span>;
+        }
+
+        <span class="pl-c">/// &lt;<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-c">/// Transform the code by adding highlight markup and styles to recognized tokens.</span>
+        <span class="pl-c">/// &lt;/<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-c">/// &lt;<span class="pl-ent">param</span> <span class="pl-e">name</span>=<span class="pl-s">"code"</span>&gt;The code block to transform.&lt;/<span class="pl-ent">param</span>&gt;</span>
+        <span class="pl-c">/// &lt;<span class="pl-ent">param</span> <span class="pl-e">name</span>=<span class="pl-s">"type"</span>&gt;The code block type.&lt;/<span class="pl-ent">param</span>&gt;</span>
+        <span class="pl-c">/// &lt;<span class="pl-ent">returns</span>&gt;The transformed block.&lt;/<span class="pl-ent">returns</span>&gt;</span>
+        <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-e">Transform</span>(<span class="pl-k">string</span> <span class="pl-v">code</span>, <span class="pl-k">string</span> <span class="pl-v">type</span>)
+        {
+            <span class="pl-k">this</span>.<span class="pl-e">transformDefinition</span> = <span class="pl-v">TransformDefinitionFactory</span>.<span class="pl-e">Load</span>(
+                <span class="pl-k">this</span>.<span class="pl-e">transformPath</span>, <span class="pl-v">type</span>, <span class="pl-k">this</span>.<span class="pl-e">options</span>);
+
+            <span class="pl-k">this</span>.<span class="pl-e">buffer</span> = <span class="pl-k">new</span> <span class="pl-e">Buffer</span>(
+                <span class="pl-v">code</span>, <span class="pl-k">this</span>.<span class="pl-e">transformDefinition</span>.<span class="pl-e">Patterns</span>[<span class="pl-v">SeparatorsPattern</span>], <span class="pl-k">this</span>.<span class="pl-e">options</span>);
+
+            <span class="pl-k">while</span> (!<span class="pl-k">this</span>.<span class="pl-e">buffer</span>.<span class="pl-e">Eof</span>)
+            {
+                <span class="pl-k">if</span> (!<span class="pl-k">this</span>.<span class="pl-e">transformDefinition</span>.<span class="pl-e">Apply</span>(<span class="pl-k">this</span>.<span class="pl-e">buffer</span>))
+                {
+                    <span class="pl-k">this</span>.<span class="pl-e">buffer</span>.<span class="pl-e">SkipToken</span>();
+                }
+
+                <span class="pl-k">this</span>.<span class="pl-e">buffer</span>.<span class="pl-e">NextToken</span>();
+            }
+
+            <span class="pl-k">return</span> <span class="pl-k">this</span>.<span class="pl-e">buffer</span>.<span class="pl-e">Data</span>;
+        }
+    }
+}
+
+<span class="pl-k">using</span> <span class="pl-e">System</span>;
+<span class="pl-k">using</span> <span class="pl-e">System</span>.<span class="pl-e">Collections</span>.<span class="pl-e">Generic</span>;
+<span class="pl-k">using</span> <span class="pl-e">System</span>.<span class="pl-e">Linq</span>;
+<span class="pl-k">using</span> <span class="pl-e">System</span>.<span class="pl-e">Web</span>;
+<span class="pl-k">using</span> <span class="pl-e">System</span>.<span class="pl-e">Web</span>.<span class="pl-e">Mvc</span>;
+
+<span class="pl-k">namespace</span> <span class="pl-e">login_popup</span>.<span class="pl-e">Controllers</span>
+{
+    <span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-e">HomeController</span> : <span class="pl-en">Controller</span>
+    {
+        <span class="pl-k">public</span> <span class="pl-en">ActionResult</span> <span class="pl-e">Index</span>()
+        {
+            <span class="pl-k">return</span> <span class="pl-e">View</span>();
+        }
+
+        <span class="pl-k">public</span> <span class="pl-en">ActionResult</span> <span class="pl-e">About</span>()
+        {
+            <span class="pl-v">ViewBag</span>.<span class="pl-e">Message</span> = <span class="pl-s">"Your application description page."</span>;
+
+            <span class="pl-k">return</span> <span class="pl-e">View</span>();
+        }
+
+        <span class="pl-k">public</span> <span class="pl-en">ActionResult</span> <span class="pl-e">Contact</span>()
+        {
+            <span class="pl-v">ViewBag</span>.<span class="pl-e">Message</span> = <span class="pl-s">"Your contact page."</span>;
+
+            <span class="pl-k">return</span> <span class="pl-e">View</span>();
+        }
+    }
+}
+
+[<span class="pl-e">StructLayout</span>(<span class="pl-v">LayoutKind</span>.<span class="pl-e">Sequential</span>)]
+<span class="pl-k">internal</span> <span class="pl-k">struct</span> <span class="pl-e">CERT_CREDENTIAL_INFO</span>
+{
+    <span class="pl-k">public</span> <span class="pl-k">uint</span> <span class="pl-v">cbSize</span>;
+
+    [<span class="pl-e">MarshalAs</span>(<span class="pl-v">UnmanagedType</span>.<span class="pl-e">ByValArray</span>, <span class="pl-v">SizeConst</span> = <span class="pl-c1">20</span>)]
+    <span class="pl-k">public</span> <span class="pl-k">byte</span>[] <span class="pl-v">rgbHashOfCert</span>;
+}
+
+[<span class="pl-e">StructLayout</span>(<span class="pl-v">LayoutKind</span>.<span class="pl-e">Sequential</span>)]
+<span class="pl-k">public</span> <span class="pl-k">struct</span> <span class="pl-e">BITMAPINFOHEADER</span>
+{
+    <span class="pl-k">public</span> <span class="pl-k">uint</span> <span class="pl-v">biSize</span>;
+    <span class="pl-k">public</span> <span class="pl-k">int</span> <span class="pl-v">biWidth</span>;
+    <span class="pl-k">public</span> <span class="pl-k">int</span> <span class="pl-v">biHeight</span>;
+    <span class="pl-k">public</span> <span class="pl-k">ushort</span> <span class="pl-v">biPlanes</span>;
+    <span class="pl-k">public</span> <span class="pl-k">ushort</span> <span class="pl-v">biBitCount</span>;
+    <span class="pl-k">public</span> <span class="pl-en">BitmapCompressionMode</span> <span class="pl-v">biCompression</span>;
+    <span class="pl-k">public</span> <span class="pl-k">uint</span> <span class="pl-v">biSizeImage</span>;
+    <span class="pl-k">public</span> <span class="pl-k">int</span> <span class="pl-v">biXPelsPerMeter</span>;
+    <span class="pl-k">public</span> <span class="pl-k">int</span> <span class="pl-v">biYPelsPerMeter</span>;
+    <span class="pl-k">public</span> <span class="pl-k">uint</span> <span class="pl-v">biClrUsed</span>;
+    <span class="pl-k">public</span> <span class="pl-k">uint</span> <span class="pl-v">biClrImportant</span>;
+
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-e">Init</span>()
+    {
+        <span class="pl-v">biSize</span> = (<span class="pl-k">uint</span>)<span class="pl-v">Marshal</span>.<span class="pl-e">SizeOf</span>(<span class="pl-k">this</span>);
+    }
+}
+
+[<span class="pl-e">StructLayout</span>(<span class="pl-v">LayoutKind</span>.<span class="pl-e">Sequential</span>)]
+<span class="pl-k">public</span> <span class="pl-k">struct</span> <span class="pl-e">ANSI_STRING</span>
+{
+    <span class="pl-k">public</span> <span class="pl-k">short</span> <span class="pl-v">Length</span>;
+    <span class="pl-k">public</span> <span class="pl-k">short</span> <span class="pl-v">MaximumLength</span>;
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-v">Buffer</span>;
+}
+
+[<span class="pl-e">StructLayout</span>(<span class="pl-v">LayoutKind</span>.<span class="pl-e">Sequential</span>)]
+<span class="pl-k">public</span> <span class="pl-k">struct</span> <span class="pl-e">CIDA</span>
+{
+    <span class="pl-c">/// &lt;<span class="pl-ent">summary</span>&gt;</span>
+    <span class="pl-c">///  Number of PIDLs that are being transferred, not counting the parent folder.</span>
+    <span class="pl-c">/// &lt;/<span class="pl-ent">summary</span>&gt;</span>
+    <span class="pl-k">public</span> <span class="pl-k">uint</span> <span class="pl-v">cidl</span>;
+
+    <span class="pl-c">/// &lt;<span class="pl-ent">summary</span>&gt;</span>
+    <span class="pl-c">/// An array of offsets, relative to the beginning of this structure. The array contains</span>
+    <span class="pl-c">/// cidl+1 elements. The first element of aoffset contains an offset to the fully-qualified</span>
+    <span class="pl-c">/// PIDL of a parent foloder. If this PIDL is empty, the parent folder is the desktop.</span>
+    <span class="pl-c">/// Each of the remaining elements of the array contains an offset to one of the PIDLs to be </span>
+    <span class="pl-c">/// transferred. ALL of these PIDLs are relative to the PIDL of the parent folder.</span>
+    <span class="pl-c">/// &lt;/<span class="pl-ent">summary</span>&gt;</span>
+    [<span class="pl-e">MarshalAs</span>(<span class="pl-v">UnmanagedType</span>.<span class="pl-e">ByValArray</span>, <span class="pl-v">SizeConst</span> = <span class="pl-c1">1</span>)]
+    <span class="pl-k">public</span> <span class="pl-k">uint</span>[] <span class="pl-v">aoffset</span>;
+}</pre>
+</body>
+</html>

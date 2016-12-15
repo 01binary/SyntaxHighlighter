@@ -161,7 +161,7 @@ namespace SyntaxHighlighter.Tests
         [TestCategory("C# Syntax Highlighting")]
         public void TestConstantLiterals()
         {
-            this.AssertTransformedOnlyPattern("ConstantLiterals", "pl-c1", @"^[\D]*$");
+            this.AssertTransformedOnlyPattern("ConstantLiterals", "pl-c1", "true | false | null | this");
         }
 
         /// <summary>
@@ -172,6 +172,7 @@ namespace SyntaxHighlighter.Tests
         [TestCategory("C# Syntax Highlighting")]
         public void TestConstantIdentifiers()
         {
+            this.AssertTransformedOnlyPattern("ConstantIdentifiers", "pl-c1", "Console");
         }
 
         /// <summary>
@@ -181,10 +182,20 @@ namespace SyntaxHighlighter.Tests
         [TestCategory("C# Syntax Highlighting")]
         public void TestStorageEntities()
         {
+            this.AssertTransformedOnlyPattern("StorageEntities", "pl-e", @"
+                SyntaxHighlighter |
+                Highlighter |
+                login_popup |
+                Controllers |
+                HomeController |
+                CERT_CREDENTIAL_INFO |
+                BITMAPINFOHEADER |
+                ANSI_STRING |
+                CIDA");
         }
 
         /// <summary>
-        /// Verifies that object members are decorated with "pl-e".
+        /// Verifies that object properties and function calls are decorated with "pl-e".
         /// </summary>
         [TestMethod]
         [TestCategory("C# Syntax Highlighting")]

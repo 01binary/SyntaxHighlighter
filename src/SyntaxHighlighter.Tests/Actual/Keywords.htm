@@ -26,7 +26,7 @@
         <span class="pl-c">// If we removed the lock before that than we will clear these by our self so that EndRequest won't do that again (only Release item exclusive does that).</span>
         <span class="pl-k">internal</span> <span class="pl-k">string</span> <span class="pl-v">sessionId</span>;
         <span class="pl-k">internal</span> <span class="pl-k">object</span> <span class="pl-en">sessionLockId</span>;
-        <span class="pl-k">private</span> <span class="pl-k">const</span> <span class="pl-c1">int</span> <span class="pl-v">FROM_MIN_TO_SEC</span> = <span class="pl-c1">60</span>;
+        <span class="pl-k">private</span> <span class="pl-k">const</span> <span class="pl-k">int</span> <span class="pl-v">FROM_MIN_TO_SEC</span> = <span class="pl-c1">60</span>;
 
         <span class="pl-k">internal</span> <span class="pl-k">static</span> <span class="pl-en">ProviderConfiguration</span> <span class="pl-v">configuration</span>;
         <span class="pl-k">internal</span> <span class="pl-k">static</span> <span class="pl-k">object</span> <span class="pl-v">configurationCreationLock</span> = <span class="pl-k">new</span> <span class="pl-k">object</span>();
@@ -43,16 +43,16 @@
         {
             <span class="pl-k">get</span>
             {
-                <span class="pl-k">if</span> (<span class="pl-v">HttpContext</span>.<span class="pl-e">Current</span> != <span class="pl-c1">null</span>)
+                <span class="pl-k">if</span> (<span class="pl-v">HttpContext</span>.<span class="pl-e">Current</span> != <span class="pl-k">null</span>)
                 {
                     <span class="pl-k">return</span> (<span class="pl-v">Exception</span>)<span class="pl-v">HttpContext</span>.<span class="pl-e">Current</span>.<span class="pl-e">Items</span>[<span class="pl-v">_lastException</span>];
                 }
-                <span class="pl-k">return</span> <span class="pl-c1">null</span>;
+                <span class="pl-k">return</span> <span class="pl-k">null</span>;
             }
 
             <span class="pl-k">set</span>
             {
-                <span class="pl-k">if</span> (<span class="pl-v">HttpContext</span>.<span class="pl-e">Current</span> != <span class="pl-c1">null</span>)
+                <span class="pl-k">if</span> (<span class="pl-v">HttpContext</span>.<span class="pl-e">Current</span> != <span class="pl-k">null</span>)
                 {
                     <span class="pl-v">HttpContext</span>.<span class="pl-e">Current</span>.<span class="pl-e">Items</span>[<span class="pl-v">_lastException</span>] = <span class="pl-v">value</span>;
                 }
@@ -61,7 +61,7 @@
 
         <span class="pl-k">private</span> <span class="pl-k">void</span> <span class="pl-e">GetAccessToStore</span>(<span class="pl-k">string</span> <span class="pl-v">id</span>)
         {
-            <span class="pl-k">if</span> (<span class="pl-v">cache</span> == <span class="pl-c1">null</span>)
+            <span class="pl-k">if</span> (<span class="pl-v">cache</span> == <span class="pl-k">null</span>)
             {
                 <span class="pl-v">cache</span> = <span class="pl-k">new</span> <span class="pl-e">RedisConnectionWrapper</span>(<span class="pl-v">configuration</span>, <span class="pl-v">id</span>);
             }
@@ -73,12 +73,12 @@
 
         <span class="pl-k">public</span> <span class="pl-k">override</span> <span class="pl-k">void</span> <span class="pl-e">Initialize</span>(<span class="pl-k">string</span> <span class="pl-v">name</span>, <span class="pl-v">System</span>.<span class="pl-e">Collections</span>.<span class="pl-e">Specialized</span>.<span class="pl-e">NameValueCollection</span> <span class="pl-e">config</span>)
         {
-            <span class="pl-k">if</span> (<span class="pl-v">config</span> == <span class="pl-c1">null</span>)
+            <span class="pl-k">if</span> (<span class="pl-v">config</span> == <span class="pl-k">null</span>)
             {
                 <span class="pl-k">throw</span> <span class="pl-k">new</span> <span class="pl-e">ArgumentNullException</span>(<span class="pl-s">"config"</span>);
             }
 
-            <span class="pl-k">if</span> (<span class="pl-v">name</span> == <span class="pl-c1">null</span> || <span class="pl-v">name</span>.<span class="pl-e">Length</span> == <span class="pl-c1">0</span>)
+            <span class="pl-k">if</span> (<span class="pl-v">name</span> == <span class="pl-k">null</span> || <span class="pl-v">name</span>.<span class="pl-e">Length</span> == <span class="pl-c1">0</span>)
             {
                 <span class="pl-v">name</span> = <span class="pl-s">"MyCacheStore"</span>;
             }
@@ -92,11 +92,11 @@
             <span class="pl-k">base</span>.<span class="pl-e">Initialize</span>(<span class="pl-v">name</span>, <span class="pl-v">config</span>);
 
             <span class="pl-c">// If configuration exists then use it otherwise read from config file and create one</span>
-            <span class="pl-k">if</span> (<span class="pl-v">configuration</span> == <span class="pl-c1">null</span>)
+            <span class="pl-k">if</span> (<span class="pl-v">configuration</span> == <span class="pl-k">null</span>)
             {
                 <span class="pl-k">lock</span> (<span class="pl-v">configurationCreationLock</span>)
                 {
-                    <span class="pl-k">if</span> (<span class="pl-v">configuration</span> == <span class="pl-c1">null</span>)
+                    <span class="pl-k">if</span> (<span class="pl-v">configuration</span> == <span class="pl-k">null</span>)
                     {
                         <span class="pl-v">configuration</span> = <span class="pl-v">ProviderConfiguration</span>.<span class="pl-e">ProviderConfigurationForSessionState</span>(<span class="pl-v">config</span>);
                     }

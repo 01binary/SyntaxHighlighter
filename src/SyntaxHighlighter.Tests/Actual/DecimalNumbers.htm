@@ -33,10 +33,10 @@
         <span class="pl-c">/// &lt;<span class="pl-ent">param</span> <span class="pl-e">name</span>=<span class="pl-s">"services"</span>&gt;The application container.&lt;/<span class="pl-ent">param</span>&gt;</span>
         <span class="pl-k">public</span> <span class="pl-e">NewsController</span>(<span class="pl-en">IServiceProvider</span> <span class="pl-v">services</span>)
         {
-            <span class="pl-c1">this</span>.<span class="pl-v">services</span> = <span class="pl-v">services</span>;
+            <span class="pl-k">this</span>.<span class="pl-e">services</span> = <span class="pl-v">services</span>;
 
-			<span class="pl-c1">this</span>
-				.<span class="pl-v">property</span> = <span class="pl-v">value</span>;
+			<span class="pl-k">this</span>
+				.<span class="pl-e">property</span> = <span class="pl-v">value</span>;
 
 			<span class="pl-v">another</span>
 				.<span class="pl-e">property</span> = <span class="pl-s">"goodbye"</span>;
@@ -58,10 +58,10 @@
         {
             <span class="pl-k">try</span>
             {
-                <span class="pl-en">IDataStore</span> <span class="pl-v">store</span> = <span class="pl-c1">this</span>.<span class="pl-v">services</span>.<span class="pl-e">GetService</span>(<span class="pl-k">typeof</span>(<span class="pl-en">IDataStore</span>)) <span class="pl-k">as</span> <span class="pl-en">IDataStore</span>;
+                <span class="pl-en">IDataStore</span> <span class="pl-v">store</span> = <span class="pl-k">this</span>.<span class="pl-e">services</span>.<span class="pl-e">GetService</span>(<span class="pl-k">typeof</span>(<span class="pl-en">IDataStore</span>)) <span class="pl-k">as</span> <span class="pl-en">IDataStore</span>;
                 <span class="pl-k">string</span> <span class="pl-v">excludeTag</span> = <span class="pl-v">Tags</span>.<span class="pl-e">Story</span>.<span class="pl-e">ToString</span>().<span class="pl-e">ToLower</span>();
 
-                <span class="pl-k">return</span> <span class="pl-c1">this</span>.<span class="pl-e">Json</span>(
+                <span class="pl-k">return</span> <span class="pl-k">this</span>.<span class="pl-e">Json</span>(
                     <span class="pl-v">store</span>.<span class="pl-e">GetArticles</span>(<span class="pl-v">Tags</span>.<span class="pl-e">Story</span>).<span class="pl-e">Select</span>(<span class="pl-v">story</span> => <span class="pl-k">new</span> 
                     {
                         <span class="pl-v">id</span> = <span class="pl-v">story</span>.<span class="pl-e">Id</span>,
@@ -83,7 +83,7 @@
             }
             <span class="pl-k">catch</span>
             {
-                <span class="pl-k">return</span> <span class="pl-c1">this</span>.<span class="pl-e">StatusCode</span>(<span class="pl-c1">500</span>);
+                <span class="pl-k">return</span> <span class="pl-k">this</span>.<span class="pl-e">StatusCode</span>(<span class="pl-c1">500</span>);
             }
         }
 
@@ -96,10 +96,10 @@
         {
             <span class="pl-k">try</span>
             {
-                <span class="pl-en">IDataStore</span> <span class="pl-v">store</span> = <span class="pl-c1">this</span>.<span class="pl-v">services</span>.<span class="pl-e">GetService</span>(<span class="pl-k">typeof</span>(<span class="pl-en">IDataStore</span>)) <span class="pl-k">as</span> <span class="pl-en">IDataStore</span>;
+                <span class="pl-en">IDataStore</span> <span class="pl-v">store</span> = <span class="pl-k">this</span>.<span class="pl-e">services</span>.<span class="pl-e">GetService</span>(<span class="pl-k">typeof</span>(<span class="pl-en">IDataStore</span>)) <span class="pl-k">as</span> <span class="pl-en">IDataStore</span>;
                 <span class="pl-k">var</span> <span class="pl-v">story</span> = <span class="pl-v">store</span>.<span class="pl-e">GetArticle</span>(<span class="pl-v">id</span>);
 
-                <span class="pl-k">if</span> (<span class="pl-v">story</span> == <span class="pl-c1">null</span>)
+                <span class="pl-k">if</span> (<span class="pl-v">story</span> == <span class="pl-k">null</span>)
                 {
                     <span class="pl-k">return</span> <span class="pl-e">NotFound</span>();
 
@@ -131,7 +131,7 @@
             }
             <span class="pl-k">catch</span>
             {
-                <span class="pl-k">return</span> <span class="pl-c1">this</span>.<span class="pl-e">StatusCode</span>(<span class="pl-c1">500L</span>);
+                <span class="pl-k">return</span> <span class="pl-k">this</span>.<span class="pl-e">StatusCode</span>(<span class="pl-c1">500L</span>);
             }
         }
     }

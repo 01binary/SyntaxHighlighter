@@ -15,6 +15,8 @@
 <span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">Microsoft</span>.<span class="pl-e" data-transform="Member Entities">AspNetCore</span>.<span class="pl-e" data-transform="Member Entities">Mvc</span>;
 <span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">ZeroWeb</span>.<span class="pl-e" data-transform="Member Entities">Models</span>;
 
+<span class="pl-k" data-transform="Keywords">const</span> <span class="pl-k" data-transform="Keywords">bool</span> <span class="pl-v" data-transform="Variables">myvar</span> = <span class="pl-k" data-transform="Keywords">false</span>;
+
 <span class="pl-c" data-transform="Comments">/*
 &lt;<span class="pl-ent" data-transform="Comments">CommentList</span>/&gt;
 &lt;<span class="pl-ent" data-transform="Comments">UserList</span> /&gt;
@@ -53,10 +55,10 @@
         <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">param</span> <span class="pl-e" data-transform="Comments">name</span>=<span class="pl-s" data-transform="Comments">"services"</span>&gt;The application container.&lt;/<span class="pl-ent" data-transform="Comments">param</span>&gt;</span>
         <span class="pl-k" data-transform="Keywords">public</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">NewsController</span>(<span class="pl-en" data-transform="Exclusive Entity Names">IServiceProvider</span> <span class="pl-v" data-transform="Variables">services</span>)
         {
-            <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-v" data-transform="Variables">services</span> = <span class="pl-v" data-transform="Variables">services</span>;
+            <span class="pl-k" data-transform="Keywords">this</span>.<span class="pl-e" data-transform="Member Entities">services</span> = <span class="pl-v" data-transform="Variables">services</span>;
 
-			<span class="pl-c1" data-transform="Constant Literals">this</span>
-				.<span class="pl-v" data-transform="Variables">property</span> = <span class="pl-v" data-transform="Variables">value</span>;
+			<span class="pl-k" data-transform="Keywords">this</span>
+				.<span class="pl-e" data-transform="Member Entities">property</span> = <span class="pl-v" data-transform="Variables">value</span>;
 
 			<span class="pl-v" data-transform="Variables">another</span>
 				.<span class="pl-e" data-transform="Member Entities">property</span> = <span class="pl-s" data-transform="Strings">"goodbye"</span>;
@@ -78,10 +80,10 @@
         {
             <span class="pl-k" data-transform="Keywords">try</span>
             {
-                <span class="pl-en" data-transform="Exclusive Entity Names">IDataStore</span> <span class="pl-v" data-transform="Variables">store</span> = <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-v" data-transform="Variables">services</span>.<span class="pl-e" data-transform="Member Entities">GetService</span>(<span class="pl-k" data-transform="Keywords">typeof</span>(<span class="pl-en" data-transform="Entity Names">IDataStore</span>)) <span class="pl-k" data-transform="Keywords">as</span> <span class="pl-en" data-transform="Exclusive Entity Names">IDataStore</span>;
+                <span class="pl-en" data-transform="Exclusive Entity Names">IDataStore</span> <span class="pl-v" data-transform="Variables">store</span> = <span class="pl-k" data-transform="Keywords">this</span>.<span class="pl-e" data-transform="Member Entities">services</span>.<span class="pl-e" data-transform="Member Entities">GetService</span>(<span class="pl-k" data-transform="Keywords">typeof</span>(<span class="pl-en" data-transform="Entity Names">IDataStore</span>)) <span class="pl-k" data-transform="Keywords">as</span> <span class="pl-en" data-transform="Exclusive Entity Names">IDataStore</span>;
                 <span class="pl-k" data-transform="Keywords">string</span> <span class="pl-v" data-transform="Variables">excludeTag</span> = <span class="pl-v" data-transform="Variables">Tags</span>.<span class="pl-e" data-transform="Member Entities">Story</span>.<span class="pl-e" data-transform="Member Entities">ToString</span>().<span class="pl-e" data-transform="Member Entities">ToLower</span>();
 
-                <span class="pl-k" data-transform="Keywords">return</span> <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-e" data-transform="Call Entities">Json</span>(
+                <span class="pl-k" data-transform="Keywords">return</span> <span class="pl-k" data-transform="Keywords">this</span>.<span class="pl-e" data-transform="Member Entities">Json</span>(
                     <span class="pl-v" data-transform="Variables">store</span>.<span class="pl-e" data-transform="Member Entities">GetArticles</span>(<span class="pl-v" data-transform="Variables">Tags</span>.<span class="pl-e" data-transform="Member Entities">Story</span>).<span class="pl-e" data-transform="Member Entities">Select</span>(<span class="pl-v" data-transform="Variables">story</span> => <span class="pl-k" data-transform="Keywords">new</span> 
                     {
                         <span class="pl-v" data-transform="Variables">id</span> = <span class="pl-v" data-transform="Variables">story</span>.<span class="pl-e" data-transform="Member Entities">Id</span>,
@@ -103,7 +105,7 @@
             }
             <span class="pl-k" data-transform="Keywords">catch</span>
             {
-                <span class="pl-k" data-transform="Keywords">return</span> <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-e" data-transform="Call Entities">StatusCode</span>(<span class="pl-c1" data-transform="Numbers">500</span>);
+                <span class="pl-k" data-transform="Keywords">return</span> <span class="pl-k" data-transform="Keywords">this</span>.<span class="pl-e" data-transform="Member Entities">StatusCode</span>(<span class="pl-c1" data-transform="Numbers">500</span>);
             }
         }
 
@@ -116,10 +118,10 @@
         {
             <span class="pl-k" data-transform="Keywords">try</span>
             {
-                <span class="pl-en" data-transform="Exclusive Entity Names">IDataStore</span> <span class="pl-v" data-transform="Variables">store</span> = <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-v" data-transform="Variables">services</span>.<span class="pl-e" data-transform="Member Entities">GetService</span>(<span class="pl-k" data-transform="Keywords">typeof</span>(<span class="pl-en" data-transform="Entity Names">IDataStore</span>)) <span class="pl-k" data-transform="Keywords">as</span> <span class="pl-en" data-transform="Exclusive Entity Names">IDataStore</span>;
+                <span class="pl-en" data-transform="Exclusive Entity Names">IDataStore</span> <span class="pl-v" data-transform="Variables">store</span> = <span class="pl-k" data-transform="Keywords">this</span>.<span class="pl-e" data-transform="Member Entities">services</span>.<span class="pl-e" data-transform="Member Entities">GetService</span>(<span class="pl-k" data-transform="Keywords">typeof</span>(<span class="pl-en" data-transform="Entity Names">IDataStore</span>)) <span class="pl-k" data-transform="Keywords">as</span> <span class="pl-en" data-transform="Exclusive Entity Names">IDataStore</span>;
                 <span class="pl-k" data-transform="Keywords">var</span> <span class="pl-v" data-transform="Variables">story</span> = <span class="pl-v" data-transform="Variables">store</span>.<span class="pl-e" data-transform="Member Entities">GetArticle</span>(<span class="pl-v" data-transform="Variables">id</span>);
 
-                <span class="pl-k" data-transform="Keywords">if</span> (<span class="pl-v" data-transform="Variables">story</span> == <span class="pl-c1" data-transform="Constant Literals">null</span>)
+                <span class="pl-k" data-transform="Keywords">if</span> (<span class="pl-v" data-transform="Variables">story</span> == <span class="pl-k" data-transform="Keywords">null</span>)
                 {
                     <span class="pl-k" data-transform="Keywords">return</span> <span class="pl-e" data-transform="Call Entities">NotFound</span>();
 
@@ -151,7 +153,7 @@
             }
             <span class="pl-k" data-transform="Keywords">catch</span>
             {
-                <span class="pl-k" data-transform="Keywords">return</span> <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-e" data-transform="Call Entities">StatusCode</span>(<span class="pl-c1" data-transform="Numbers">500L</span>);
+                <span class="pl-k" data-transform="Keywords">return</span> <span class="pl-k" data-transform="Keywords">this</span>.<span class="pl-e" data-transform="Member Entities">StatusCode</span>(<span class="pl-c1" data-transform="Numbers">500L</span>);
             }
         }
 
@@ -164,30 +166,30 @@
         {
             <span class="pl-k" data-transform="Keywords">try</span>
             {
-                <span class="pl-en" data-transform="Exclusive Entity Names">IDataStore</span> <span class="pl-v" data-transform="Variables">store</span> = <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-v" data-transform="Variables">services</span>.<span class="pl-e" data-transform="Member Entities">GetService</span>(<span class="pl-k" data-transform="Keywords">typeof</span>(<span class="pl-en" data-transform="Entity Names">IDataStore</span>)) <span class="pl-k" data-transform="Keywords">as</span> <span class="pl-en" data-transform="Exclusive Entity Names">IDataStore</span>;
+                <span class="pl-en" data-transform="Exclusive Entity Names">IDataStore</span> <span class="pl-v" data-transform="Variables">store</span> = <span class="pl-k" data-transform="Keywords">this</span>.<span class="pl-e" data-transform="Member Entities">services</span>.<span class="pl-e" data-transform="Member Entities">GetService</span>(<span class="pl-k" data-transform="Keywords">typeof</span>(<span class="pl-en" data-transform="Entity Names">IDataStore</span>)) <span class="pl-k" data-transform="Keywords">as</span> <span class="pl-en" data-transform="Exclusive Entity Names">IDataStore</span>;
                 <span class="pl-k" data-transform="Keywords">var</span> <span class="pl-v" data-transform="Variables">story</span> = <span class="pl-v" data-transform="Variables">store</span>.<span class="pl-e" data-transform="Member Entities">GetArticle</span>(<span class="pl-v" data-transform="Variables">id</span>);
 
-                <span class="pl-k" data-transform="Keywords">if</span> (<span class="pl-v" data-transform="Variables">story</span> == <span class="pl-c1" data-transform="Constant Literals">null</span>)
+                <span class="pl-k" data-transform="Keywords">if</span> (<span class="pl-v" data-transform="Variables">story</span> == <span class="pl-k" data-transform="Keywords">null</span>)
                 {
-                    <span class="pl-k" data-transform="Keywords">return</span> <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-e" data-transform="Call Entities">NotFound</span>();
+                    <span class="pl-k" data-transform="Keywords">return</span> <span class="pl-k" data-transform="Keywords">this</span>.<span class="pl-e" data-transform="Member Entities">NotFound</span>();
                 }
                 
                 <span class="pl-k" data-transform="Keywords">var</span> <span class="pl-v" data-transform="Variables">storyStars</span> = <span class="pl-v" data-transform="Variables">store</span>.<span class="pl-e" data-transform="Member Entities">GetArticleStars</span>(<span class="pl-v" data-transform="Variables">id</span>);
-                <span class="pl-k" data-transform="Keywords">string</span> <span class="pl-v" data-transform="Variables">excludeIpAddress</span> = <span class="pl-v" data-transform="Variables">Shared</span>.<span class="pl-e" data-transform="Member Entities">GetRequestIpAddress</span>(<span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-v" data-transform="Variables">Request</span>);
+                <span class="pl-k" data-transform="Keywords">string</span> <span class="pl-v" data-transform="Variables">excludeIpAddress</span> = <span class="pl-v" data-transform="Variables">Shared</span>.<span class="pl-e" data-transform="Member Entities">GetRequestIpAddress</span>(<span class="pl-k" data-transform="Keywords">this</span>.<span class="pl-e" data-transform="Member Entities">Request</span>);
                 
                 <span class="pl-k" data-transform="Keywords">if</span> (<span class="pl-v" data-transform="Variables">storyStars</span>.<span class="pl-e" data-transform="Member Entities">Any</span>(<span class="pl-v" data-transform="Variables">star</span> => <span class="pl-v" data-transform="Variables">star</span>.<span class="pl-e" data-transform="Member Entities">IpAddress</span> == <span class="pl-v" data-transform="Variables">excludeIpAddress</span>))
                 {
-                    <span class="pl-k" data-transform="Keywords">return</span> <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-e" data-transform="Call Entities">BadRequest</span>();
+                    <span class="pl-k" data-transform="Keywords">return</span> <span class="pl-k" data-transform="Keywords">this</span>.<span class="pl-e" data-transform="Member Entities">BadRequest</span>();
                 }
                 
                 <span class="pl-v" data-transform="Variables">story</span>.<span class="pl-e" data-transform="Member Entities">Stars</span>.<span class="pl-e" data-transform="Member Entities">Add</span>(<span class="pl-k" data-transform="Keywords">new</span> <span class="pl-e" data-transform="Call Entities">Star</span>(<span class="pl-v" data-transform="Variables">story</span>, <span class="pl-v" data-transform="Variables">excludeIpAddress</span>));
                 <span class="pl-v" data-transform="Variables">store</span>.<span class="pl-e" data-transform="Member Entities">Save</span>();
                 
-                <span class="pl-k" data-transform="Keywords">return</span> <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-e" data-transform="Call Entities">Ok</span>(<span class="pl-k" data-transform="Keywords">new</span> { <span class="pl-v" data-transform="Variables">stars</span> = <span class="pl-v" data-transform="Variables">storyStars</span>.<span class="pl-e" data-transform="Member Entities">Count</span>() });
+                <span class="pl-k" data-transform="Keywords">return</span> <span class="pl-k" data-transform="Keywords">this</span>.<span class="pl-e" data-transform="Member Entities">Ok</span>(<span class="pl-k" data-transform="Keywords">new</span> { <span class="pl-v" data-transform="Variables">stars</span> = <span class="pl-v" data-transform="Variables">storyStars</span>.<span class="pl-e" data-transform="Member Entities">Count</span>() });
             }
             <span class="pl-k" data-transform="Keywords">catch</span>
             {
-                <span class="pl-k" data-transform="Keywords">return</span> <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-e" data-transform="Call Entities">StatusCode</span>(<span class="pl-c1" data-transform="Numbers">500</span>);
+                <span class="pl-k" data-transform="Keywords">return</span> <span class="pl-k" data-transform="Keywords">this</span>.<span class="pl-e" data-transform="Member Entities">StatusCode</span>(<span class="pl-c1" data-transform="Numbers">500</span>);
             }
         }
     }
@@ -236,8 +238,8 @@
         {
             <span class="pl-k" data-transform="Keywords">var</span> <span class="pl-v" data-transform="Variables">builder</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-e" data-transform="Call Entities">ConfigurationBuilder</span>()
                 .<span class="pl-e" data-transform="Member Entities">SetBasePath</span>(<span class="pl-v" data-transform="Variables">env</span>.<span class="pl-e" data-transform="Member Entities">ContentRootPath</span>)
-                .<span class="pl-e" data-transform="Member Entities">AddJsonFile</span>(<span class="pl-v" data-transform="Variables">Program</span>.<span class="pl-e" data-transform="Member Entities">Settings</span>, <span class="pl-v" data-transform="Variables">optional</span>: <span class="pl-c1" data-transform="Constant Literals">false</span>)
-                .<span class="pl-e" data-transform="Call Entities">AddEnvironmentVariables</span>();
+                .<span class="pl-e" data-transform="Member Entities">AddJsonFile</span>(<span class="pl-v" data-transform="Variables">Program</span>.<span class="pl-e" data-transform="Member Entities">Settings</span>, <span class="pl-v" data-transform="Variables">optional</span>: <span class="pl-k" data-transform="Keywords">false</span>)
+                .<span class="pl-e" data-transform="Member Entities">AddEnvironmentVariables</span>();
 
             <span class="pl-k" data-transform="Keywords">if</span> (<span class="pl-v" data-transform="Variables">env</span>.<span class="pl-e" data-transform="Member Entities">IsDevelopment</span>())
             {
@@ -262,7 +264,7 @@
             <span class="pl-v" data-transform="Variables">services</span>.<span class="pl-e" data-transform="Member Entities">AddSession</span>();
 
             <span class="pl-v" data-transform="Variables">services</span>.<span class="pl-e" data-transform="Member Entities">AddOptions</span>();
-            <span class="pl-v" data-transform="Variables">services</span>.<span class="pl-e" data-transform="Member Entities">AddSingleton</span><<span class="pl-en" data-transform="Templated Entity Names">IConfiguration</span>>(<span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-v" data-transform="Variables">Configuration</span>);
+            <span class="pl-v" data-transform="Variables">services</span>.<span class="pl-e" data-transform="Member Entities">AddSingleton</span><<span class="pl-en" data-transform="Templated Entity Names">IConfiguration</span>>(<span class="pl-k" data-transform="Keywords">this</span>.<span class="pl-e" data-transform="Member Entities">Configuration</span>);
 
             <span class="pl-v" data-transform="Variables">services</span>.<span class="pl-e" data-transform="Member Entities">AddEntityFrameworkSqlite</span>()
                     .<span class="pl-e" data-transform="Member Entities">AddDbContext</span><<span class="pl-en" data-transform="Templated Entity Names">Context</span>>();
@@ -313,31 +315,31 @@
             <span class="pl-v" data-transform="Variables">app</span>.<span class="pl-e" data-transform="Member Entities">UseSession</span>();
 
             <span class="pl-c" data-transform="Comments">// Setup Yahoo authentication.</span>
-            <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-e" data-transform="Call Entities">ConfigureYahooAuthentication</span>(<span class="pl-v" data-transform="Variables">app</span>);
+            <span class="pl-k" data-transform="Keywords">this</span>.<span class="pl-e" data-transform="Member Entities">ConfigureYahooAuthentication</span>(<span class="pl-v" data-transform="Variables">app</span>);
 
             <span class="pl-c" data-transform="Comments">// Setup LinkedIn authentication.</span>
-            <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-e" data-transform="Call Entities">ConfigureLinkedInAuthentication</span>(<span class="pl-v" data-transform="Variables">app</span>);
+            <span class="pl-k" data-transform="Keywords">this</span>.<span class="pl-e" data-transform="Member Entities">ConfigureLinkedInAuthentication</span>(<span class="pl-v" data-transform="Variables">app</span>);
 
             <span class="pl-c" data-transform="Comments">// Setup Reddit authentication.</span>
-            <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-e" data-transform="Call Entities">ConfigureRedditAuthentication</span>(<span class="pl-v" data-transform="Variables">app</span>);
+            <span class="pl-k" data-transform="Keywords">this</span>.<span class="pl-e" data-transform="Member Entities">ConfigureRedditAuthentication</span>(<span class="pl-v" data-transform="Variables">app</span>);
 
             <span class="pl-c" data-transform="Comments">// Setup Microsoft authentication.</span>
-            <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-e" data-transform="Call Entities">ConfigureMicrosoftAuthentication</span>(<span class="pl-v" data-transform="Variables">app</span>);
+            <span class="pl-k" data-transform="Keywords">this</span>.<span class="pl-e" data-transform="Member Entities">ConfigureMicrosoftAuthentication</span>(<span class="pl-v" data-transform="Variables">app</span>);
 
             <span class="pl-c" data-transform="Comments">// Setup Github authentication.</span>
-            <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-e" data-transform="Call Entities">ConfigureGithubAuthentication</span>(<span class="pl-v" data-transform="Variables">app</span>);
+            <span class="pl-k" data-transform="Keywords">this</span>.<span class="pl-e" data-transform="Member Entities">ConfigureGithubAuthentication</span>(<span class="pl-v" data-transform="Variables">app</span>);
 
             <span class="pl-c" data-transform="Comments">// Setup Google authentication.</span>
-            <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-e" data-transform="Call Entities">ConfigureGoogleAuthentication</span>(<span class="pl-v" data-transform="Variables">app</span>);
+            <span class="pl-k" data-transform="Keywords">this</span>.<span class="pl-e" data-transform="Member Entities">ConfigureGoogleAuthentication</span>(<span class="pl-v" data-transform="Variables">app</span>);
 
             <span class="pl-c" data-transform="Comments">// Setup Twitter authentication.</span>
-            <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-e" data-transform="Call Entities">ConfigureTwitterAuthentication</span>(<span class="pl-v" data-transform="Variables">app</span>);
+            <span class="pl-k" data-transform="Keywords">this</span>.<span class="pl-e" data-transform="Member Entities">ConfigureTwitterAuthentication</span>(<span class="pl-v" data-transform="Variables">app</span>);
 
             <span class="pl-c" data-transform="Comments">// Setup Facebook authentication.</span>
-            <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-e" data-transform="Call Entities">ConfigureFacebookAuthentication</span>(<span class="pl-v" data-transform="Variables">app</span>);
+            <span class="pl-k" data-transform="Keywords">this</span>.<span class="pl-e" data-transform="Member Entities">ConfigureFacebookAuthentication</span>(<span class="pl-v" data-transform="Variables">app</span>);
 
             <span class="pl-c" data-transform="Comments">// Setup layout and partial routes.</span>
-            <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-e" data-transform="Call Entities">ConfigureRoutes</span>(<span class="pl-v" data-transform="Variables">app</span>);
+            <span class="pl-k" data-transform="Keywords">this</span>.<span class="pl-e" data-transform="Member Entities">ConfigureRoutes</span>(<span class="pl-v" data-transform="Variables">app</span>);
         }
 
         <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
@@ -458,8 +460,8 @@
         {
             <span class="pl-k" data-transform="Keywords">var</span> <span class="pl-v" data-transform="Variables">yahooOptions</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-e" data-transform="Call Entities">YahooAuthenticationOptions</span>()
             {
-                <span class="pl-v" data-transform="Variables">ClientId</span> = <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-v" data-transform="Variables">Configuration</span>[<span class="pl-s" data-transform="Strings">"yahooId"</span>],
-                <span class="pl-v" data-transform="Variables">ClientSecret</span> = <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-v" data-transform="Variables">Configuration</span>[<span class="pl-s" data-transform="Strings">"yahooSecret"</span>]
+                <span class="pl-v" data-transform="Variables">ClientId</span> = <span class="pl-k" data-transform="Keywords">this</span>.<span class="pl-e" data-transform="Member Entities">Configuration</span>[<span class="pl-s" data-transform="Strings">"yahooId"</span>],
+                <span class="pl-v" data-transform="Variables">ClientSecret</span> = <span class="pl-k" data-transform="Keywords">this</span>.<span class="pl-e" data-transform="Member Entities">Configuration</span>[<span class="pl-s" data-transform="Strings">"yahooSecret"</span>]
             };
 
             <span class="pl-c" data-transform="Comments">// Ensure secrets have been loaded.</span>
@@ -480,8 +482,8 @@
         {
             <span class="pl-k" data-transform="Keywords">var</span> <span class="pl-v" data-transform="Variables">redditOptions</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-e" data-transform="Call Entities">RedditAuthenticationOptions</span>()
             {
-                <span class="pl-v" data-transform="Variables">ClientId</span> = <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-v" data-transform="Variables">Configuration</span>[<span class="pl-s" data-transform="Strings">"redditId"</span>],
-                <span class="pl-v" data-transform="Variables">ClientSecret</span> = <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-v" data-transform="Variables">Configuration</span>[<span class="pl-s" data-transform="Strings">"redditSecret"</span>]
+                <span class="pl-v" data-transform="Variables">ClientId</span> = <span class="pl-k" data-transform="Keywords">this</span>.<span class="pl-e" data-transform="Member Entities">Configuration</span>[<span class="pl-s" data-transform="Strings">"redditId"</span>],
+                <span class="pl-v" data-transform="Variables">ClientSecret</span> = <span class="pl-k" data-transform="Keywords">this</span>.<span class="pl-e" data-transform="Member Entities">Configuration</span>[<span class="pl-s" data-transform="Strings">"redditSecret"</span>]
             };
 
             <span class="pl-c" data-transform="Comments">// Ensure secrets have been loaded.</span>
@@ -502,8 +504,8 @@
         {
             <span class="pl-k" data-transform="Keywords">var</span> <span class="pl-v" data-transform="Variables">linkedInOptions</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-e" data-transform="Call Entities">LinkedInAuthenticationOptions</span>()
             {
-                <span class="pl-v" data-transform="Variables">ClientId</span> = <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-v" data-transform="Variables">Configuration</span>[<span class="pl-s" data-transform="Strings">"linkedInId"</span>],
-                <span class="pl-v" data-transform="Variables">ClientSecret</span> = <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-v" data-transform="Variables">Configuration</span>[<span class="pl-s" data-transform="Strings">"linkedInSecret"</span>]
+                <span class="pl-v" data-transform="Variables">ClientId</span> = <span class="pl-k" data-transform="Keywords">this</span>.<span class="pl-e" data-transform="Member Entities">Configuration</span>[<span class="pl-s" data-transform="Strings">"linkedInId"</span>],
+                <span class="pl-v" data-transform="Variables">ClientSecret</span> = <span class="pl-k" data-transform="Keywords">this</span>.<span class="pl-e" data-transform="Member Entities">Configuration</span>[<span class="pl-s" data-transform="Strings">"linkedInSecret"</span>]
             };
 
             <span class="pl-c" data-transform="Comments">// Ensure secrets have been loaded.</span>
@@ -524,8 +526,8 @@
         {
             <span class="pl-k" data-transform="Keywords">var</span> <span class="pl-v" data-transform="Variables">googleOptions</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-e" data-transform="Call Entities">GoogleOptions</span>()
             {
-                <span class="pl-v" data-transform="Variables">ClientId</span> = <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-v" data-transform="Variables">Configuration</span>[<span class="pl-s" data-transform="Strings">"googleId"</span>],
-                <span class="pl-v" data-transform="Variables">ClientSecret</span> = <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-v" data-transform="Variables">Configuration</span>[<span class="pl-s" data-transform="Strings">"googleSecret"</span>]
+                <span class="pl-v" data-transform="Variables">ClientId</span> = <span class="pl-k" data-transform="Keywords">this</span>.<span class="pl-e" data-transform="Member Entities">Configuration</span>[<span class="pl-s" data-transform="Strings">"googleId"</span>],
+                <span class="pl-v" data-transform="Variables">ClientSecret</span> = <span class="pl-k" data-transform="Keywords">this</span>.<span class="pl-e" data-transform="Member Entities">Configuration</span>[<span class="pl-s" data-transform="Strings">"googleSecret"</span>]
             };
 
             <span class="pl-c" data-transform="Comments">// Ensure secrets have been loaded.</span>
@@ -546,8 +548,8 @@
         {
             <span class="pl-k" data-transform="Keywords">var</span> <span class="pl-v" data-transform="Variables">githubOptions</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-en" data-transform="Entity Names">GitHubAuthenticationOptions</span>
             {
-                <span class="pl-v" data-transform="Variables">ClientId</span> = <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-v" data-transform="Variables">Configuration</span>[<span class="pl-s" data-transform="Strings">"githubId"</span>],
-                <span class="pl-v" data-transform="Variables">ClientSecret</span> = <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-v" data-transform="Variables">Configuration</span>[<span class="pl-s" data-transform="Strings">"githubSecret"</span>],
+                <span class="pl-v" data-transform="Variables">ClientId</span> = <span class="pl-k" data-transform="Keywords">this</span>.<span class="pl-e" data-transform="Member Entities">Configuration</span>[<span class="pl-s" data-transform="Strings">"githubId"</span>],
+                <span class="pl-v" data-transform="Variables">ClientSecret</span> = <span class="pl-k" data-transform="Keywords">this</span>.<span class="pl-e" data-transform="Member Entities">Configuration</span>[<span class="pl-s" data-transform="Strings">"githubSecret"</span>],
                 <span class="pl-v" data-transform="Variables">Scope</span> = { <span class="pl-s" data-transform="Strings">"user:login"</span> }
             };
 
@@ -569,8 +571,8 @@
         {
             <span class="pl-k" data-transform="Keywords">var</span> <span class="pl-v" data-transform="Variables">microsoftOptions</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-e" data-transform="Call Entities">MicrosoftAccountOptions</span>()
             {
-                <span class="pl-v" data-transform="Variables">ClientId</span> = <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-v" data-transform="Variables">Configuration</span>[<span class="pl-s" data-transform="Strings">"microsoftId"</span>],
-                <span class="pl-v" data-transform="Variables">ClientSecret</span> = <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-v" data-transform="Variables">Configuration</span>[<span class="pl-s" data-transform="Strings">"microsoftSecret"</span>]
+                <span class="pl-v" data-transform="Variables">ClientId</span> = <span class="pl-k" data-transform="Keywords">this</span>.<span class="pl-e" data-transform="Member Entities">Configuration</span>[<span class="pl-s" data-transform="Strings">"microsoftId"</span>],
+                <span class="pl-v" data-transform="Variables">ClientSecret</span> = <span class="pl-k" data-transform="Keywords">this</span>.<span class="pl-e" data-transform="Member Entities">Configuration</span>[<span class="pl-s" data-transform="Strings">"microsoftSecret"</span>]
             };
 
             <span class="pl-c" data-transform="Comments">// Ensure secrets have been loaded.</span>
@@ -591,8 +593,8 @@
         {
             <span class="pl-k" data-transform="Keywords">var</span> <span class="pl-v" data-transform="Variables">twitterOptions</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-e" data-transform="Call Entities">TwitterOptions</span>()
             {
-                <span class="pl-v" data-transform="Variables">ConsumerKey</span> = <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-v" data-transform="Variables">Configuration</span>[<span class="pl-s" data-transform="Strings">"twitterId"</span>],
-                <span class="pl-v" data-transform="Variables">ConsumerSecret</span> = <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-v" data-transform="Variables">Configuration</span>[<span class="pl-s" data-transform="Strings">"twitterSecret"</span>]
+                <span class="pl-v" data-transform="Variables">ConsumerKey</span> = <span class="pl-k" data-transform="Keywords">this</span>.<span class="pl-e" data-transform="Member Entities">Configuration</span>[<span class="pl-s" data-transform="Strings">"twitterId"</span>],
+                <span class="pl-v" data-transform="Variables">ConsumerSecret</span> = <span class="pl-k" data-transform="Keywords">this</span>.<span class="pl-e" data-transform="Member Entities">Configuration</span>[<span class="pl-s" data-transform="Strings">"twitterSecret"</span>]
             };
 
             <span class="pl-c" data-transform="Comments">// Ensure secrets have been loaded.</span>
@@ -613,8 +615,8 @@
         {
             <span class="pl-k" data-transform="Keywords">var</span> <span class="pl-v" data-transform="Variables">facebookOptions</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-e" data-transform="Call Entities">FacebookOptions</span>()
             {
-                <span class="pl-v" data-transform="Variables">AppId</span> = <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-v" data-transform="Variables">Configuration</span>[<span class="pl-s" data-transform="Strings">"facebookId"</span>],
-                <span class="pl-v" data-transform="Variables">AppSecret</span> = <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-v" data-transform="Variables">Configuration</span>[<span class="pl-s" data-transform="Strings">"facebookSecret"</span>],
+                <span class="pl-v" data-transform="Variables">AppId</span> = <span class="pl-k" data-transform="Keywords">this</span>.<span class="pl-e" data-transform="Member Entities">Configuration</span>[<span class="pl-s" data-transform="Strings">"facebookId"</span>],
+                <span class="pl-v" data-transform="Variables">AppSecret</span> = <span class="pl-k" data-transform="Keywords">this</span>.<span class="pl-e" data-transform="Member Entities">Configuration</span>[<span class="pl-s" data-transform="Strings">"facebookSecret"</span>],
 
                 <span class="pl-c" data-transform="Comments">// Use popup style for the challenge page.</span>
                 <span class="pl-v" data-transform="Variables">Events</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-e" data-transform="Call Entities">OAuthEvents</span>()
@@ -770,7 +772,7 @@
 {
     <span class="pl-k" data-transform="Keywords">var</span> <span class="pl-v" data-transform="Variables">output</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-e" data-transform="Call Entities">StringBuilder</span>(<span class="pl-v" data-transform="Variables">text</span>.<span class="pl-e" data-transform="Member Entities">Length</span>);
     <span class="pl-k" data-transform="Keywords">var</span> <span class="pl-v" data-transform="Variables">line</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-e" data-transform="Call Entities">StringBuilder</span>();
-    <span class="pl-k" data-transform="Keywords">bool</span> <span class="pl-v" data-transform="Variables">valid</span> = <span class="pl-c1" data-transform="Constant Literals">false</span>;
+    <span class="pl-k" data-transform="Keywords">bool</span> <span class="pl-v" data-transform="Variables">valid</span> = <span class="pl-k" data-transform="Keywords">false</span>;
 
     <span class="pl-k" data-transform="Keywords">for</span> (<span class="pl-k" data-transform="Keywords">int</span> <span class="pl-v" data-transform="Variables">i</span> = <span class="pl-c1" data-transform="Numbers">0</span>; <span class="pl-v" data-transform="Variables">i</span> < <span class="pl-v" data-transform="Variables">text</span>.<span class="pl-e" data-transform="Member Entities">Length</span>; <span class="pl-v" data-transform="Variables">i</span>++)
     {
@@ -779,14 +781,14 @@
             <span class="pl-k" data-transform="Keywords">case</span> <span class="pl-s" data-transform="Strings">'\n'</span>:
                 <span class="pl-k" data-transform="Keywords">if</span> (<span class="pl-v" data-transform="Variables">valid</span>) <span class="pl-v" data-transform="Variables">output</span>.<span class="pl-e" data-transform="Member Entities">Append</span>(<span class="pl-v" data-transform="Variables">line</span>);
                 <span class="pl-v" data-transform="Variables">output</span>.<span class="pl-e" data-transform="Member Entities">Append</span>(<span class="pl-s" data-transform="Strings">'\n'</span>);
-                <span class="pl-v" data-transform="Variables">line</span>.<span class="pl-e" data-transform="Member Entities">Length</span> = <span class="pl-c1" data-transform="Numbers">0</span>; <span class="pl-v" data-transform="Variables">valid</span> = <span class="pl-c1" data-transform="Constant Literals">false</span>;
+                <span class="pl-v" data-transform="Variables">line</span>.<span class="pl-e" data-transform="Member Entities">Length</span> = <span class="pl-c1" data-transform="Numbers">0</span>; <span class="pl-v" data-transform="Variables">valid</span> = <span class="pl-k" data-transform="Keywords">false</span>;
                 <span class="pl-k" data-transform="Keywords">break</span>;
             <span class="pl-k" data-transform="Keywords">case</span> <span class="pl-s" data-transform="Strings">'\r'</span>:
                 <span class="pl-k" data-transform="Keywords">if</span> ((<span class="pl-v" data-transform="Variables">i</span> < <span class="pl-v" data-transform="Variables">text</span>.<span class="pl-e" data-transform="Member Entities">Length</span> - <span class="pl-c1" data-transform="Numbers">1</span>) && (<span class="pl-v" data-transform="Variables">text</span>[<span class="pl-v" data-transform="Variables">i</span> + <span class="pl-c1" data-transform="Numbers">1</span>] != <span class="pl-s" data-transform="Strings">'\n'</span>))
                 {
                     <span class="pl-k" data-transform="Keywords">if</span> (<span class="pl-v" data-transform="Variables">valid</span>) <span class="pl-v" data-transform="Variables">output</span>.<span class="pl-e" data-transform="Member Entities">Append</span>(<span class="pl-v" data-transform="Variables">line</span>);
                     <span class="pl-v" data-transform="Variables">output</span>.<span class="pl-e" data-transform="Member Entities">Append</span>(<span class="pl-s" data-transform="Strings">'\n'</span>);
-                    <span class="pl-v" data-transform="Variables">line</span>.<span class="pl-e" data-transform="Member Entities">Length</span> = <span class="pl-c1" data-transform="Numbers">0</span>; <span class="pl-v" data-transform="Variables">valid</span> = <span class="pl-c1" data-transform="Constant Literals">false</span>;
+                    <span class="pl-v" data-transform="Variables">line</span>.<span class="pl-e" data-transform="Member Entities">Length</span> = <span class="pl-c1" data-transform="Numbers">0</span>; <span class="pl-v" data-transform="Variables">valid</span> = <span class="pl-k" data-transform="Keywords">false</span>;
                 }
                 <span class="pl-k" data-transform="Keywords">break</span>;
             <span class="pl-k" data-transform="Keywords">case</span> <span class="pl-s" data-transform="Strings">'\t'</span>:
@@ -797,7 +799,7 @@
             <span class="pl-k" data-transform="Keywords">case</span> <span class="pl-s" data-transform="Strings">'\x1A'</span>:
                 <span class="pl-k" data-transform="Keywords">break</span>;
             <span class="pl-k" data-transform="Keywords">default</span>:
-                <span class="pl-k" data-transform="Keywords">if</span> (!<span class="pl-v" data-transform="Variables">valid</span> && <span class="pl-v" data-transform="Variables">text</span>[<span class="pl-v" data-transform="Variables">i</span>] != <span class="pl-s" data-transform="Strings">' '</span>) <span class="pl-v" data-transform="Variables">valid</span> = <span class="pl-c1" data-transform="Constant Literals">true</span>;
+                <span class="pl-k" data-transform="Keywords">if</span> (!<span class="pl-v" data-transform="Variables">valid</span> && <span class="pl-v" data-transform="Variables">text</span>[<span class="pl-v" data-transform="Variables">i</span>] != <span class="pl-s" data-transform="Strings">' '</span>) <span class="pl-v" data-transform="Variables">valid</span> = <span class="pl-k" data-transform="Keywords">true</span>;
                 <span class="pl-v" data-transform="Variables">line</span>.<span class="pl-e" data-transform="Member Entities">Append</span>(<span class="pl-v" data-transform="Variables">text</span>[<span class="pl-v" data-transform="Variables">i</span>]);
                 <span class="pl-k" data-transform="Keywords">break</span>;
         }

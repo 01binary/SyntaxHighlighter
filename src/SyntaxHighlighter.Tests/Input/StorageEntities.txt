@@ -1,0 +1,175 @@
+﻿namespace SyntaxHighlighter
+{
+    /// <summary>
+    /// Performs code syntax highlighting.
+    /// </summary>
+    public class Highlighter
+    {
+        /// <summary>
+        /// The pre-defined name for pattern used to detect token separators.
+        /// </summary>
+        private static readonly string SeparatorsPattern = "separators";
+
+        /// <summary>
+        /// The base path for loading transform definitions.
+        /// </summary>
+        private string transformPath;
+
+        /// <summary>
+        /// The debug options for diagnosing unexpected token transforms.
+        /// </summary>
+        private Options options;
+
+        /// <summary>
+        /// The current transform definition for the current code block type.
+        /// </summary>
+        private TransformDefinition transformDefinition;
+
+        /// <summary>
+        /// The transform buffer.
+        /// </summary>
+        private Buffer buffer;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Highlighter"/> class.
+        /// </summary>
+        public Highlighter()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Highlighter"/> class.
+        /// </summary>
+        /// <param name="transformBasePath">The base path for loading transform definitions.</param>
+        public Highlighter(string transformBasePath)
+        {
+            this.transformPath = transformBasePath;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Highlighter"/> class.
+        /// </summary>
+        /// <param name="transformBasePath">The base path for loading transform definitions.</param>
+        /// <param name="highlightOptions">The debug options for diagnosing unexpected token transforms.</param>
+        public Highlighter(string transformBasePath, Options highlightOptions)
+        {
+            this.transformPath = transformBasePath;
+            this.options = highlightOptions;
+        }
+
+        /// <summary>
+        /// Transform the code by adding highlight markup and styles to recognized tokens.
+        /// </summary>
+        /// <param name="code">The code block to transform.</param>
+        /// <param name="type">The code block type.</param>
+        /// <returns>The transformed block.</returns>
+        public string Transform(string code, string type)
+        {
+            this.transformDefinition = TransformDefinitionFactory.Load(
+                this.transformPath, type, this.options);
+
+            this.buffer = new Buffer(
+                code, this.transformDefinition.Patterns[SeparatorsPattern], this.options);
+
+            while (!this.buffer.Eof)
+            {
+                if (!this.transformDefinition.Apply(this.buffer))
+                {
+                    this.buffer.SkipToken();
+                }
+
+                this.buffer.NextToken();
+            }
+
+            return this.buffer.Data;
+        }
+    }
+}
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace login_popup.Controllers
+{
+    public class HomeController : Controller
+    {
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult About()
+        {
+            ViewBag.Message = "Your application description page.";
+
+            return View();
+        }
+
+        public ActionResult Contact()
+        {
+            ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
+    }
+}
+
+[StructLayout(LayoutKind.Sequential)]
+internal struct CERT_CREDENTIAL_INFO
+{
+    public uint cbSize;
+
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = 20)]
+    public byte[] rgbHashOfCert;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct BITMAPINFOHEADER
+{
+    public uint biSize;
+    public int biWidth;
+    public int biHeight;
+    public ushort biPlanes;
+    public ushort biBitCount;
+    public BitmapCompressionMode biCompression;
+    public uint biSizeImage;
+    public int biXPelsPerMeter;
+    public int biYPelsPerMeter;
+    public uint biClrUsed;
+    public uint biClrImportant;
+
+    public void Init()
+    {
+        biSize = (uint)Marshal.SizeOf(this);
+    }
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct ANSI_STRING
+{
+    public short Length;
+    public short MaximumLength;
+    public string Buffer;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct CIDA
+{
+    /// <summary>
+    ///  Number of PIDLs that are being transferred, not counting the parent folder.
+    /// </summary>
+    public uint cidl;
+
+    /// <summary>
+    /// An array of offsets, relative to the beginning of this structure. The array contains
+    /// cidl+1 elements. The first element of aoffset contains an offset to the fully-qualified
+    /// PIDL of a parent foloder. If this PIDL is empty, the parent folder is the desktop.
+    /// Each of the remaining elements of the array contains an offset to one of the PIDLs to be 
+    /// transferred. ALL of these PIDLs are relative to the PIDL of the parent folder.
+    /// </summary>
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = 1)]
+    public uint[] aoffset;
+}

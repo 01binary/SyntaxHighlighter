@@ -12,81 +12,93 @@
 <span class="pl-c">// Copyright (c) Microsoft Corporation.  All rights reserved.</span>
 <span class="pl-c">// Licensed under the MIT License. See License.txt in the project root for license information.</span>
 <span class="pl-c">//</span>
+
 <span class="pl-k">using</span> <span class="pl-e">System</span>;
 <span class="pl-k">using</span> <span class="pl-e">System</span>.<span class="pl-e">Web</span>;
 <span class="pl-k">using</span> <span class="pl-e">System</span>.<span class="pl-e">Web</span>.<span class="pl-e">SessionState</span>;
+
 <span class="pl-k">namespace</span> <span class="pl-e">Microsoft</span>.<span class="pl-e">Web</span>.<span class="pl-e">Redis</span>
 {
     <span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-e">RedisSessionStateProvider</span> : <span class="pl-en">SessionStateStoreProviderBase</span>
     {
-    <span class="pl-c">// We want to release lock (if exists) during EndRequest, to do that we need session-id and lockId but EndRequest do not have these parameter passed to it. </span>
-    <span class="pl-c">// So we are going to store 'sessionId' and 'lockId' when we acquire lock. so that EndRequest can release lock at the end. </span>
-    <span class="pl-c">// If we removed the lock before that than we will clear these by our self so that EndRequest won't do that again (only Release item exclusive does that).</span>
-    <span class="pl-k">internal</span> <span class="pl-k">string</span> <span class="pl-v">sessionId</span>;
-    <span class="pl-k">internal</span> <span class="pl-k">object</span> <span class="pl-en">sessionLockId</span>;
-    <span class="pl-k">private</span> <span class="pl-k">const</span> <span class="pl-c1">int</span> <span class="pl-v">FROM_MIN_TO_SEC</span> = <span class="pl-c1">60</span>;
-    <span class="pl-k">internal</span> <span class="pl-k">static</span> <span class="pl-en">ProviderConfiguration</span> <span class="pl-v">configuration</span>;
-    <span class="pl-k">internal</span> <span class="pl-k">static</span> <span class="pl-k">object</span> <span class="pl-v">configurationCreationLock</span> = <span class="pl-k">new</span> <span class="pl-k">object</span>();
-    <span class="pl-k">internal</span> <span class="pl-en">ICacheConnection</span> <span class="pl-v">cache</span>;
-    <span class="pl-k">private</span> <span class="pl-k">static</span> <span class="pl-k">object</span> <span class="pl-v">_lastException</span> = <span class="pl-k">new</span> <span class="pl-k">object</span>();
-    <span class="pl-c">/// &lt;<span class="pl-ent">summary</span>&gt;</span>
-    <span class="pl-c">/// We do not want to throw exception from session state provider because this will break customer application and they can't get chance to handel it.</span>
-    <span class="pl-c">/// So if exception occurs because of some problem we store it in HttpContext using a key that we know and return null to customer. Now, when customer</span>
-    <span class="pl-c">/// get null from any of session operation they should call this method to identify if there was any exception and because of that got null.</span>
-    <span class="pl-c">/// &lt;/<span class="pl-ent">summary</span>&gt;</span>
-    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-en">Exception</span> <span class="pl-v">LastException</span>
+        <span class="pl-c">// We want to release lock (if exists) during EndRequest, to do that we need session-id and lockId but EndRequest do not have these parameter passed to it. </span>
+        <span class="pl-c">// So we are going to store 'sessionId' and 'lockId' when we acquire lock. so that EndRequest can release lock at the end. </span>
+        <span class="pl-c">// If we removed the lock before that than we will clear these by our self so that EndRequest won't do that again (only Release item exclusive does that).</span>
+        <span class="pl-k">internal</span> <span class="pl-k">string</span> <span class="pl-v">sessionId</span>;
+        <span class="pl-k">internal</span> <span class="pl-k">object</span> <span class="pl-en">sessionLockId</span>;
+        <span class="pl-k">private</span> <span class="pl-k">const</span> <span class="pl-k">int</span> <span class="pl-v">FROM_MIN_TO_SEC</span> = <span class="pl-c1">60</span>;
+
+        <span class="pl-k">internal</span> <span class="pl-k">static</span> <span class="pl-en">ProviderConfiguration</span> <span class="pl-v">configuration</span>;
+        <span class="pl-k">internal</span> <span class="pl-k">static</span> <span class="pl-k">object</span> <span class="pl-v">configurationCreationLock</span> = <span class="pl-k">new</span> <span class="pl-k">object</span>();
+        <span class="pl-k">internal</span> <span class="pl-en">ICacheConnection</span> <span class="pl-v">cache</span>;
+
+        <span class="pl-k">private</span> <span class="pl-k">static</span> <span class="pl-k">object</span> <span class="pl-v">_lastException</span> = <span class="pl-k">new</span> <span class="pl-k">object</span>();
+
+        <span class="pl-c">/// &lt;<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-c">/// We do not want to throw exception from session state provider because this will break customer application and they can't get chance to handel it.</span>
+        <span class="pl-c">/// So if exception occurs because of some problem we store it in HttpContext using a key that we know and return null to customer. Now, when customer</span>
+        <span class="pl-c">/// get null from any of session operation they should call this method to identify if there was any exception and because of that got null.</span>
+        <span class="pl-c">/// &lt;/<span class="pl-ent">summary</span>&gt;</span>
+        <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-en">Exception</span> <span class="pl-v">LastException</span>
         {
-    <span class="pl-k">get</span>
+            <span class="pl-k">get</span>
             {
-    <span class="pl-k">if</span> (<span class="pl-v">HttpContext</span>.<span class="pl-e">Current</span> != <span class="pl-c1">null</span>)
+                <span class="pl-k">if</span> (<span class="pl-v">HttpContext</span>.<span class="pl-e">Current</span> != <span class="pl-k">null</span>)
                 {
-    <span class="pl-k">return</span> (<span class="pl-v">Exception</span>)<span class="pl-v">HttpContext</span>.<span class="pl-e">Current</span>.<span class="pl-e">Items</span>[<span class="pl-v">_lastException</span>];
+                    <span class="pl-k">return</span> (<span class="pl-v">Exception</span>)<span class="pl-v">HttpContext</span>.<span class="pl-e">Current</span>.<span class="pl-e">Items</span>[<span class="pl-v">_lastException</span>];
                 }
-    <span class="pl-k">return</span> <span class="pl-c1">null</span>;
+                <span class="pl-k">return</span> <span class="pl-k">null</span>;
             }
-    <span class="pl-k">set</span>
+
+            <span class="pl-k">set</span>
             {
-    <span class="pl-k">if</span> (<span class="pl-v">HttpContext</span>.<span class="pl-e">Current</span> != <span class="pl-c1">null</span>)
+                <span class="pl-k">if</span> (<span class="pl-v">HttpContext</span>.<span class="pl-e">Current</span> != <span class="pl-k">null</span>)
                 {
-    <span class="pl-v">HttpContext</span>.<span class="pl-e">Current</span>.<span class="pl-e">Items</span>[<span class="pl-v">_lastException</span>] = <span class="pl-v">value</span>;
+                    <span class="pl-v">HttpContext</span>.<span class="pl-e">Current</span>.<span class="pl-e">Items</span>[<span class="pl-v">_lastException</span>] = <span class="pl-v">value</span>;
                 }
             }
         }
-    <span class="pl-k">private</span> <span class="pl-k">void</span> <span class="pl-e">GetAccessToStore</span>(<span class="pl-k">string</span> <span class="pl-v">id</span>)
+
+        <span class="pl-k">private</span> <span class="pl-k">void</span> <span class="pl-e">GetAccessToStore</span>(<span class="pl-k">string</span> <span class="pl-v">id</span>)
         {
-    <span class="pl-k">if</span> (<span class="pl-v">cache</span> == <span class="pl-c1">null</span>)
+            <span class="pl-k">if</span> (<span class="pl-v">cache</span> == <span class="pl-k">null</span>)
             {
-    <span class="pl-v">cache</span> = <span class="pl-k">new</span> <span class="pl-e">RedisConnectionWrapper</span>(<span class="pl-v">configuration</span>, <span class="pl-v">id</span>);
+                <span class="pl-v">cache</span> = <span class="pl-k">new</span> <span class="pl-e">RedisConnectionWrapper</span>(<span class="pl-v">configuration</span>, <span class="pl-v">id</span>);
             }
-    <span class="pl-k">else</span>
+            <span class="pl-k">else</span>
             {
-    <span class="pl-v">cache</span>.<span class="pl-e">Keys</span>.<span class="pl-e">RegenerateKeyStringIfIdModified</span>(<span class="pl-v">id</span>, <span class="pl-v">configuration</span>.<span class="pl-e">ApplicationName</span>);
+                <span class="pl-v">cache</span>.<span class="pl-e">Keys</span>.<span class="pl-e">RegenerateKeyStringIfIdModified</span>(<span class="pl-v">id</span>, <span class="pl-v">configuration</span>.<span class="pl-e">ApplicationName</span>);
             }
         }
-    <span class="pl-k">public</span> <span class="pl-k">override</span> <span class="pl-k">void</span> <span class="pl-e">Initialize</span>(<span class="pl-k">string</span> <span class="pl-v">name</span>, <span class="pl-v">System</span>.<span class="pl-e">Collections</span>.<span class="pl-e">Specialized</span>.<span class="pl-e">NameValueCollection</span> <span class="pl-e">config</span>)
+
+        <span class="pl-k">public</span> <span class="pl-k">override</span> <span class="pl-k">void</span> <span class="pl-e">Initialize</span>(<span class="pl-k">string</span> <span class="pl-v">name</span>, <span class="pl-v">System</span>.<span class="pl-e">Collections</span>.<span class="pl-e">Specialized</span>.<span class="pl-e">NameValueCollection</span> <span class="pl-e">config</span>)
         {
-    <span class="pl-k">if</span> (<span class="pl-v">config</span> == <span class="pl-c1">null</span>)
+            <span class="pl-k">if</span> (<span class="pl-v">config</span> == <span class="pl-k">null</span>)
             {
-    <span class="pl-k">throw</span> <span class="pl-k">new</span> <span class="pl-e">ArgumentNullException</span>(<span class="pl-s">"config"</span>);
+                <span class="pl-k">throw</span> <span class="pl-k">new</span> <span class="pl-e">ArgumentNullException</span>(<span class="pl-s">"config"</span>);
             }
-    <span class="pl-k">if</span> (<span class="pl-v">name</span> == <span class="pl-c1">null</span> || <span class="pl-v">name</span>.<span class="pl-e">Length</span> == <span class="pl-c1">0</span>)
+
+            <span class="pl-k">if</span> (<span class="pl-v">name</span> == <span class="pl-k">null</span> || <span class="pl-v">name</span>.<span class="pl-e">Length</span> == <span class="pl-c1">0</span>)
             {
-    <span class="pl-v">name</span> = <span class="pl-s">"MyCacheStore"</span>;
+                <span class="pl-v">name</span> = <span class="pl-s">"MyCacheStore"</span>;
             }
-    <span class="pl-k">if</span> (<span class="pl-v">String</span>.<span class="pl-e">IsNullOrEmpty</span>(<span class="pl-v">config</span>[<span class="pl-s">"description"</span>]))
+
+            <span class="pl-k">if</span> (<span class="pl-v">String</span>.<span class="pl-e">IsNullOrEmpty</span>(<span class="pl-v">config</span>[<span class="pl-s">"description"</span>]))
             {
-    <span class="pl-v">config</span>.<span class="pl-e">Remove</span>(<span class="pl-s">"description"</span>);
-    <span class="pl-v">config</span>.<span class="pl-e">Add</span>(<span class="pl-s">"description"</span>, <span class="pl-s">"Redis as a session data store"</span>);
+                <span class="pl-v">config</span>.<span class="pl-e">Remove</span>(<span class="pl-s">"description"</span>);
+                <span class="pl-v">config</span>.<span class="pl-e">Add</span>(<span class="pl-s">"description"</span>, <span class="pl-s">"Redis as a session data store"</span>);
             }
-    <span class="pl-k">base</span>.<span class="pl-e">Initialize</span>(<span class="pl-v">name</span>, <span class="pl-v">config</span>);
-    <span class="pl-c">// If configuration exists then use it otherwise read from config file and create one</span>
-    <span class="pl-k">if</span> (<span class="pl-v">configuration</span> == <span class="pl-c1">null</span>)
+
+            <span class="pl-k">base</span>.<span class="pl-e">Initialize</span>(<span class="pl-v">name</span>, <span class="pl-v">config</span>);
+
+            <span class="pl-c">// If configuration exists then use it otherwise read from config file and create one</span>
+            <span class="pl-k">if</span> (<span class="pl-v">configuration</span> == <span class="pl-k">null</span>)
             {
-    <span class="pl-k">lock</span> (<span class="pl-v">configurationCreationLock</span>)
+                <span class="pl-k">lock</span> (<span class="pl-v">configurationCreationLock</span>)
                 {
-    <span class="pl-k">if</span> (<span class="pl-v">configuration</span> == <span class="pl-c1">null</span>)
+                    <span class="pl-k">if</span> (<span class="pl-v">configuration</span> == <span class="pl-k">null</span>)
                     {
-    <span class="pl-v">configuration</span> = <span class="pl-v">ProviderConfiguration</span>.<span class="pl-e">ProviderConfigurationForSessionState</span>(<span class="pl-v">config</span>);
+                        <span class="pl-v">configuration</span> = <span class="pl-v">ProviderConfiguration</span>.<span class="pl-e">ProviderConfigurationForSessionState</span>(<span class="pl-v">config</span>);
                     }
                 }
             }

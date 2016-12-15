@@ -38,7 +38,7 @@
 
     "variables": "(\\w+)\\s*[^(]*=?$ | (\\w+)\\s*=\\s*\\(\\s*$",
 
-    "types": "^int\\W*$ | ^bool\\W*$ | ^var\\W*$ | ^string\\W*$ | ^float\\W*$ | ^double\\W*$ | ^uint\\W*$ | ^long\\W*$ | ^ulong\\W*$ | ^uint\\W*$",
+    "types": "^int\\W*$ | ^bool\\W*$ | ^var\\W*$ | ^string\\W*$ | ^float\\W*$ | ^double\\W*$ | ^uint\\W*$ | ^long\\W*$ | ^ulong\\W*$ | ^uint\\W*$ | ^short\\W*$ | ^ushort\\W*$",
 
     "default": "(\\w+)\\W*$"
   },
@@ -80,6 +80,15 @@
     },
 
     {
+      "name": "Keywords",
+      "description": "Language keywords",
+
+      "transformType": "Token",
+      "tokenClass": "pl-k",
+      "tokenPattern": "keywords"
+    },
+
+    {
       "name": "Constant Literals",
       "description": "Language token literals",
 
@@ -105,15 +114,6 @@
       "transformType": "TokenSpan",
       "tokenClass": "pl-c1",
       "tokenPattern": "numbers"
-    },
-
-    {
-      "name": "Keywords",
-      "description": "Language keywords",
-
-      "transformType": "Token",
-      "tokenClass": "pl-k",
-      "tokenPattern": "keywords"
     },
 
     {

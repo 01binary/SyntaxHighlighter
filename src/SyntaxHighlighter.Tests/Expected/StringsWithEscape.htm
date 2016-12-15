@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Code Highlight Preview</title>
@@ -53,7 +53,7 @@
 {
     <span class="pl-k">var</span> <span class="pl-v">output</span> = <span class="pl-k">new</span> <span class="pl-e">StringBuilder</span>(<span class="pl-v">text</span>.<span class="pl-e">Length</span>);
     <span class="pl-k">var</span> <span class="pl-v">line</span> = <span class="pl-k">new</span> <span class="pl-e">StringBuilder</span>();
-    <span class="pl-k">bool</span> <span class="pl-v">valid</span> = <span class="pl-c1">false</span>;
+    <span class="pl-k">bool</span> <span class="pl-v">valid</span> = <span class="pl-k">false</span>;
 
     <span class="pl-k">for</span> (<span class="pl-k">int</span> <span class="pl-v">i</span> = <span class="pl-c1">0</span>; <span class="pl-v">i</span> < <span class="pl-v">text</span>.<span class="pl-e">Length</span>; <span class="pl-v">i</span>++)
     {
@@ -62,14 +62,14 @@
             <span class="pl-k">case</span> <span class="pl-s">'\n'</span>:
                 <span class="pl-k">if</span> (<span class="pl-v">valid</span>) <span class="pl-v">output</span>.<span class="pl-e">Append</span>(<span class="pl-v">line</span>);
                 <span class="pl-v">output</span>.<span class="pl-e">Append</span>(<span class="pl-s">'\n'</span>);
-                <span class="pl-v">line</span>.<span class="pl-e">Length</span> = <span class="pl-c1">0</span>; <span class="pl-v">valid</span> = <span class="pl-c1">false</span>;
+                <span class="pl-v">line</span>.<span class="pl-e">Length</span> = <span class="pl-c1">0</span>; <span class="pl-v">valid</span> = <span class="pl-k">false</span>;
                 <span class="pl-k">break</span>;
             <span class="pl-k">case</span> <span class="pl-s">'\r'</span>:
                 <span class="pl-k">if</span> ((<span class="pl-v">i</span> < <span class="pl-v">text</span>.<span class="pl-e">Length</span> - <span class="pl-c1">1</span>) && (<span class="pl-v">text</span>[<span class="pl-v">i</span> + <span class="pl-c1">1</span>] != <span class="pl-s">'\n'</span>))
                 {
                     <span class="pl-k">if</span> (<span class="pl-v">valid</span>) <span class="pl-v">output</span>.<span class="pl-e">Append</span>(<span class="pl-v">line</span>);
                     <span class="pl-v">output</span>.<span class="pl-e">Append</span>(<span class="pl-s">'\n'</span>);
-                    <span class="pl-v">line</span>.<span class="pl-e">Length</span> = <span class="pl-c1">0</span>; <span class="pl-v">valid</span> = <span class="pl-c1">false</span>;
+                    <span class="pl-v">line</span>.<span class="pl-e">Length</span> = <span class="pl-c1">0</span>; <span class="pl-v">valid</span> = <span class="pl-k">false</span>;
                 }
                 <span class="pl-k">break</span>;
             <span class="pl-k">case</span> <span class="pl-s">'\t'</span>:
@@ -80,7 +80,7 @@
             <span class="pl-k">case</span> <span class="pl-s">'\x1A'</span>:
                 <span class="pl-k">break</span>;
             <span class="pl-k">default</span>:
-                <span class="pl-k">if</span> (!<span class="pl-v">valid</span> && <span class="pl-v">text</span>[<span class="pl-v">i</span>] != <span class="pl-s">' '</span>) <span class="pl-v">valid</span> = <span class="pl-c1">true</span>;
+                <span class="pl-k">if</span> (!<span class="pl-v">valid</span> && <span class="pl-v">text</span>[<span class="pl-v">i</span>] != <span class="pl-s">' '</span>) <span class="pl-v">valid</span> = <span class="pl-k">true</span>;
                 <span class="pl-v">line</span>.<span class="pl-e">Append</span>(<span class="pl-v">text</span>[<span class="pl-v">i</span>]);
                 <span class="pl-k">break</span>;
         }
