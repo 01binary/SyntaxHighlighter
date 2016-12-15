@@ -201,6 +201,10 @@ namespace SyntaxHighlighter.Tests
         [TestCategory("C# Syntax Highlighting")]
         public void TestMemberEntities()
         {
+            this.AssertTransformedOnlyPattern("MemberEntities", "pl-e", @"
+                ^((?!GetStories)[\s\S])*$ |
+                ^((?!HttpPost)[\s\S])*$ |
+                ^((?!StarStory)[\s\S])*$");
         }
 
         /// <summary>
