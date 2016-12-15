@@ -53,7 +53,7 @@
         <span class="pl-c">/// &lt;<span class="pl-ent">param</span> <span class="pl-e">name</span>=<span class="pl-s">"transformBasePath"</span>&gt;The base path for loading transform definitions.&lt;/<span class="pl-ent">param</span>&gt;</span>
         <span class="pl-k">public</span> <span class="pl-e">Highlighter</span>(<span class="pl-k">string</span> <span class="pl-v">transformBasePath</span>)
         {
-            <span class="pl-k">this</span>.<span class="pl-e">transformPath</span> = <span class="pl-v">transformBasePath</span>;
+            <span class="pl-c1">this</span>.<span class="pl-v">transformPath</span> = <span class="pl-v">transformBasePath</span>;
         }
 
         <span class="pl-c">/// &lt;<span class="pl-ent">summary</span>&gt;</span>
@@ -63,8 +63,8 @@
         <span class="pl-c">/// &lt;<span class="pl-ent">param</span> <span class="pl-e">name</span>=<span class="pl-s">"highlightOptions"</span>&gt;The debug options for diagnosing unexpected token transforms.&lt;/<span class="pl-ent">param</span>&gt;</span>
         <span class="pl-k">public</span> <span class="pl-e">Highlighter</span>(<span class="pl-k">string</span> <span class="pl-v">transformBasePath</span>, <span class="pl-en">Options</span> <span class="pl-v">highlightOptions</span>)
         {
-            <span class="pl-k">this</span>.<span class="pl-e">transformPath</span> = <span class="pl-v">transformBasePath</span>;
-            <span class="pl-k">this</span>.<span class="pl-e">options</span> = <span class="pl-v">highlightOptions</span>;
+            <span class="pl-c1">this</span>.<span class="pl-v">transformPath</span> = <span class="pl-v">transformBasePath</span>;
+            <span class="pl-c1">this</span>.<span class="pl-v">options</span> = <span class="pl-v">highlightOptions</span>;
         }
 
         <span class="pl-c">/// &lt;<span class="pl-ent">summary</span>&gt;</span>
@@ -75,23 +75,23 @@
         <span class="pl-c">/// &lt;<span class="pl-ent">returns</span>&gt;The transformed block.&lt;/<span class="pl-ent">returns</span>&gt;</span>
         <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-e">Transform</span>(<span class="pl-k">string</span> <span class="pl-v">code</span>, <span class="pl-k">string</span> <span class="pl-v">type</span>)
         {
-            <span class="pl-k">this</span>.<span class="pl-e">transformDefinition</span> = <span class="pl-v">TransformDefinitionFactory</span>.<span class="pl-e">Load</span>(
-                <span class="pl-k">this</span>.<span class="pl-e">transformPath</span>, <span class="pl-v">type</span>, <span class="pl-k">this</span>.<span class="pl-e">options</span>);
+            <span class="pl-c1">this</span>.<span class="pl-v">transformDefinition</span> = <span class="pl-v">TransformDefinitionFactory</span>.<span class="pl-e">Load</span>(
+                <span class="pl-c1">this</span>.<span class="pl-v">transformPath</span>, <span class="pl-v">type</span>, <span class="pl-c1">this</span>.<span class="pl-v">options</span>);
 
-            <span class="pl-k">this</span>.<span class="pl-e">buffer</span> = <span class="pl-k">new</span> <span class="pl-e">Buffer</span>(
-                <span class="pl-v">code</span>, <span class="pl-k">this</span>.<span class="pl-e">transformDefinition</span>.<span class="pl-e">Patterns</span>[<span class="pl-v">SeparatorsPattern</span>], <span class="pl-k">this</span>.<span class="pl-e">options</span>);
+            <span class="pl-c1">this</span>.<span class="pl-v">buffer</span> = <span class="pl-k">new</span> <span class="pl-e">Buffer</span>(
+                <span class="pl-v">code</span>, <span class="pl-c1">this</span>.<span class="pl-v">transformDefinition</span>.<span class="pl-e">Patterns</span>[<span class="pl-v">SeparatorsPattern</span>], <span class="pl-c1">this</span>.<span class="pl-v">options</span>);
 
-            <span class="pl-k">while</span> (!<span class="pl-k">this</span>.<span class="pl-e">buffer</span>.<span class="pl-e">Eof</span>)
+            <span class="pl-k">while</span> (!<span class="pl-c1">this</span>.<span class="pl-v">buffer</span>.<span class="pl-e">Eof</span>)
             {
-                <span class="pl-k">if</span> (!<span class="pl-k">this</span>.<span class="pl-e">transformDefinition</span>.<span class="pl-e">Apply</span>(<span class="pl-k">this</span>.<span class="pl-e">buffer</span>))
+                <span class="pl-k">if</span> (!<span class="pl-c1">this</span>.<span class="pl-v">transformDefinition</span>.<span class="pl-e">Apply</span>(<span class="pl-c1">this</span>.<span class="pl-v">buffer</span>))
                 {
-                    <span class="pl-k">this</span>.<span class="pl-e">buffer</span>.<span class="pl-e">SkipToken</span>();
+                    <span class="pl-c1">this</span>.<span class="pl-v">buffer</span>.<span class="pl-e">SkipToken</span>();
                 }
 
-                <span class="pl-k">this</span>.<span class="pl-e">buffer</span>.<span class="pl-e">NextToken</span>();
+                <span class="pl-c1">this</span>.<span class="pl-v">buffer</span>.<span class="pl-e">NextToken</span>();
             }
 
-            <span class="pl-k">return</span> <span class="pl-k">this</span>.<span class="pl-e">buffer</span>.<span class="pl-e">Data</span>;
+            <span class="pl-k">return</span> <span class="pl-c1">this</span>.<span class="pl-v">buffer</span>.<span class="pl-e">Data</span>;
         }
     }
 }
@@ -153,7 +153,7 @@
 
     <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-e">Init</span>()
     {
-        <span class="pl-v">biSize</span> = (<span class="pl-k">uint</span>)<span class="pl-v">Marshal</span>.<span class="pl-e">SizeOf</span>(<span class="pl-k">this</span>);
+        <span class="pl-v">biSize</span> = (<span class="pl-k">uint</span>)<span class="pl-v">Marshal</span>.<span class="pl-e">SizeOf</span>(<span class="pl-c1">this</span>);
     }
 }
 

@@ -61,8 +61,8 @@
         <span class="pl-k">public</span> <span class="pl-e">UsersController</span>(<span class="pl-en">UserManager</span><<span class="pl-en">User</span>> <span class="pl-v">userManager</span>,
                                <span class="pl-en">SignInManager</span><<span class="pl-en">User</span>> <span class="pl-v">signInManager</span>)
         {
-            <span class="pl-c1">this</span>.<span class="pl-v">userManager</span> = <span class="pl-v">userManager</span>;
-            <span class="pl-c1">this</span>.<span class="pl-v">signInManager</span> = <span class="pl-v">signInManager</span>;
+            <span class="pl-k">this</span>.<span class="pl-e">userManager</span> = <span class="pl-v">userManager</span>;
+            <span class="pl-k">this</span>.<span class="pl-e">signInManager</span> = <span class="pl-v">signInManager</span>;
         }
 
         <span class="pl-c">/// &lt;<span class="pl-ent">summary</span>&gt;</span>
@@ -71,14 +71,14 @@
         [<span class="pl-e">HttpGet</span>(<span class="pl-s">"current"</span>)]
         <span class="pl-k">public</span> <span class="pl-en">IActionResult</span> <span class="pl-e">GetName</span>()
         {
-            <span class="pl-k">string</span> <span class="pl-v">userName</span> = <span class="pl-c1">null</span>;
+            <span class="pl-k">string</span> <span class="pl-v">userName</span> = <span class="pl-k">null</span>;
 
-            <span class="pl-k">if</span> (<span class="pl-c1">this</span>.<span class="pl-v">HttpContext</span>.<span class="pl-e">User</span> != <span class="pl-c1">null</span>)
+            <span class="pl-k">if</span> (<span class="pl-k">this</span>.<span class="pl-e">HttpContext</span>.<span class="pl-e">User</span> != <span class="pl-k">null</span>)
             {
-                <span class="pl-v">userName</span> = <span class="pl-c1">this</span>.<span class="pl-v">HttpContext</span>.<span class="pl-e">User</span>.<span class="pl-e">Identity</span>.<span class="pl-e">Name</span>;
+                <span class="pl-v">userName</span> = <span class="pl-k">this</span>.<span class="pl-e">HttpContext</span>.<span class="pl-e">User</span>.<span class="pl-e">Identity</span>.<span class="pl-e">Name</span>;
             }
 
-            <span class="pl-k">return</span> <span class="pl-c1">this</span>.<span class="pl-e">Json</span>(<span class="pl-k">new</span> { <span class="pl-v">name</span> = <span class="pl-v">userName</span> });
+            <span class="pl-k">return</span> <span class="pl-k">this</span>.<span class="pl-e">Json</span>(<span class="pl-k">new</span> { <span class="pl-v">name</span> = <span class="pl-v">userName</span> });
         }
 
         <span class="pl-c">/// &lt;<span class="pl-ent">summary</span>&gt;</span>
@@ -90,19 +90,19 @@
         {
             <span class="pl-c">// When already signed in with external provider, continue to Register.</span>
             <span class="pl-c">// https://github.com/aspnet/Identity/issues/915</span>
-            <span class="pl-k">var</span> <span class="pl-v">info</span> = <span class="pl-v">await</span> <span class="pl-c1">this</span>.<span class="pl-v">signInManager</span>.<span class="pl-e">GetExternalLoginInfoAsync</span>();
+            <span class="pl-k">var</span> <span class="pl-v">info</span> = <span class="pl-v">await</span> <span class="pl-k">this</span>.<span class="pl-e">signInManager</span>.<span class="pl-e">GetExternalLoginInfoAsync</span>();
 
-            <span class="pl-k">if</span> (<span class="pl-v">info</span> != <span class="pl-c1">null</span>)
+            <span class="pl-k">if</span> (<span class="pl-v">info</span> != <span class="pl-k">null</span>)
             {
-                <span class="pl-k">return</span> <span class="pl-c1">this</span>.<span class="pl-e">Redirect</span>(<span class="pl-s">"~/api/users/callback?interrupted=true"</span>);
+                <span class="pl-k">return</span> <span class="pl-k">this</span>.<span class="pl-e">Redirect</span>(<span class="pl-s">"~/api/users/callback?interrupted=true"</span>);
             }
 
             <span class="pl-c">// Request a redirect to the external login provider.</span>
-            <span class="pl-k">var</span> <span class="pl-v">properties</span> = <span class="pl-c1">this</span>.<span class="pl-v">signInManager</span>.<span class="pl-e">ConfigureExternalAuthenticationProperties</span>(
+            <span class="pl-k">var</span> <span class="pl-v">properties</span> = <span class="pl-k">this</span>.<span class="pl-e">signInManager</span>.<span class="pl-e">ConfigureExternalAuthenticationProperties</span>(
                 <span class="pl-v">provider</span>,
                 <span class="pl-s">"api/users/callback"</span>);
 
-            <span class="pl-k">return</span> <span class="pl-c1">this</span>.<span class="pl-e">Challenge</span>(<span class="pl-v">properties</span>, <span class="pl-v">provider</span>);
+            <span class="pl-k">return</span> <span class="pl-k">this</span>.<span class="pl-e">Challenge</span>(<span class="pl-v">properties</span>, <span class="pl-v">provider</span>);
         }
     }
 }</pre>

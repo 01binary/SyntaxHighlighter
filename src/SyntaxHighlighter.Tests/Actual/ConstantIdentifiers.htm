@@ -13,11 +13,11 @@
 <span class="pl-k">bool</span>? <span class="pl-e">IsGreen</span>(<span class="pl-k">int</span> <span class="pl-v">number</span>)
 {
 	<span class="pl-k">if</span> (<span class="pl-v">number</span> == <span class="pl-c1">4</span>)
-		<span class="pl-k">return</span> <span class="pl-k">true</span>;
+		<span class="pl-k">return</span> <span class="pl-c1">true</span>;
 	<span class="pl-k">else</span> <span class="pl-k">if</span> (<span class="pl-v">number</span> == <span class="pl-c1">5</span>)
-		<span class="pl-k">return</span> <span class="pl-k">false</span>;
+		<span class="pl-k">return</span> <span class="pl-c1">false</span>;
 	<span class="pl-k">else</span>
-		<span class="pl-k">return</span> <span class="pl-k">null</span>;
+		<span class="pl-k">return</span> <span class="pl-c1">null</span>;
 }
 
 <span class="pl-k">void</span> <span class="pl-e">Output</span>(<span class="pl-k">int</span> <span class="pl-v">number</span>)
@@ -26,13 +26,13 @@
 
 	<span class="pl-k">switch</span>(<span class="pl-v">green</span>)
 	{
-		<span class="pl-k">case</span> <span class="pl-k">true</span>:
+		<span class="pl-k">case</span> <span class="pl-c1">true</span>:
 			<span class="pl-c1">Console</span>.<span class="pl-e">WriteLine</span>(<span class="pl-s">"&lt;green&gt;"</span> + <span class="pl-v">number</span> + <span class="pl-s">"&lt;/green&gt;"</span>);
 			<span class="pl-k">break</span>;
-		<span class="pl-k">case</span> <span class="pl-k">false</span>:
+		<span class="pl-k">case</span> <span class="pl-c1">false</span>:
 			<span class="pl-c1">Console</span>.<span class="pl-e">WriteLine</span>(<span class="pl-s">"&lt;gray&gt;"</span> + <span class="pl-v">number</span> + <span class="pl-s">"&lt;/gray&gt;"</span>);
 			<span class="pl-k">break</span>;
-		<span class="pl-k">case</span> <span class="pl-k">null</span>:
+		<span class="pl-k">case</span> <span class="pl-c1">null</span>:
 			<span class="pl-c1">Console</span>.<span class="pl-e">WriteLine</span>(<span class="pl-s">"&lt;white&gt;"</span> + <span class="pl-v">number</span> + <span class="pl-s">"&lt;/white&gt;"</span>);
 			<span class="pl-k">break</span>;
 	}
@@ -46,10 +46,10 @@
 {
     <span class="pl-k">try</span>
     {
-        <span class="pl-en">IDataStore</span> <span class="pl-v">store</span> = <span class="pl-k">this</span>.<span class="pl-e">services</span>.<span class="pl-e">GetService</span>(<span class="pl-k">typeof</span>(<span class="pl-en">IDataStore</span>)) <span class="pl-k">as</span> <span class="pl-en">IDataStore</span>;
+        <span class="pl-en">IDataStore</span> <span class="pl-v">store</span> = <span class="pl-c1">this</span>.<span class="pl-v">services</span>.<span class="pl-e">GetService</span>(<span class="pl-k">typeof</span>(<span class="pl-en">IDataStore</span>)) <span class="pl-k">as</span> <span class="pl-en">IDataStore</span>;
         <span class="pl-k">var</span> <span class="pl-v">story</span> = <span class="pl-v">store</span>.<span class="pl-e">GetArticle</span>(<span class="pl-v">id</span>);
 
-        <span class="pl-k">if</span> (<span class="pl-v">story</span> == <span class="pl-k">null</span>)
+        <span class="pl-k">if</span> (<span class="pl-v">story</span> == <span class="pl-c1">null</span>)
         {
             <span class="pl-k">return</span> <span class="pl-e">NotFound</span>();
 
@@ -81,7 +81,7 @@
     }
     <span class="pl-k">catch</span>
     {
-        <span class="pl-k">return</span> <span class="pl-k">this</span>.<span class="pl-e">StatusCode</span>(<span class="pl-c1">500</span>);
+        <span class="pl-k">return</span> <span class="pl-c1">this</span>.<span class="pl-e">StatusCode</span>(<span class="pl-c1">500</span>);
     }
 }</pre>
 </body>
