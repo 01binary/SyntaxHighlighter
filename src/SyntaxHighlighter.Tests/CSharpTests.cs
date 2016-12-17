@@ -214,6 +214,47 @@ namespace SyntaxHighlighter.Tests
         [TestCategory("C# Syntax Highlighting")]
         public void TestFunctionCallEntities()
         {
+            this.AssertTransformedOnlyPattern("FunctionCallEntities", "pl-e", @"
+                IsNullOrEmpty |
+                IsNullOrWhiteSpace |
+                IsWhiteSpace |
+                IsInterned |
+                ArgumentNullException |
+                nameof |
+                Intern |
+                ToLowerForASCII |
+                Copy |
+                Length |
+                ToUpperForASCII |
+                StringBuilder |
+                Append |
+                ToString |
+                Is |
+                Equals |
+                BeginWith |
+                BeginWithAny |
+                Contains |
+                AsEnumerable |
+                StartsWith |
+                FinishWith |
+                Last |
+                FinishWithAny |
+                EndsWith |
+                ToLines |
+                NonEmptyLines |
+                ReadLine |
+                NonWhiteSpaceLines |
+                Select |
+                ToCharArray |
+                ToArray |
+                Enquote |
+                IndexOfAny |
+                Replace |
+                ArgumentException |
+                IndexOf |
+                Substring |
+                ReplaceEx
+            ");
         }
 
         /// <summary>

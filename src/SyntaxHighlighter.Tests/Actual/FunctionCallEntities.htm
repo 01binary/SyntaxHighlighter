@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Code Highlight Preview</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" type="text/css" href="../Template/Styles.css">
+</head>
+<body>
+<pre><span class="pl-c">#if EXPOSE_EVERYTHING || EXPOSE_STRINGEX</span>
+<span class="pl-k">public</span>
+<span class="pl-c">#endif</span>
+<span class="pl-k">static</span> <span class="pl-k">partial</span> <span class="pl-k">class</span> <span class="pl-e">StringEx</span>
+{
+<span class="pl-c">#pragma warning disable 1591</span>
+
+    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-en">StringComparison</span> <span class="pl-v">GlobalDefaultComparison</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; } = <span class="pl-v">StringComparison</span>.<span class="pl-e">Ordinal</span>;
+
+    [<span class="pl-en">ThreadStatic</span>]
+    <span class="pl-k">private</span> <span class="pl-k">static</span> <span class="pl-en">StringComparison</span>? <span class="pl-v">_DefaultComparison</span>;
+    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-en">StringComparison</span> <span class="pl-v">DefaultComparison</span>
+    {
+        <span class="pl-k">get</span> { <span class="pl-k">return</span> <span class="pl-en">_DefaultComparison</span> ?? <span class="pl-v">GlobalDefaultComparison</span>; }
+        <span class="pl-k">set</span> { <span class="pl-v">_DefaultComparison</span> = <span class="pl-v">value</span>; }
+    }
+
+    <span class="pl-c">#region basic String methods</span>
+
+    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">bool</span> <span class="pl-e">IsNullOrEmpty</span>(<span class="pl-c1">this</span> <span class="pl-k">string</span> <span class="pl-v">value</span>)
+        => <span class="pl-k">string</span>.<span class="pl-e">IsNullOrEmpty</span>(<span class="pl-v">value</span>);
+
+    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">bool</span> <span class="pl-e">IsNullOrWhiteSpace</span>(<span class="pl-c1">this</span> <span class="pl-k">string</span> <span class="pl-v">value</span>)
+        => <span class="pl-k">string</span>.<span class="pl-e">IsNullOrWhiteSpace</span>(<span class="pl-v">value</span>);
+
+    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">bool</span> <span class="pl-e">IsWhiteSpace</span>(<span class="pl-c1">this</span> <span class="pl-k">string</span> <span class="pl-v">value</span>)
+    {
+        <span class="pl-k">foreach</span> (<span class="pl-k">var</span> <span class="pl-v">c</span> <span class="pl-k">in</span> <span class="pl-v">value</span>)
+        {
+            <span class="pl-k">if</span> (<span class="pl-k">char</span>.<span class="pl-e">IsWhiteSpace</span>(<span class="pl-v">c</span>)) <span class="pl-k">continue</span>;
+
+            <span class="pl-k">return</span> <span class="pl-c1">false</span>;
+        }
+        <span class="pl-k">return</span> <span class="pl-c1">true</span>;
+    }
+
+<span class="pl-c">#if !PCL</span>
+    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">string</span> <span class="pl-e">IsInterned</span>(<span class="pl-c1">this</span> <span class="pl-k">string</span> <span class="pl-v">value</span>)
+    {
+        <span class="pl-k">if</span> (<span class="pl-v">value</span> == <span class="pl-c1">null</span>)
+            <span class="pl-k">throw</span> <span class="pl-k">new</span> <span class="pl-e">ArgumentNullException</span>(<span class="pl-e">nameof</span>(<span class="pl-v">value</span>));
+
+        <span class="pl-k">return</span> <span class="pl-k">string</span>.<span class="pl-e">IsInterned</span>(<span class="pl-v">value</span>);
+    }
+
+    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">string</span> <span class="pl-e">Intern</span>(<span class="pl-c1">this</span> <span class="pl-k">string</span> <span class="pl-v">value</span>)
+    {
+        <span class="pl-k">if</span> (<span class="pl-v">value</span> == <span class="pl-c1">null</span>)
+            <span class="pl-k">throw</span> <span class="pl-k">new</span> <span class="pl-e">ArgumentNullException</span>(<span class="pl-e">nameof</span>(<span class="pl-v">value</span>));
+
+        <span class="pl-k">return</span> <span class="pl-k">string</span>.<span class="pl-e">Intern</span>(<span class="pl-v">value</span>);
+    }
+<span class="pl-c">#endif</span>
+
+<span class="pl-c">#if UNSAFE</span>
+    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">unsafe</span> <span class="pl-k">string</span> <span class="pl-e">ToLowerForASCII</span>(<span class="pl-c1">this</span> <span class="pl-k">string</span> <span class="pl-v">value</span>)
+    {
+        <span class="pl-k">if</span> (<span class="pl-v">value</span>.<span class="pl-e">IsNullOrWhiteSpace</span>())
+            <span class="pl-k">return</span> <span class="pl-v">value</span>;
+
+        <span class="pl-v">value</span> = <span class="pl-k">string</span>.<span class="pl-e">Copy</span>(<span class="pl-v">value</span>);
+        <span class="pl-k">fixed</span> (<span class="pl-k">char</span>* <span class="pl-v">low</span> = <span class="pl-v">value</span>)
+        {
+            <span class="pl-k">var</span> <span class="pl-v">end</span> = <span class="pl-v">low</span> + <span class="pl-v">value</span>.<span class="pl-e">Length</span>;
+            <span class="pl-k">for</span> (<span class="pl-k">var</span> <span class="pl-v">p</span> = <span class="pl-v">low</span>; <span class="pl-v">p</span> < <span class="pl-v">end</span>; <span class="pl-v">p</span>++)
+            {
+                <span class="pl-k">var</span> <span class="pl-v">c</span> = *<span class="pl-v">p</span>;
+                <span class="pl-k">if</span> (<span class="pl-v">c</span> < <span class="pl-s">'A'</span> || <span class="pl-v">c</span> > <span class="pl-s">'Z'</span>)
+                    <span class="pl-k">continue</span>;
+                *<span class="pl-v">p</span> = (<span class="pl-k">char</span>)(<span class="pl-v">c</span> + <span class="pl-c1">0x20</span>);
+            }
+        }
+        <span class="pl-k">return</span> <span class="pl-v">value</span>;
+    }
+
+    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">unsafe</span> <span class="pl-k">string</span> <span class="pl-e">ToUpperForASCII</span>(<span class="pl-c1">this</span> <span class="pl-k">string</span> <span class="pl-v">value</span>)
+    {
+        <span class="pl-k">if</span> (<span class="pl-v">value</span>.<span class="pl-e">IsNullOrWhiteSpace</span>())
+            <span class="pl-k">return</span> <span class="pl-v">value</span>;
+
+        <span class="pl-v">value</span> = <span class="pl-k">string</span>.<span class="pl-e">Copy</span>(<span class="pl-v">value</span>);
+        <span class="pl-k">fixed</span> (<span class="pl-k">char</span>* <span class="pl-v">low</span> = <span class="pl-v">value</span>)
+        {
+            <span class="pl-k">var</span> <span class="pl-v">end</span> = <span class="pl-v">low</span> + <span class="pl-v">value</span>.<span class="pl-e">Length</span>;
+            <span class="pl-k">for</span> (<span class="pl-k">var</span> <span class="pl-v">p</span> = <span class="pl-v">low</span>; <span class="pl-v">p</span> < <span class="pl-v">end</span>; <span class="pl-v">p</span>++)
+            {
+                <span class="pl-k">var</span> <span class="pl-v">c</span> = *<span class="pl-v">p</span>;
+                <span class="pl-k">if</span> (<span class="pl-v">c</span> < <span class="pl-s">'a'</span> || <span class="pl-v">c</span> > <span class="pl-s">'z'</span>)
+                    <span class="pl-k">continue</span>;
+                *<span class="pl-v">p</span> = (<span class="pl-k">char</span>)(<span class="pl-v">c</span> - <span class="pl-c1">0x20</span>);
+            }
+        }
+        <span class="pl-k">return</span> <span class="pl-v">value</span>;
+    }
+<span class="pl-c">#else</span>
+    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">string</span> <span class="pl-e">ToLowerForASCII</span>(<span class="pl-c1">this</span> <span class="pl-k">string</span> <span class="pl-v">value</span>)
+    {
+        <span class="pl-k">if</span> (<span class="pl-v">value</span>.<span class="pl-e">IsNullOrWhiteSpace</span>())
+            <span class="pl-k">return</span> <span class="pl-v">value</span>;
+
+        <span class="pl-k">var</span> <span class="pl-v">sb</span> = <span class="pl-k">new</span> <span class="pl-e">StringBuilder</span>(<span class="pl-v">value</span>.<span class="pl-e">Length</span>);
+        <span class="pl-k">foreach</span> (<span class="pl-k">var</span> <span class="pl-v">c</span> <span class="pl-k">in</span> <span class="pl-v">value</span>)
+        {
+            <span class="pl-k">if</span> (<span class="pl-v">c</span> < <span class="pl-s">'A'</span> || <span class="pl-v">c</span> > <span class="pl-s">'Z'</span>)
+                <span class="pl-v">sb</span>.<span class="pl-e">Append</span>(<span class="pl-v">c</span>);
+            <span class="pl-k">else</span>
+                <span class="pl-v">sb</span>.<span class="pl-e">Append</span>((<span class="pl-k">char</span>)(<span class="pl-v">c</span> + <span class="pl-c1">0x20</span>));
+        }
+        <span class="pl-k">return</span> <span class="pl-v">sb</span>.<span class="pl-e">ToString</span>();
+    }
+
+    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">string</span> <span class="pl-e">ToUpperForASCII</span>(<span class="pl-c1">this</span> <span class="pl-k">string</span> <span class="pl-v">value</span>)
+    {
+        <span class="pl-k">if</span> (<span class="pl-v">value</span>.<span class="pl-e">IsNullOrWhiteSpace</span>())
+            <span class="pl-k">return</span> <span class="pl-v">value</span>;
+
+        <span class="pl-k">var</span> <span class="pl-v">sb</span> = <span class="pl-k">new</span> <span class="pl-e">StringBuilder</span>(<span class="pl-v">value</span>.<span class="pl-e">Length</span>);
+        <span class="pl-k">foreach</span> (<span class="pl-k">var</span> <span class="pl-v">c</span> <span class="pl-k">in</span> <span class="pl-v">value</span>)
+        {
+            <span class="pl-k">if</span> (<span class="pl-v">c</span> < <span class="pl-s">'a'</span> || <span class="pl-v">c</span> > <span class="pl-s">'z'</span>)
+                <span class="pl-v">sb</span>.<span class="pl-e">Append</span>(<span class="pl-v">c</span>);
+            <span class="pl-k">else</span>
+                <span class="pl-v">sb</span>.<span class="pl-e">Append</span>((<span class="pl-k">char</span>)(<span class="pl-v">c</span> - <span class="pl-c1">0x20</span>));
+        }
+        <span class="pl-k">return</span> <span class="pl-v">sb</span>.<span class="pl-e">ToString</span>();
+    }
+<span class="pl-c">#endif</span>
+
+    <span class="pl-c">#endregion</span>
+
+    <span class="pl-c">#region comparing</span>
+
+    <span class="pl-c">#region Is</span>
+
+    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">bool</span> <span class="pl-e">Is</span>(<span class="pl-c1">this</span> <span class="pl-k">string</span> <span class="pl-v">a</span>, <span class="pl-k">string</span> <span class="pl-v">b</span>)
+        => <span class="pl-k">string</span>.<span class="pl-e">Equals</span>(<span class="pl-v">a</span>, <span class="pl-v">b</span>, <span class="pl-v">DefaultComparison</span>);
+    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">bool</span> <span class="pl-e">Is</span>(<span class="pl-c1">this</span> <span class="pl-k">string</span> <span class="pl-v">a</span>, <span class="pl-k">string</span> <span class="pl-v">b</span>, <span class="pl-en">StringComparison</span> <span class="pl-v">comparisonType</span>)
+        => <span class="pl-k">string</span>.<span class="pl-e">Equals</span>(<span class="pl-v">a</span>, <span class="pl-v">b</span>, <span class="pl-v">comparisonType</span>);
+
+    <span class="pl-c">#endregion</span>
+
+    <span class="pl-c">#region BeginWith</span>
+
+    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">bool</span> <span class="pl-e">BeginWith</span>(<span class="pl-c1">this</span> <span class="pl-k">string</span> <span class="pl-v">s</span>, <span class="pl-k">char</span> <span class="pl-v">c</span>)
+    {
+        <span class="pl-k">if</span> (<span class="pl-v">s</span>.<span class="pl-e">IsNullOrEmpty</span>()) <span class="pl-k">return</span> <span class="pl-c1">false</span>;
+        <span class="pl-k">return</span> <span class="pl-v">s</span>[<span class="pl-c1">0</span>] == <span class="pl-v">c</span>;
+    }
+    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">bool</span> <span class="pl-e">BeginWithAny</span>(<span class="pl-c1">this</span> <span class="pl-k">string</span> <span class="pl-v">s</span>, <span class="pl-en">IEnumerable</span><<span class="pl-k">char</span>> <span class="pl-v">chars</span>)
+    {
+        <span class="pl-k">if</span> (<span class="pl-v">s</span>.<span class="pl-e">IsNullOrEmpty</span>()) <span class="pl-k">return</span> <span class="pl-c1">false</span>;
+        <span class="pl-k">return</span> <span class="pl-v">chars</span>.<span class="pl-e">Contains</span>(<span class="pl-v">s</span>[<span class="pl-c1">0</span>]);
+    }
+    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">bool</span> <span class="pl-e">BeginWithAny</span>(<span class="pl-c1">this</span> <span class="pl-k">string</span> <span class="pl-v">s</span>, <span class="pl-k">params</span> <span class="pl-k">char</span>[] <span class="pl-v">chars</span>)
+        => <span class="pl-v">s</span>.<span class="pl-e">BeginWithAny</span>(<span class="pl-v">chars</span>.<span class="pl-e">AsEnumerable</span>());
+
+    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">bool</span> <span class="pl-e">BeginWith</span>(<span class="pl-c1">this</span> <span class="pl-k">string</span> <span class="pl-v">a</span>, <span class="pl-k">string</span> <span class="pl-v">b</span>)
+    {
+        <span class="pl-k">if</span> (<span class="pl-v">a</span> == <span class="pl-c1">null</span> || <span class="pl-v">b</span> == <span class="pl-c1">null</span>) <span class="pl-k">return</span> <span class="pl-c1">false</span>;
+
+        <span class="pl-k">return</span> <span class="pl-v">a</span>.<span class="pl-e">StartsWith</span>(<span class="pl-v">b</span>, <span class="pl-v">DefaultComparison</span>);
+    }
+    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">bool</span> <span class="pl-e">BeginWith</span>(<span class="pl-c1">this</span> <span class="pl-k">string</span> <span class="pl-v">a</span>, <span class="pl-k">string</span> <span class="pl-v">b</span>, <span class="pl-en">StringComparison</span> <span class="pl-v">comparisonType</span>)
+    {
+        <span class="pl-k">if</span> (<span class="pl-v">a</span> == <span class="pl-c1">null</span> || <span class="pl-v">b</span> == <span class="pl-c1">null</span>) <span class="pl-k">return</span> <span class="pl-c1">false</span>;
+
+        <span class="pl-k">return</span> <span class="pl-v">a</span>.<span class="pl-e">StartsWith</span>(<span class="pl-v">b</span>, <span class="pl-v">comparisonType</span>);
+    }
+<span class="pl-c">#if !PCL</span>
+    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">bool</span> <span class="pl-e">BeginWith</span>(<span class="pl-c1">this</span> <span class="pl-k">string</span> <span class="pl-v">a</span>, <span class="pl-k">string</span> <span class="pl-v">b</span>, <span class="pl-k">bool</span> <span class="pl-v">ignoreCase</span>, <span class="pl-en">CultureInfo</span> <span class="pl-v">culture</span>)
+    {
+        <span class="pl-k">if</span> (<span class="pl-v">a</span> == <span class="pl-c1">null</span> || <span class="pl-v">b</span> == <span class="pl-c1">null</span>) <span class="pl-k">return</span> <span class="pl-c1">false</span>;
+
+        <span class="pl-k">return</span> <span class="pl-v">a</span>.<span class="pl-e">StartsWith</span>(<span class="pl-v">b</span>, <span class="pl-v">ignoreCase</span>, <span class="pl-v">culture</span>);
+    }
+<span class="pl-c">#endif</span>
+
+    <span class="pl-c">#endregion</span>
+
+    <span class="pl-c">#region FinishWith</span>
+
+    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">bool</span> <span class="pl-e">FinishWith</span>(<span class="pl-c1">this</span> <span class="pl-k">string</span> <span class="pl-v">s</span>, <span class="pl-k">char</span> <span class="pl-v">c</span>)
+    {
+        <span class="pl-k">if</span> (<span class="pl-v">s</span>.<span class="pl-e">IsNullOrEmpty</span>()) <span class="pl-k">return</span> <span class="pl-c1">false</span>;
+        <span class="pl-k">return</span> <span class="pl-v">s</span>.<span class="pl-e">Last</span>() == <span class="pl-v">c</span>;
+    }
+    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">bool</span> <span class="pl-e">FinishWithAny</span>(<span class="pl-c1">this</span> <span class="pl-k">string</span> <span class="pl-v">s</span>, <span class="pl-en">IEnumerable</span><<span class="pl-k">char</span>> <span class="pl-v">chars</span>)
+    {
+        <span class="pl-k">if</span> (<span class="pl-v">s</span>.<span class="pl-e">IsNullOrEmpty</span>()) <span class="pl-k">return</span> <span class="pl-c1">false</span>;
+        <span class="pl-k">return</span> <span class="pl-v">chars</span>.<span class="pl-e">Contains</span>(<span class="pl-v">s</span>.<span class="pl-e">Last</span>());
+    }
+    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">bool</span> <span class="pl-e">FinishWithAny</span>(<span class="pl-c1">this</span> <span class="pl-k">string</span> <span class="pl-v">s</span>, <span class="pl-k">params</span> <span class="pl-k">char</span>[] <span class="pl-v">chars</span>)
+        => <span class="pl-v">s</span>.<span class="pl-e">FinishWithAny</span>(<span class="pl-v">chars</span>.<span class="pl-e">AsEnumerable</span>());
+
+    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">bool</span> <span class="pl-e">FinishWith</span>(<span class="pl-c1">this</span> <span class="pl-k">string</span> <span class="pl-v">a</span>, <span class="pl-k">string</span> <span class="pl-v">b</span>)
+    {
+        <span class="pl-k">if</span> (<span class="pl-v">a</span> == <span class="pl-c1">null</span> || <span class="pl-v">b</span> == <span class="pl-c1">null</span>) <span class="pl-k">return</span> <span class="pl-c1">false</span>;
+
+        <span class="pl-k">return</span> <span class="pl-v">a</span>.<span class="pl-e">EndsWith</span>(<span class="pl-v">b</span>, <span class="pl-v">DefaultComparison</span>);
+    }
+    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">bool</span> <span class="pl-e">FinishWith</span>(<span class="pl-c1">this</span> <span class="pl-k">string</span> <span class="pl-v">a</span>, <span class="pl-k">string</span> <span class="pl-v">b</span>, <span class="pl-en">StringComparison</span> <span class="pl-v">comparisonType</span>)
+    {
+        <span class="pl-k">if</span> (<span class="pl-v">a</span> == <span class="pl-c1">null</span> || <span class="pl-v">b</span> == <span class="pl-c1">null</span>) <span class="pl-k">return</span> <span class="pl-c1">false</span>;
+
+        <span class="pl-k">return</span> <span class="pl-v">a</span>.<span class="pl-e">EndsWith</span>(<span class="pl-v">b</span>, <span class="pl-v">comparisonType</span>);
+    }
+<span class="pl-c">#if !PCL</span>
+    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">bool</span> <span class="pl-e">FinishWith</span>(<span class="pl-c1">this</span> <span class="pl-k">string</span> <span class="pl-v">a</span>, <span class="pl-k">string</span> <span class="pl-v">b</span>, <span class="pl-k">bool</span> <span class="pl-v">ignoreCase</span>, <span class="pl-en">CultureInfo</span> <span class="pl-v">culture</span>)
+    {
+        <span class="pl-k">if</span> (<span class="pl-v">a</span> == <span class="pl-c1">null</span> || <span class="pl-v">b</span> == <span class="pl-c1">null</span>) <span class="pl-k">return</span> <span class="pl-c1">false</span>;
+
+        <span class="pl-k">return</span> <span class="pl-v">a</span>.<span class="pl-e">EndsWith</span>(<span class="pl-v">b</span>, <span class="pl-v">ignoreCase</span>, <span class="pl-v">culture</span>);
+    }
+<span class="pl-c">#endif</span>
+
+    <span class="pl-c">#endregion</span>
+
+    <span class="pl-c">#endregion</span>
+
+    <span class="pl-c">#region ToLines</span>
+
+    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-en">IEnumerable</span><<span class="pl-k">string</span>> <span class="pl-e">ToLines</span>(<span class="pl-c1">this</span> <span class="pl-v">TextReader</span> <span class="pl-v">reader</span>)
+    {
+        <span class="pl-k">string</span> <span class="pl-v">line</span>;
+        <span class="pl-k">while</span> ((<span class="pl-v">line</span> = <span class="pl-v">reader</span>.<span class="pl-e">ReadLine</span>()) != <span class="pl-c1">null</span>)
+            <span class="pl-k">yield</span> <span class="pl-k">return</span> <span class="pl-v">line</span>;
+    }
+    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-en">IEnumerable</span><<span class="pl-k">string</span>> <span class="pl-e">NonEmptyLines</span>(<span class="pl-c1">this</span> <span class="pl-v">TextReader</span> <span class="pl-v">reader</span>)
+    {
+        <span class="pl-k">string</span> <span class="pl-v">line</span>;
+        <span class="pl-k">while</span> ((<span class="pl-v">line</span> = <span class="pl-v">reader</span>.<span class="pl-e">ReadLine</span>()) != <span class="pl-c1">null</span>)
+        {
+            <span class="pl-k">if</span> (<span class="pl-v">line</span> == <span class="pl-s">""</span>) <span class="pl-k">continue</span>;
+            <span class="pl-k">yield</span> <span class="pl-k">return</span> <span class="pl-v">line</span>;
+        }
+    }
+    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-en">IEnumerable</span><<span class="pl-k">string</span>> <span class="pl-e">NonWhiteSpaceLines</span>(<span class="pl-c1">this</span> <span class="pl-v">TextReader</span> <span class="pl-v">reader</span>)
+    {
+        <span class="pl-k">string</span> <span class="pl-v">line</span>;
+        <span class="pl-k">while</span> ((<span class="pl-v">line</span> = <span class="pl-v">reader</span>.<span class="pl-e">ReadLine</span>()) != <span class="pl-c1">null</span>)
+        {
+            <span class="pl-k">if</span> (<span class="pl-v">line</span>.<span class="pl-e">IsWhiteSpace</span>()) <span class="pl-k">continue</span>;
+            <span class="pl-k">yield</span> <span class="pl-k">return</span> <span class="pl-v">line</span>;
+        }
+    }
+
+    <span class="pl-c">#endregion</span>
+
+    <span class="pl-c">#region others</span>
+
+    <span class="pl-k">private</span> <span class="pl-k">static</span> <span class="pl-k">readonly</span> <span class="pl-k">char</span>[][] <span class="pl-v">Quotes</span> = <span class="pl-k">new</span>[]
+    {
+        <span class="pl-s">"\"\""</span>,
+        <span class="pl-s">"''"</span>,
+        <span class="pl-s">"“”"</span>,
+        <span class="pl-s">"‘’"</span>,
+        <span class="pl-s">"『』"</span>,
+        <span class="pl-s">"「」"</span>,
+        <span class="pl-s">"〖〗"</span>,
+        <span class="pl-s">"【】"</span>,
+    }.<span class="pl-e">Select</span>(<span class="pl-v">s</span> => <span class="pl-v">s</span>.<span class="pl-e">ToCharArray</span>()).<span class="pl-e">ToArray</span>();
+    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">string</span> <span class="pl-e">Enquote</span>(<span class="pl-c1">this</span> <span class="pl-k">string</span> <span class="pl-v">value</span>)
+    {
+        <span class="pl-k">if</span> (<span class="pl-v">value</span> == <span class="pl-c1">null</span>)
+            <span class="pl-k">return</span> <span class="pl-s">"(null)"</span>;
+
+        <span class="pl-k">foreach</span> (<span class="pl-k">var</span> <span class="pl-v">pair</span> <span class="pl-k">in</span> <span class="pl-v">Quotes</span>)
+        {
+            <span class="pl-k">if</span> (<span class="pl-v">value</span>.<span class="pl-e">IndexOfAny</span>(<span class="pl-v">pair</span>) < <span class="pl-c1">0</span>)
+                <span class="pl-k">return</span> <span class="pl-v">pair</span>[<span class="pl-c1">0</span>] + <span class="pl-v">value</span> + <span class="pl-v">pair</span>[<span class="pl-c1">1</span>];
+        }
+
+        <span class="pl-k">return</span> <span class="pl-s">'"'</span> + <span class="pl-v">value</span>.<span class="pl-e">Replace</span>(<span class="pl-s">"\\"</span>, <span class="pl-s">@"\\"</span>).<span class="pl-e">Replace</span>(<span class="pl-s">"\""</span>, <span class="pl-s">@"\"""</span>) + <span class="pl-s">'"'</span>;
+    }
+
+    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">string</span> <span class="pl-e">Replace</span>(<span class="pl-c1">this</span> <span class="pl-k">string</span> <span class="pl-v">value</span>, <span class="pl-k">string</span> <span class="pl-v">find</span>, <span class="pl-k">string</span> <span class="pl-v">rep</span>, <span class="pl-en">StringComparison</span> <span class="pl-v">comparsionType</span>)
+    {
+        <span class="pl-k">if</span> (<span class="pl-v">find</span>.<span class="pl-e">IsNullOrEmpty</span>())
+            <span class="pl-k">throw</span> <span class="pl-k">new</span> <span class="pl-e">ArgumentException</span>(<span class="pl-c1">null</span>, <span class="pl-e">nameof</span>(<span class="pl-v">find</span>));
+        <span class="pl-k">if</span> (<span class="pl-v">rep</span> == <span class="pl-c1">null</span>)
+            <span class="pl-v">rep</span> = <span class="pl-s">""</span>;
+        <span class="pl-k">if</span> (<span class="pl-v">value</span>.<span class="pl-e">IsNullOrEmpty</span>())
+            <span class="pl-k">return</span> <span class="pl-v">value</span>;
+
+        <span class="pl-k">var</span> <span class="pl-v">sb</span> = <span class="pl-k">new</span> <span class="pl-e">StringBuilder</span>(<span class="pl-v">value</span>.<span class="pl-e">Length</span>);
+
+        <span class="pl-k">var</span> <span class="pl-v">last</span> = <span class="pl-c1">0</span>;
+        <span class="pl-k">var</span> <span class="pl-v">len</span> = <span class="pl-v">find</span>.<span class="pl-e">Length</span>;
+        <span class="pl-k">var</span> <span class="pl-v">idx</span> = <span class="pl-v">value</span>.<span class="pl-e">IndexOf</span>(<span class="pl-v">find</span>, <span class="pl-v">DefaultComparison</span>);
+        <span class="pl-k">while</span> (<span class="pl-v">idx</span> != <span class="pl-c1">-1</span>)
+        {
+            <span class="pl-v">sb</span>.<span class="pl-e">Append</span>(<span class="pl-v">value</span>.<span class="pl-e">Substring</span>(<span class="pl-v">last</span>, <span class="pl-v">idx</span> - <span class="pl-v">last</span>));
+            <span class="pl-v">sb</span>.<span class="pl-e">Append</span>(<span class="pl-v">rep</span>);
+            <span class="pl-v">idx</span> += <span class="pl-v">len</span>;
+
+            <span class="pl-v">last</span> = <span class="pl-v">idx</span>;
+            <span class="pl-v">idx</span> = <span class="pl-v">value</span>.<span class="pl-e">IndexOf</span>(<span class="pl-v">find</span>, <span class="pl-v">idx</span>, <span class="pl-v">comparsionType</span>);
+        }
+        <span class="pl-v">sb</span>.<span class="pl-e">Append</span>(<span class="pl-v">value</span>.<span class="pl-e">Substring</span>(<span class="pl-v">last</span>));
+
+        <span class="pl-k">return</span> <span class="pl-v">sb</span>.<span class="pl-e">ToString</span>();
+    }
+    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">string</span> <span class="pl-e">ReplaceEx</span>(<span class="pl-c1">this</span> <span class="pl-k">string</span> <span class="pl-v">value</span>, <span class="pl-k">string</span> <span class="pl-v">find</span>, <span class="pl-k">string</span> <span class="pl-v">rep</span>)
+        => <span class="pl-v">value</span>.<span class="pl-e">Replace</span>(<span class="pl-v">find</span>, <span class="pl-v">rep</span>, <span class="pl-v">DefaultComparison</span>);
+
+    <span class="pl-c">#endregion</span>
+}</pre>
+</body>
+</html>

@@ -77,6 +77,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Actual\StorageEntities.htm" />
+    <Content Include="Actual\FunctionCallEntities.htm" />
     <Content Include="Actual\StringsWithEscape.htm" />
     <Content Include="Expected\CommentAttributes.htm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -126,6 +127,9 @@
     <Content Include="Expected\StorageEntities.htm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Expected\FunctionCallEntities.htm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Expected\StringsWithEscape.htm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -145,6 +149,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Input\DecimalNumbersWithPostfix.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Input\FunctionCallEntities.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Input\HexNumbersWithPostfix.txt">
