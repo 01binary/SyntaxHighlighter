@@ -22,10 +22,13 @@
 
     "entities": "(\\w+)\\s*[\\(]",
     "entitiesExclusive": "(\\w+)\\s*[^=+-]*$ | (\\w+)\\s*: | (\\w+)\\. | value\\W*$",
-    "entityModifiers": "public\\W*$ | private\\W*$ | protected\\W*$ | class\\W*$ | interface\\W*$ | struct\\W*$ | enum\\W*$ | namespace\\W*$ | using\\W*$ | \\.",
+    "entityModifiers": "public\\W*$ | private\\W*$ | protected\\W*$ | class\\W*$ | interface\\W*$ | struct\\W*$ | enum\\W*$ | namespace\\W*$ | \\.",
 
     "entitiesMembers": "(\\w+)\\s*={1,2}\\s* | (\\w+)\\s*[\\+-\\/\\*]?=\\s* | (\\w+)\\s*\\+{1,2}\\s* | (\\w+)\\s*-{1,2}\\s* | (\\w+)\\s*\\*\\s* | (\\w+)\\s*\\/\\s* | (\\w+)\\s*,\\s* | (\\w+)\\s*\\W*",
     "entityMemberModifiers": "\\.",
+
+    "entitiesNamespaces":  "(\\w+)\\s*[;.]\\s*",
+    "entityNamespaceModifier": "using\\W*$",
 
     "entityNamesExclusive": "(\\w+)\\s*[^=\\(\\)\\.,:{\\[&|*+-<>\\/]?[;\\s]*$ | (\\w+)\\<[\\s\\W]*",
     "entityNameModifiersExclusive": "; | \\[ | { | \\( | , | is\\W*$ | as\\W*$ | public\\W*$ | private\\W*$ | protected\\W*$ | static\\W*$",
@@ -36,7 +39,7 @@
     "entityNamesTemplate": "(\\w+)\\s*\\??>\\W*",
     "entityNameTemplateModifiers": "< | ,",
 
-    "variables": "(\\w+)\\s*[^(]*=?$ | (\\w+)\\s*=\\s*\\(\\s*$",
+    "variables": "(\\w+)\\s*[^(]*=?$ | (\\w+)\\s*=\\s*\\(\\s*$ | (\\w+)\\s*,\\s*\\(",
 
     "types": "^int\\W*$ | ^bool\\W*$ | ^var\\W*$ | ^string\\W*$ | ^float\\W*$ | ^double\\W*$ | ^uint\\W*$ | ^long\\W*$ | ^ulong\\W*$ | ^uint\\W*$ | ^short\\W*$ | ^ushort\\W*$",
 
@@ -125,6 +128,16 @@
         "tokenPattern": "entitiesMembers",
         "modifierPattern": "entityMemberModifiers",
         "excludeClasses": [ "pl-c1" ]
+      },
+
+      {
+        "name": "Namespace Entities",
+        "description": "Namespace declarations",
+
+        "transformType": "TokenModifier",
+        "tokenClass": "pl-e",
+        "tokenPattern": "entitiesNamespaces",
+        "modifierPattern": "entityNamespaceModifier"
       },
 
       {

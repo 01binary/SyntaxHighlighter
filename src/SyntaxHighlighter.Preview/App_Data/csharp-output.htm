@@ -1,3 +1,167 @@
+<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Namespace Entities">System</span>;
+<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Namespace Entities">System</span>.<span class="pl-e" data-transform="Member Entities">Collections</span>.<span class="pl-e" data-transform="Member Entities">Generic</span>;
+
+<span class="pl-k" data-transform="Keywords">namespace</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">Shadowsocks</span>.<span class="pl-e" data-transform="Member Entities">Encryption</span>
+{
+    <span class="pl-k" data-transform="Keywords">public</span> <span class="pl-k" data-transform="Keywords">class</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">SodiumEncryptor</span>
+        : <span class="pl-en" data-transform="Entity Names">IVEncryptor</span>, <span class="pl-v" data-transform="Variables">IDisposable</span>
+    {
+        <span class="pl-k" data-transform="Keywords">const</span> <span class="pl-k" data-transform="Keywords">int</span> <span class="pl-v" data-transform="Variables">CIPHER_SALSA20</span> = <span class="pl-c1" data-transform="Numbers">1</span>;
+        <span class="pl-k" data-transform="Keywords">const</span> <span class="pl-k" data-transform="Keywords">int</span> <span class="pl-v" data-transform="Variables">CIPHER_CHACHA20</span> = <span class="pl-c1" data-transform="Numbers">2</span>;
+        <span class="pl-k" data-transform="Keywords">const</span> <span class="pl-k" data-transform="Keywords">int</span> <span class="pl-v" data-transform="Variables">CIPHER_CHACHA20_IETF</span> = <span class="pl-c1" data-transform="Numbers">3</span>;
+
+        <span class="pl-k" data-transform="Keywords">const</span> <span class="pl-k" data-transform="Keywords">int</span> <span class="pl-v" data-transform="Variables">SODIUM_BLOCK_SIZE</span> = <span class="pl-c1" data-transform="Numbers">64</span>;
+
+        <span class="pl-k" data-transform="Keywords">protected</span> <span class="pl-k" data-transform="Keywords">int</span> <span class="pl-v" data-transform="Variables">_encryptBytesRemaining</span>;
+        <span class="pl-k" data-transform="Keywords">protected</span> <span class="pl-k" data-transform="Keywords">int</span> <span class="pl-v" data-transform="Variables">_decryptBytesRemaining</span>;
+        <span class="pl-k" data-transform="Keywords">protected</span> <span class="pl-k" data-transform="Keywords">ulong</span> <span class="pl-v" data-transform="Variables">_encryptIC</span>;
+        <span class="pl-k" data-transform="Keywords">protected</span> <span class="pl-k" data-transform="Keywords">ulong</span> <span class="pl-v" data-transform="Variables">_decryptIC</span>;
+        <span class="pl-k" data-transform="Keywords">protected</span> <span class="pl-k" data-transform="Keywords">byte</span>[] <span class="pl-v" data-transform="Variables">_encryptBuf</span>;
+        <span class="pl-k" data-transform="Keywords">protected</span> <span class="pl-k" data-transform="Keywords">byte</span>[] <span class="pl-v" data-transform="Variables">_decryptBuf</span>;
+
+        <span class="pl-k" data-transform="Keywords">public</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">SodiumEncryptor</span>(<span class="pl-k" data-transform="Keywords">string</span> <span class="pl-v" data-transform="Variables">method</span>, <span class="pl-k" data-transform="Keywords">string</span> <span class="pl-v" data-transform="Variables">password</span>, <span class="pl-k" data-transform="Keywords">bool</span> <span class="pl-v" data-transform="Variables">onetimeauth</span>, <span class="pl-k" data-transform="Keywords">bool</span> <span class="pl-v" data-transform="Variables">isudp</span>)
+            : <span class="pl-k" data-transform="Keywords">base</span>(<span class="pl-v" data-transform="Variables">method</span>, <span class="pl-v" data-transform="Variables">password</span>, <span class="pl-v" data-transform="Variables">onetimeauth</span>, <span class="pl-v" data-transform="Variables">isudp</span>)
+        {
+            <span class="pl-v" data-transform="Variables">_encryptBuf</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-k" data-transform="Keywords">byte</span>[<span class="pl-v" data-transform="Variables">MAX_INPUT_SIZE</span> + <span class="pl-v" data-transform="Variables">SODIUM_BLOCK_SIZE</span>];
+            <span class="pl-v" data-transform="Variables">_decryptBuf</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-k" data-transform="Keywords">byte</span>[<span class="pl-v" data-transform="Variables">MAX_INPUT_SIZE</span> + <span class="pl-v" data-transform="Variables">SODIUM_BLOCK_SIZE</span>];
+        }
+
+        <span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">static</span> <span class="pl-en" data-transform="Exclusive Entity Names">Dictionary</span><<span class="pl-k" data-transform="Keywords">string</span>, <span class="pl-v" data-transform="Variables">EncryptorInfo</span>> <span class="pl-v" data-transform="Variables">_ciphers</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-en" data-transform="Entity Names">Dictionary</span><<span class="pl-k" data-transform="Keywords">string</span>, <span class="pl-v" data-transform="Variables">EncryptorInfo</span>> {
+            { <span class="pl-s" data-transform="Strings">"salsa20"</span>, <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-e" data-transform="Call Entities">EncryptorInfo</span>(<span class="pl-c1" data-transform="Numbers">32</span>, <span class="pl-c1" data-transform="Numbers">8</span>, <span class="pl-v" data-transform="Variables">CIPHER_SALSA20</span>) },
+            { <span class="pl-s" data-transform="Strings">"chacha20"</span>, <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-e" data-transform="Call Entities">EncryptorInfo</span>(<span class="pl-c1" data-transform="Numbers">32</span>, <span class="pl-c1" data-transform="Numbers">8</span>, <span class="pl-v" data-transform="Variables">CIPHER_CHACHA20</span>) },
+            { <span class="pl-s" data-transform="Strings">"chacha20-ietf"</span>, <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-e" data-transform="Call Entities">EncryptorInfo</span>(<span class="pl-c1" data-transform="Numbers">32</span>, <span class="pl-c1" data-transform="Numbers">12</span>, <span class="pl-v" data-transform="Variables">CIPHER_CHACHA20_IETF</span>) }
+        };
+
+        <span class="pl-k" data-transform="Keywords">protected</span> <span class="pl-k" data-transform="Keywords">override</span> <span class="pl-en" data-transform="Exclusive Entity Names">Dictionary</span><<span class="pl-k" data-transform="Keywords">string</span>, <span class="pl-v" data-transform="Variables">EncryptorInfo</span>> <span class="pl-e" data-transform="Call Entities">getCiphers</span>()
+        {
+            <span class="pl-k" data-transform="Keywords">return</span> <span class="pl-v" data-transform="Variables">_ciphers</span>;
+        }
+
+        <span class="pl-k" data-transform="Keywords">public</span> <span class="pl-k" data-transform="Keywords">static</span> <span class="pl-en" data-transform="Exclusive Entity Names">List</span><<span class="pl-k" data-transform="Keywords">string</span>> <span class="pl-e" data-transform="Call Entities">SupportedCiphers</span>()
+        {
+            <span class="pl-k" data-transform="Keywords">return</span> <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-en" data-transform="Exclusive Entity Names">List</span><<span class="pl-k" data-transform="Keywords">string</span>>(<span class="pl-v" data-transform="Variables">_ciphers</span>.<span class="pl-e" data-transform="Member Entities">Keys</span>);
+        }
+
+        <span class="pl-k" data-transform="Keywords">protected</span> <span class="pl-k" data-transform="Keywords">override</span> <span class="pl-k" data-transform="Keywords">void</span> <span class="pl-e" data-transform="Call Entities">cipherUpdate</span>(<span class="pl-k" data-transform="Keywords">bool</span> <span class="pl-v" data-transform="Variables">isCipher</span>, <span class="pl-k" data-transform="Keywords">int</span> <span class="pl-v" data-transform="Variables">length</span>, <span class="pl-k" data-transform="Keywords">byte</span>[] <span class="pl-v" data-transform="Variables">buf</span>, <span class="pl-k" data-transform="Keywords">byte</span>[] <span class="pl-v" data-transform="Variables">outbuf</span>)
+        {
+            <span class="pl-c" data-transform="Comments">// TODO write a unidirection cipher so we don't have to if if if</span>
+            <span class="pl-k" data-transform="Keywords">int</span> <span class="pl-v" data-transform="Variables">bytesRemaining</span>;
+            <span class="pl-k" data-transform="Keywords">ulong</span> <span class="pl-v" data-transform="Variables">ic</span>;
+            <span class="pl-k" data-transform="Keywords">byte</span>[] <span class="pl-v" data-transform="Variables">sodiumBuf</span>;
+            <span class="pl-k" data-transform="Keywords">byte</span>[] <span class="pl-v" data-transform="Variables">iv</span>;
+
+            <span class="pl-k" data-transform="Keywords">if</span> (<span class="pl-v" data-transform="Variables">isCipher</span>)
+            {
+                <span class="pl-v" data-transform="Variables">bytesRemaining</span> = <span class="pl-v" data-transform="Variables">_encryptBytesRemaining</span>;
+                <span class="pl-v" data-transform="Variables">ic</span> = <span class="pl-v" data-transform="Variables">_encryptIC</span>;
+                <span class="pl-v" data-transform="Variables">sodiumBuf</span> = <span class="pl-v" data-transform="Variables">_encryptBuf</span>;
+                <span class="pl-v" data-transform="Variables">iv</span> = <span class="pl-v" data-transform="Variables">_encryptIV</span>;
+            }
+            <span class="pl-k" data-transform="Keywords">else</span>
+            {
+                <span class="pl-v" data-transform="Variables">bytesRemaining</span> = <span class="pl-v" data-transform="Variables">_decryptBytesRemaining</span>;
+                <span class="pl-v" data-transform="Variables">ic</span> = <span class="pl-v" data-transform="Variables">_decryptIC</span>;
+                <span class="pl-v" data-transform="Variables">sodiumBuf</span> = <span class="pl-v" data-transform="Variables">_decryptBuf</span>;
+                <span class="pl-v" data-transform="Variables">iv</span> = <span class="pl-v" data-transform="Variables">_decryptIV</span>;
+            }
+            <span class="pl-k" data-transform="Keywords">int</span> <span class="pl-v" data-transform="Variables">padding</span> = <span class="pl-v" data-transform="Variables">bytesRemaining</span>;
+            <span class="pl-v" data-transform="Variables">Buffer</span>.<span class="pl-e" data-transform="Member Entities">BlockCopy</span>(<span class="pl-v" data-transform="Variables">buf</span>, <span class="pl-c1" data-transform="Numbers">0</span>, <span class="pl-v" data-transform="Variables">sodiumBuf</span>, <span class="pl-v" data-transform="Variables">padding</span>, <span class="pl-v" data-transform="Variables">length</span>);
+
+            <span class="pl-k" data-transform="Keywords">switch</span> (<span class="pl-v" data-transform="Variables">_cipher</span>)
+            {
+                <span class="pl-k" data-transform="Keywords">case</span> <span class="pl-c1" data-transform="Constant Identifiers">CIPHER_SALSA20</span>:
+                    <span class="pl-v" data-transform="Variables">Sodium</span>.<span class="pl-e" data-transform="Member Entities">crypto_stream_salsa20_xor_ic</span>(<span class="pl-v" data-transform="Variables">sodiumBuf</span>, <span class="pl-v" data-transform="Variables">sodiumBuf</span>, (<span class="pl-k" data-transform="Keywords">ulong</span>)(<span class="pl-v" data-transform="Variables">padding</span> + <span class="pl-v" data-transform="Variables">length</span>), <span class="pl-v" data-transform="Variables">iv</span>, <span class="pl-v" data-transform="Variables">ic</span>, <span class="pl-v" data-transform="Variables">_key</span>);
+                    <span class="pl-k" data-transform="Keywords">break</span>;
+                <span class="pl-k" data-transform="Keywords">case</span> <span class="pl-c1" data-transform="Constant Identifiers">CIPHER_CHACHA20</span>:
+                    <span class="pl-v" data-transform="Variables">Sodium</span>.<span class="pl-e" data-transform="Member Entities">crypto_stream_chacha20_xor_ic</span>(<span class="pl-v" data-transform="Variables">sodiumBuf</span>, <span class="pl-v" data-transform="Variables">sodiumBuf</span>, (<span class="pl-k" data-transform="Keywords">ulong</span>)(<span class="pl-v" data-transform="Variables">padding</span> + <span class="pl-v" data-transform="Variables">length</span>), <span class="pl-v" data-transform="Variables">iv</span>, <span class="pl-v" data-transform="Variables">ic</span>, <span class="pl-v" data-transform="Variables">_key</span>);
+                    <span class="pl-k" data-transform="Keywords">break</span>;
+                <span class="pl-k" data-transform="Keywords">case</span> <span class="pl-c1" data-transform="Constant Identifiers">CIPHER_CHACHA20_IETF</span>:
+                    <span class="pl-v" data-transform="Variables">Sodium</span>.<span class="pl-e" data-transform="Member Entities">crypto_stream_chacha20_ietf_xor_ic</span>(<span class="pl-v" data-transform="Variables">sodiumBuf</span>, <span class="pl-v" data-transform="Variables">sodiumBuf</span>, (<span class="pl-k" data-transform="Keywords">ulong</span>)(<span class="pl-v" data-transform="Variables">padding</span> + <span class="pl-v" data-transform="Variables">length</span>), <span class="pl-v" data-transform="Variables">iv</span>, (<span class="pl-k" data-transform="Keywords">uint</span>)<span class="pl-v" data-transform="Variables">ic</span>, <span class="pl-v" data-transform="Variables">_key</span>);
+                    <span class="pl-k" data-transform="Keywords">break</span>;
+            }
+            <span class="pl-v" data-transform="Variables">Buffer</span>.<span class="pl-e" data-transform="Member Entities">BlockCopy</span>(<span class="pl-v" data-transform="Variables">sodiumBuf</span>, <span class="pl-v" data-transform="Variables">padding</span>, <span class="pl-v" data-transform="Variables">outbuf</span>, <span class="pl-c1" data-transform="Numbers">0</span>, <span class="pl-v" data-transform="Variables">length</span>);
+            <span class="pl-v" data-transform="Variables">padding</span> += <span class="pl-v" data-transform="Variables">length</span>;
+            ic += (<span class="pl-k" data-transform="Keywords">ulong</span>)<span class="pl-v" data-transform="Variables">padding</span> / <span class="pl-v" data-transform="Variables">SODIUM_BLOCK_SIZE</span>;
+            <span class="pl-v" data-transform="Variables">bytesRemaining</span> = <span class="pl-v" data-transform="Variables">padding</span> % <span class="pl-v" data-transform="Variables">SODIUM_BLOCK_SIZE</span>;
+
+            <span class="pl-k" data-transform="Keywords">if</span> (<span class="pl-v" data-transform="Variables">isCipher</span>)
+            {
+                <span class="pl-v" data-transform="Variables">_encryptBytesRemaining</span> = <span class="pl-v" data-transform="Variables">bytesRemaining</span>;
+                <span class="pl-v" data-transform="Variables">_encryptIC</span> = <span class="pl-v" data-transform="Variables">ic</span>;
+            }
+            <span class="pl-k" data-transform="Keywords">else</span>
+            {
+                <span class="pl-v" data-transform="Variables">_decryptBytesRemaining</span> = <span class="pl-v" data-transform="Variables">bytesRemaining</span>;
+                <span class="pl-v" data-transform="Variables">_decryptIC</span> = <span class="pl-v" data-transform="Variables">ic</span>;
+            }
+        }
+
+        <span class="pl-k" data-transform="Keywords">public</span> <span class="pl-k" data-transform="Keywords">override</span> <span class="pl-k" data-transform="Keywords">void</span> <span class="pl-e" data-transform="Call Entities">Dispose</span>()
+        {
+        }
+    }
+}
+
+<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Namespace Entities">UnityEditor</span>;
+<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Namespace Entities">UnityEngine</span>;
+<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Namespace Entities">UnityEngine</span>.<span class="pl-e" data-transform="Member Entities">VR</span>.<span class="pl-e" data-transform="Member Entities">Utilities</span>;
+
+[<span class="pl-e" data-transform="Call Entities">CustomPropertyDrawer</span>(<span class="pl-k" data-transform="Keywords">typeof</span>(<span class="pl-en" data-transform="Entity Names">FlagsPropertyAttribute</span>))]
+<span class="pl-k" data-transform="Keywords">public</span> <span class="pl-k" data-transform="Keywords">class</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">FlagsPropertyDrawer</span> : <span class="pl-en" data-transform="Entity Names">PropertyDrawer</span>
+{
+	<span class="pl-k" data-transform="Keywords">public</span> <span class="pl-k" data-transform="Keywords">override</span> <span class="pl-k" data-transform="Keywords">void</span> <span class="pl-e" data-transform="Call Entities">OnGUI</span>(<span class="pl-en" data-transform="Exclusive Entity Names">Rect</span> <span class="pl-v" data-transform="Variables">position</span>, <span class="pl-en" data-transform="Exclusive Entity Names">SerializedProperty</span> <span class="pl-v" data-transform="Variables">property</span>, <span class="pl-en" data-transform="Exclusive Entity Names">GUIContent</span> <span class="pl-v" data-transform="Variables">label</span>)
+	{
+		<span class="pl-v" data-transform="Variables">property</span>.<span class="pl-e" data-transform="Member Entities">intValue</span> = <span class="pl-v" data-transform="Variables">U</span>.<span class="pl-e" data-transform="Member Entities">UI</span>.<span class="pl-e" data-transform="Member Entities">MaskField</span>(<span class="pl-v" data-transform="Variables">position</span>, <span class="pl-v" data-transform="Variables">label</span>, <span class="pl-v" data-transform="Variables">property</span>.<span class="pl-e" data-transform="Member Entities">intValue</span>, <span class="pl-v" data-transform="Variables">property</span>.<span class="pl-e" data-transform="Member Entities">enumNames</span>, <span class="pl-v" data-transform="Variables">U</span>.<span class="pl-e" data-transform="Member Entities">UI</span>.<span class="pl-e" data-transform="Member Entities">SerializedPropertyToType</span>(<span class="pl-v" data-transform="Variables">property</span>));
+	}
+}
+
+[<span class="pl-e" data-transform="Call Entities">CustomEditor</span>(<span class="pl-k" data-transform="Keywords">typeof</span>(<span class="pl-en" data-transform="Entity Names">RaySlider</span>))]
+<span class="pl-k" data-transform="Keywords">public</span> <span class="pl-k" data-transform="Keywords">class</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">RaySliderEditor</span> : <span class="pl-en" data-transform="Entity Names">SliderEditor</span>
+{
+	<span class="pl-k" data-transform="Keywords">public</span> <span class="pl-k" data-transform="Keywords">override</span> <span class="pl-k" data-transform="Keywords">void</span> <span class="pl-e" data-transform="Call Entities">OnInspectorGUI</span>()
+	{
+		<span class="pl-v" data-transform="Variables">serializedObject</span>.<span class="pl-e" data-transform="Member Entities">Update</span>();
+		<span class="pl-v" data-transform="Variables">EditorGUILayout</span>.<span class="pl-e" data-transform="Member Entities">PropertyField</span>(<span class="pl-v" data-transform="Variables">serializedObject</span>.<span class="pl-e" data-transform="Member Entities">FindProperty</span>(<span class="pl-s" data-transform="Strings">"m_SelectionFlags"</span>));
+		<span class="pl-v" data-transform="Variables">serializedObject</span>.<span class="pl-e" data-transform="Member Entities">ApplyModifiedProperties</span>();
+		<span class="pl-k" data-transform="Keywords">base</span>.<span class="pl-e" data-transform="Member Entities">OnInspectorGUI</span>();
+	}
+}
+
+<span class="pl-k" data-transform="Keywords">namespace</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">UnityEngine</span>.<span class="pl-e" data-transform="Member Entities">InputNew</span>
+{
+	<span class="pl-k" data-transform="Keywords">public</span> <span class="pl-k" data-transform="Keywords">class</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">ShowMenu</span> : <span class="pl-en" data-transform="Entity Names">ActionMapInput</span> {
+		<span class="pl-k" data-transform="Keywords">public</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">ShowMenu</span> (<span class="pl-en" data-transform="Exclusive Entity Names">ActionMap</span> <span class="pl-v" data-transform="Variables">actionMap</span>) : <span class="pl-k" data-transform="Keywords">base</span> (<span class="pl-v" data-transform="Variables">actionMap</span>) { }
+		
+		<span class="pl-k" data-transform="Keywords">public</span> <span class="pl-en" data-transform="Exclusive Entity Names">ButtonInputControl</span> @<span class="pl-v" data-transform="Variables">show</span> { <span class="pl-k" data-transform="Keywords">get</span> { <span class="pl-k" data-transform="Keywords">return</span> (<span class="pl-v" data-transform="Variables">ButtonInputControl</span>)<span class="pl-c1" data-transform="Constant Literals">this</span>[<span class="pl-c1" data-transform="Numbers">0</span>]; } }
+	}
+}
+
+<span class="pl-k" data-transform="Keywords">namespace</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">System</span>.<span class="pl-e" data-transform="Member Entities">Collections</span>.<span class="pl-e" data-transform="Member Entities">Concurrent</span>
+{
+    <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
+    <span class="pl-c" data-transform="Comments">/// Represents a thread-safe hash-based unique collection.</span>
+    <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
+    <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">typeparam</span> <span class="pl-e" data-transform="Comments">name</span>=<span class="pl-s" data-transform="Comments">"T"</span>&gt;The type of the items in the collection.&lt;/<span class="pl-ent" data-transform="Comments">typeparam</span>&gt;</span>
+    <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">remarks</span>&gt;</span>
+    <span class="pl-c" data-transform="Comments">/// All public members of &lt;<span class="pl-ent" data-transform="Comments">see</span> <span class="pl-e" data-transform="Comments">cref</span>="ConcurrentHashSet{T}"/&gt; are thread-safe and may be used</span>
+    <span class="pl-c" data-transform="Comments">/// concurrently from multiple threads.</span>
+    <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comments">remarks</span>&gt;</span>
+    [<span class="pl-e" data-transform="Call Entities">DebuggerDisplay</span>(<span class="pl-s" data-transform="Strings">"Count = {Count}"</span>)]
+    <span class="pl-k" data-transform="Keywords">public</span> <span class="pl-k" data-transform="Keywords">sealed</span> <span class="pl-k" data-transform="Keywords">class</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">ConcurrentHashSet</span><<span class="pl-en" data-transform="Entity Names">T</span>> : <span class="pl-en" data-transform="Entity Names">IReadOnlyCollection</span><<span class="pl-en" data-transform="Entity Names">T</span>>, <span class="pl-v" data-transform="Variables">ICollection</span><<span class="pl-en" data-transform="Entity Names">T</span>>
+    {
+        <span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">const</span> <span class="pl-k" data-transform="Keywords">int</span> <span class="pl-v" data-transform="Variables">DefaultCapacity</span> = <span class="pl-c1" data-transform="Numbers">31</span>;
+        <span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">const</span> <span class="pl-k" data-transform="Keywords">int</span> <span class="pl-v" data-transform="Variables">MaxLockNumber</span> = <span class="pl-c1" data-transform="Numbers">1024</span>;
+
+        <span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">readonly</span> <span class="pl-en" data-transform="Exclusive Entity Names">IEqualityComparer</span><<span class="pl-en" data-transform="Entity Names">T</span>> <span class="pl-v" data-transform="Variables">_comparer</span>;
+        <span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">readonly</span> <span class="pl-k" data-transform="Keywords">bool</span> <span class="pl-v" data-transform="Variables">_growLockArray</span>;
+
+        <span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">int</span> <span class="pl-v" data-transform="Variables">_budget</span>;
+        <span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">volatile</span> <span class="pl-en" data-transform="Exclusive Entity Names">Tables</span> <span class="pl-v" data-transform="Variables">_tables</span>;
+
+        <span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">static</span> <span class="pl-k" data-transform="Keywords">int</span> <span class="pl-v" data-transform="Variables">DefaultConcurrencyLevel</span> => <span class="pl-v" data-transform="Variables">PlatformHelper</span>.<span class="pl-e" data-transform="Member Entities">ProcessorCount</span>;
+	}
+}
+
 <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
 <span class="pl-c" data-transform="Comments">/// Gets the news stories.</span>
 <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
@@ -82,10 +246,10 @@
 |  Copyright(C) 2016 Valeriy Novytskyy
 \*---------------------------------------------------------*/</span>
 
-<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">System</span>;
-<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">System</span>.<span class="pl-e" data-transform="Member Entities">Linq</span>;
-<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">Microsoft</span>.<span class="pl-e" data-transform="Member Entities">AspNetCore</span>.<span class="pl-e" data-transform="Member Entities">Mvc</span>;
-<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">ZeroWeb</span>.<span class="pl-e" data-transform="Member Entities">Models</span>;
+<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Namespace Entities">System</span>;
+<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Namespace Entities">System</span>.<span class="pl-e" data-transform="Member Entities">Linq</span>;
+<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Namespace Entities">Microsoft</span>.<span class="pl-e" data-transform="Member Entities">AspNetCore</span>.<span class="pl-e" data-transform="Member Entities">Mvc</span>;
+<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Namespace Entities">ZeroWeb</span>.<span class="pl-e" data-transform="Member Entities">Models</span>;
 
 <span class="pl-k" data-transform="Keywords">const</span> <span class="pl-k" data-transform="Keywords">bool</span> <span class="pl-v" data-transform="Variables">myvar</span> = <span class="pl-c1" data-transform="Constant Literals">false</span>;
 
@@ -279,21 +443,21 @@
 |  Copyright(C) 2016 Valeriy Novytskyy
 \*---------------------------------------------------------*/</span>
 
-<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">System</span>;
-<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">System</span>.<span class="pl-e" data-transform="Member Entities">IO</span>;
-<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">AspNet</span>.<span class="pl-e" data-transform="Member Entities">Security</span>.<span class="pl-e" data-transform="Member Entities">OAuth</span>.<span class="pl-e" data-transform="Member Entities">GitHub</span>;
-<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">AspNet</span>.<span class="pl-e" data-transform="Member Entities">Security</span>.<span class="pl-e" data-transform="Member Entities">OAuth</span>.<span class="pl-e" data-transform="Member Entities">LinkedIn</span>;
-<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">AspNet</span>.<span class="pl-e" data-transform="Member Entities">Security</span>.<span class="pl-e" data-transform="Member Entities">OAuth</span>.<span class="pl-e" data-transform="Member Entities">Reddit</span>;
-<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">AspNet</span>.<span class="pl-e" data-transform="Member Entities">Security</span>.<span class="pl-e" data-transform="Member Entities">OAuth</span>.<span class="pl-e" data-transform="Member Entities">Yahoo</span>;
-<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">Microsoft</span>.<span class="pl-e" data-transform="Member Entities">AspNetCore</span>.<span class="pl-e" data-transform="Member Entities">Authentication</span>.<span class="pl-e" data-transform="Member Entities">OAuth</span>;
-<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">Microsoft</span>.<span class="pl-e" data-transform="Member Entities">AspNetCore</span>.<span class="pl-e" data-transform="Member Entities">Builder</span>;
-<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">Microsoft</span>.<span class="pl-e" data-transform="Member Entities">AspNetCore</span>.<span class="pl-e" data-transform="Member Entities">Hosting</span>;
-<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">Microsoft</span>.<span class="pl-e" data-transform="Member Entities">AspNetCore</span>.<span class="pl-e" data-transform="Member Entities">Identity</span>.<span class="pl-e" data-transform="Member Entities">EntityFrameworkCore</span>;
-<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">Microsoft</span>.<span class="pl-e" data-transform="Member Entities">Extensions</span>.<span class="pl-e" data-transform="Member Entities">Configuration</span>;
-<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">Microsoft</span>.<span class="pl-e" data-transform="Member Entities">Extensions</span>.<span class="pl-e" data-transform="Member Entities">DependencyInjection</span>;
-<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">Microsoft</span>.<span class="pl-e" data-transform="Member Entities">Extensions</span>.<span class="pl-e" data-transform="Member Entities">FileProviders</span>;
-<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">Microsoft</span>.<span class="pl-e" data-transform="Member Entities">Extensions</span>.<span class="pl-e" data-transform="Member Entities">Logging</span>;
-<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">ZeroWeb</span>.<span class="pl-e" data-transform="Member Entities">Models</span>;
+<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Namespace Entities">System</span>;
+<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Namespace Entities">System</span>.<span class="pl-e" data-transform="Member Entities">IO</span>;
+<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Namespace Entities">AspNet</span>.<span class="pl-e" data-transform="Member Entities">Security</span>.<span class="pl-e" data-transform="Member Entities">OAuth</span>.<span class="pl-e" data-transform="Member Entities">GitHub</span>;
+<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Namespace Entities">AspNet</span>.<span class="pl-e" data-transform="Member Entities">Security</span>.<span class="pl-e" data-transform="Member Entities">OAuth</span>.<span class="pl-e" data-transform="Member Entities">LinkedIn</span>;
+<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Namespace Entities">AspNet</span>.<span class="pl-e" data-transform="Member Entities">Security</span>.<span class="pl-e" data-transform="Member Entities">OAuth</span>.<span class="pl-e" data-transform="Member Entities">Reddit</span>;
+<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Namespace Entities">AspNet</span>.<span class="pl-e" data-transform="Member Entities">Security</span>.<span class="pl-e" data-transform="Member Entities">OAuth</span>.<span class="pl-e" data-transform="Member Entities">Yahoo</span>;
+<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Namespace Entities">Microsoft</span>.<span class="pl-e" data-transform="Member Entities">AspNetCore</span>.<span class="pl-e" data-transform="Member Entities">Authentication</span>.<span class="pl-e" data-transform="Member Entities">OAuth</span>;
+<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Namespace Entities">Microsoft</span>.<span class="pl-e" data-transform="Member Entities">AspNetCore</span>.<span class="pl-e" data-transform="Member Entities">Builder</span>;
+<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Namespace Entities">Microsoft</span>.<span class="pl-e" data-transform="Member Entities">AspNetCore</span>.<span class="pl-e" data-transform="Member Entities">Hosting</span>;
+<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Namespace Entities">Microsoft</span>.<span class="pl-e" data-transform="Member Entities">AspNetCore</span>.<span class="pl-e" data-transform="Member Entities">Identity</span>.<span class="pl-e" data-transform="Member Entities">EntityFrameworkCore</span>;
+<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Namespace Entities">Microsoft</span>.<span class="pl-e" data-transform="Member Entities">Extensions</span>.<span class="pl-e" data-transform="Member Entities">Configuration</span>;
+<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Namespace Entities">Microsoft</span>.<span class="pl-e" data-transform="Member Entities">Extensions</span>.<span class="pl-e" data-transform="Member Entities">DependencyInjection</span>;
+<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Namespace Entities">Microsoft</span>.<span class="pl-e" data-transform="Member Entities">Extensions</span>.<span class="pl-e" data-transform="Member Entities">FileProviders</span>;
+<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Namespace Entities">Microsoft</span>.<span class="pl-e" data-transform="Member Entities">Extensions</span>.<span class="pl-e" data-transform="Member Entities">Logging</span>;
+<span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Namespace Entities">ZeroWeb</span>.<span class="pl-e" data-transform="Member Entities">Models</span>;
 
 <span class="pl-k" data-transform="Keywords">namespace</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">ZeroWeb</span>
 {
