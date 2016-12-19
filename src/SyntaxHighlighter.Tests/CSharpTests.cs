@@ -264,6 +264,7 @@ namespace SyntaxHighlighter.Tests
         [TestCategory("C# Syntax Highlighting")]
         public void TestBaseClassEntityNames()
         {
+            this.AssertTransformed("BaseClassEntityNames", "pl-en");
         }
 
         /// <summary>

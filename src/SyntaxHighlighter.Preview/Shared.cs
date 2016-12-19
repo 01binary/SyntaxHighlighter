@@ -20,15 +20,11 @@ namespace SyntaxHighlighter.Preview
         {
             if (transform.GetType() == typeof(TransformToken))
             {
-                return "tok";
-            }
-            else if (transform.GetType() == typeof(TransformTokenModifier))
-            {
-                return "mod";
+                return "token";
             }
             else if (transform.GetType() == typeof(TransformTokenSpan))
             {
-                return "spn";
+                return "span";
             }
 
             return string.Empty;

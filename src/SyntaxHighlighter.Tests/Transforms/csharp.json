@@ -27,17 +27,16 @@
     "entitiesMembers": "(\\w+)\\s*={1,2}\\s* | (\\w+)\\s*[\\+-\\/\\*]?=\\s* | (\\w+)\\s*\\+{1,2}\\s* | (\\w+)\\s*-{1,2}\\s* | (\\w+)\\s*\\*\\s* | (\\w+)\\s*\\/\\s* | (\\w+)\\s*,\\s* | (\\w+)\\s*\\W*",
     "entityMemberModifiers": "\\.",
 
-    "entitiesNamespaces":  "(\\w+)\\s*[;.]\\s*",
+    "entitiesNamespaces": "(\\w+)\\s*[;.]\\s*",
     "entityNamespaceModifier": "using\\W*$",
+
+    "entityNameLists": ":[^\\{]* | <[^\\>]*>",
 
     "entityNamesExclusive": "(\\w+)\\s*[^=\\(\\)\\.,:{\\[&|*+-<>\\/]?[;\\s]*$ | (\\w+)\\<[\\s\\W]*",
     "entityNameModifiersExclusive": "; | \\[ | { | \\( | , | is\\W*$ | as\\W*$ | public\\W*$ | private\\W*$ | protected\\W*$ | static\\W*$",
 
     "entityNames": "(\\w+)\\s*[^=\\(\\.;]*$ | (\\w+)\\s*[\\){][\\W]*$",
     "entityNameModifiers": "< | : | typeof\\W*$ | new\\W*$",
-
-    "entityNamesTemplate": "(\\w+)\\s*\\??>\\W*",
-    "entityNameTemplateModifiers": "< | ,",
 
     "variables": "(\\w+)\\s*[^(]*=?$ | (\\w+)\\s*=\\s*\\(\\s*$ | (\\w+)\\s*,\\s*\\(",
 
@@ -47,167 +46,186 @@
   },
 
   "transforms": [
-      {
-        "name": "Comments",
-        "description": "Single-line and multiline comments",
+    {
+      "name": "Comments",
+      "description": "Single-line and multiline comments",
 
-        "transformType": "TokenSpan",
-        "tokenClass": "pl-c",
-        "tokenPattern": "comments",
+      "transformType": "TokenSpan",
+      "tokenClass": "pl-c",
+      "tokenPattern": "comments",
 
-        "transforms": [
-          {
-            "tokenClass": "pl-ent",
-            "tokenPattern": "tags"
-          },
+      "transforms": [
+        {
+          "tokenClass": "pl-ent",
+          "tokenPattern": "tags"
+        },
 
-          {
-            "tokenClass": "pl-e",
-            "tokenPattern": "attributes"
-          },
+        {
+          "tokenClass": "pl-e",
+          "tokenPattern": "attributes"
+        },
 
-          {
-            "tokenClass": "pl-s",
-            "tokenPattern": "attributeValues"
-          }
-        ]
-      },
-
-      {
-        "name": "Strings",
-        "description": "String literals",
-
-        "transformType": "TokenSpan",
-        "tokenClass": "pl-s",
-        "tokenPattern": "strings"
-      },
-
-      {
-        "name": "Keywords",
-        "description": "Language keywords",
-
-        "transformType": "Token",
-        "tokenClass": "pl-k",
-        "tokenPattern": "keywords"
-      },
-
-      {
-        "name": "Constant Literals",
-        "description": "Language token literals",
-
-        "transformType": "Token",
-        "tokenClass": "pl-c1",
-        "tokenPattern": "constants"
-      },
-
-      {
-        "name": "Constant Identifiers",
-        "description": "Identifiers declared constant",
-
-        "transformType": "TokenModifier",
-        "tokenClass": "pl-c1",
-        "tokenPattern": "default",
-        "modifierPattern": "constantModifiers"
-      },
-
-      {
-        "name": "Numbers",
-        "description": "Number literals",
-
-        "transformType": "TokenSpan",
-        "tokenClass": "pl-c1",
-        "tokenPattern": "numbers"
-      },
-
-      {
-        "name": "Member Entities",
-        "description": "Properties and methods",
-
-        "transformType": "TokenModifier",
-        "tokenClass": "pl-e",
-        "tokenPattern": "entitiesMembers",
-        "modifierPattern": "entityMemberModifiers",
-        "excludeClasses": [ "pl-c1" ]
-      },
-
-      {
-        "name": "Namespace Entities",
-        "description": "Namespace declarations",
-
-        "transformType": "TokenModifier",
-        "tokenClass": "pl-e",
-        "tokenPattern": "entitiesNamespaces",
-        "modifierPattern": "entityNamespaceModifier"
-      },
-
-      {
-        "name": "Variables",
-        "description": "Variable identifiers declared with a type",
-
-        "transformType": "TokenModifier",
-        "tokenClass": "pl-v",
-        "tokenPattern": "variables",
-        "modifierPattern": "types"
-      },
-
-      {
-        "name": "Exclusive Entity Names",
-        "description": "Identifiers not preceded by constant or type",
-
-        "transformType": "TokenModifier",
-        "tokenClass": "pl-en",
-        "tokenPattern": "entityNamesExclusive",
-        "modifierPattern": "entityNameModifiersExclusive",
-        "excludeClasses": [ "pl-en", "pl-c1" ]
-      },
-
-      {
-        "name": "Entity Names",
-        "description": "User types (built-in types are keywords)",
-
-        "transformType": "TokenModifier",
-        "tokenClass": "pl-en",
-        "tokenPattern": "entityNames",
-        "modifierPattern": "entityNameModifiers"
-      },
-
-      {
-        "name": "Templated Entity Names",
-        "description": "Types in template arguments",
-
-        "transformType": "TokenModifier",
-        "tokenClass": "pl-en",
-        "tokenPattern": "entityNamesTemplate",
-        "modifierPattern": "entityNameTemplateModifiers"
-      },
-
-      {
-        "name": "Exclusive Entities (Non-Scoped)",
-        "description": "Identifiers declared as class, struct, namespace or class access not constrained to being inside of a scope",
-
-        "transformType": "TokenModifier",
-        "tokenClass": "pl-e",
-        "tokenPattern": "entitiesExclusive",
-        "modifierPattern": "entityModifiers",
-        "excludeClasses": [ "pl-en", "pl-c1" ]
-      },
-
-      {
-        "name": "Call Entities",
-        "description": "Non-member function calls",
-
-        "transformType": "Token",
-        "tokenClass": "pl-e",
-        "tokenPattern": "entities"
-      },
-
-      {
-        "name": "Variables",
-        "description": "Unknown identifiers",
-
-        "transformType": "Token",
-        "tokenClass": "pl-v",
-        "tokenPattern": "variables"
-      }
+        {
+          "tokenClass": "pl-s",
+          "tokenPattern": "attributeValues"
+        }
       ]
+    },
+
+    {
+      "name": "Strings",
+      "description": "String literals",
+
+      "transformType": "TokenSpan",
+      "tokenClass": "pl-s",
+      "tokenPattern": "strings"
+    },
+
+    {
+      "name": "Entity Name Lists",
+      "description": "Lists of base classes or template parameters",
+
+      "transformType": "TokenSpan",
+      "tokenClass": "pl-en",
+      "tokenPattern": "entityNameLists",
+
+      "transforms": [
+        {
+          "name": "Entity Name List Keyword",
+          "description": "Keyword template parameter",
+
+          "transformType": "Token",
+          "tokenClass": "pl-k",
+          "tokenPattern": "keywords"
+        },
+
+        {
+          "name": "Entity Name List Item",
+          "description": "Base class or template parameter",
+
+          "transformType": "Token",
+          "tokenClass": "pl-en",
+          "tokenPattern": "default"
+        }
+      ]
+    },
+
+    {
+      "name": "Keywords",
+      "description": "Language keywords",
+
+      "transformType": "Token",
+      "tokenClass": "pl-k",
+      "tokenPattern": "keywords"
+    },
+
+    {
+      "name": "Constant Literals",
+      "description": "Language token literals",
+
+      "transformType": "Token",
+      "tokenClass": "pl-c1",
+      "tokenPattern": "constants"
+    },
+
+    {
+      "name": "Constant Identifiers",
+      "description": "Identifiers declared constant",
+
+      "transformType": "Token",
+      "tokenClass": "pl-c1",
+      "tokenPattern": "default",
+      "modifierPattern": "constantModifiers"
+    },
+
+    {
+      "name": "Numbers",
+      "description": "Number literals",
+
+      "transformType": "TokenSpan",
+      "tokenClass": "pl-c1",
+      "tokenPattern": "numbers"
+    },
+
+    {
+      "name": "Member Entities",
+      "description": "Properties and methods",
+
+      "transformType": "Token",
+      "tokenClass": "pl-e",
+      "tokenPattern": "entitiesMembers",
+      "modifierPattern": "entityMemberModifiers",
+      "excludeClasses": [ "pl-c1" ]
+    },
+
+    {
+      "name": "Namespace Entities",
+      "description": "Namespace declarations",
+
+      "transformType": "Token",
+      "tokenClass": "pl-e",
+      "tokenPattern": "entitiesNamespaces",
+      "modifierPattern": "entityNamespaceModifier"
+    },
+
+    {
+      "name": "Variables",
+      "description": "Variable identifiers declared with a type",
+
+      "transformType": "Token",
+      "tokenClass": "pl-v",
+      "tokenPattern": "variables",
+      "modifierPattern": "types"
+    },
+
+    {
+      "name": "Exclusive Entity Names",
+      "description": "Identifiers not preceded by constant or type",
+
+      "transformType": "Token",
+      "tokenClass": "pl-en",
+      "tokenPattern": "entityNamesExclusive",
+      "modifierPattern": "entityNameModifiersExclusive",
+      "excludeClasses": [ "pl-en", "pl-c1" ]
+    },
+
+    {
+      "name": "Entity Names",
+      "description": "User types (built-in types are keywords)",
+
+      "transformType": "Token",
+      "tokenClass": "pl-en",
+      "tokenPattern": "entityNames",
+      "modifierPattern": "entityNameModifiers"
+    },
+
+    {
+      "name": "Exclusive Entities (Non-Scoped)",
+      "description": "Identifiers declared as class, struct, namespace or class access not constrained to being inside of a scope",
+
+      "transformType": "Token",
+      "tokenClass": "pl-e",
+      "tokenPattern": "entitiesExclusive",
+      "modifierPattern": "entityModifiers",
+      "excludeClasses": [ "pl-en", "pl-c1" ]
+    },
+
+    {
+      "name": "Call Entities",
+      "description": "Non-member function calls",
+
+      "transformType": "Token",
+      "tokenClass": "pl-e",
+      "tokenPattern": "entities"
+    },
+
+    {
+      "name": "Variables",
+      "description": "Unknown identifiers",
+
+      "transformType": "Token",
+      "tokenClass": "pl-v",
+      "tokenPattern": "variables"
     }
+  ]
+}

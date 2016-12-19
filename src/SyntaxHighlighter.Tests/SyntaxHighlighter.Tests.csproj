@@ -78,6 +78,7 @@
     </Content>
     <Content Include="Actual\StorageEntities.htm" />
     <Content Include="Actual\FunctionCallEntities.htm" />
+    <Content Include="Actual\BaseClassEntityNames.htm" />
     <Content Include="Actual\StringsWithEscape.htm" />
     <Content Include="Expected\CommentAttributes.htm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -130,7 +131,13 @@
     <Content Include="Expected\FunctionCallEntities.htm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Expected\BaseClassEntityNames.htm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Expected\StringsWithEscape.htm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Input\BaseClassEntityNames.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Input\CommentAttributeValues.txt">
