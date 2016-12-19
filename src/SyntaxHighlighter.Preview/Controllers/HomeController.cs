@@ -77,7 +77,7 @@ namespace SyntaxHighlighter.Preview.Controllers
             {
                 DebugInfo = true,
                 //BreakOnTransform = "Entity Name Lists",
-                //BreakOnToken = "IVEncryptor"
+                //BreakOnToken = "GetStories"
             };
 
             string transformFileName = string.Format(TransformFormat, language);

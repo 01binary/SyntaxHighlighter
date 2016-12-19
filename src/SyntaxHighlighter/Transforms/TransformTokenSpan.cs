@@ -95,27 +95,15 @@ namespace SyntaxHighlighter
                 return source;
             }
 
-            bool transformedAny = false;
-
-            foreach (TransformToken transform in transforms)
+            return transforms[0].Pattern.Replace(
+                source,
+                match =>
             {
-                source = transform.Pattern.Replace(source, match =>
-                {
-                    transformedAny = true;
-
-                    return this.InnerTransformEvaluator(
-                        match,
-                        transforms[0].ClassName,
-                        transforms.Skip(1).ToArray());
-                });
-
-                if (transformedAny)
-                {
-                    break;
-                }
-            }
-
-            return source;
+                return this.InnerTransformEvaluator(
+                    match,
+                    transforms[0].ClassName,
+                    transforms.Skip(1).ToArray());
+            });
         }
 
         /// <summary>

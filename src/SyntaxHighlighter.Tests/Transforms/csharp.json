@@ -30,7 +30,7 @@
     "entitiesNamespaces": "(\\w+)\\s*[;.]\\s*",
     "entityNamespaceModifier": "using\\W*$",
 
-    "entityNameLists": "\\w+[^\\>\\{\\r\\n]*\\>?",
+    "entityNameLists": "\\w+[^\\>\\{\\r\\n]*",
     "entityNameListModifiers": ": | <",
 
     "entityNamesExclusive": "(\\w+)\\s*[^=\\(\\)\\.,:{\\[&|*+-<>\\/]?[;\\s]*$ | (\\w+)\\<[\\s\\W]*",
@@ -83,13 +83,23 @@
     },
 
     {
+      "name": "Keywords",
+      "description": "Language keywords",
+
+      "transformType": "Token",
+      "tokenClass": "pl-k",
+      "tokenPattern": "keywords"
+    },
+
+    {
       "name": "Entity Name Lists",
       "description": "Lists of base classes or template parameters",
 
       "transformType": "TokenSpan",
-      "tokenClass": "pl-en",
+      "tokenClass": "",
       "tokenPattern": "entityNameLists",
       "modifierPattern": "entityNameListModifiers",
+      "excludeClasses": [ "pl-k", "pl-c1" ],
 
       "transforms": [
         {
@@ -110,15 +120,6 @@
           "tokenPattern": "default"
         }
       ]
-    },
-
-    {
-      "name": "Keywords",
-      "description": "Language keywords",
-
-      "transformType": "Token",
-      "tokenClass": "pl-k",
-      "tokenPattern": "keywords"
     },
 
     {

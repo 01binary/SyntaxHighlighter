@@ -102,33 +102,13 @@ namespace SyntaxHighlighter
 #endif
             if (typeMatch && modifierMatch && tokenMatch.Success)
             {
-                string content;
-
-                if (this.Pattern == null)
-                {
-                    content = buffer.Data.Substring(
-                        buffer.Position, buffer.Next - buffer.Position);
-                }
-                else
-                {
-                    content = Buffer.ExplicitMatch(tokenMatch);
-                }
-
+                string content = Buffer.ExplicitMatch(tokenMatch);
                 string token = Buffer.FormatToken(content, this.ClassName, this.Name);
 
-                if (tokenMatch != null && tokenMatch.Length > content.Length)
-                {
-                    token += tokenMatch.Value.Substring(content.Length);
-                }
-
-                buffer.Data = string.Concat(
-                    buffer.Data.Substring(0, buffer.Position),
-                    token,
-                    buffer.Data.Substring(buffer.Next));
+                buffer.ReplaceSpan(tokenMatch, token, content.Length);
 
                 buffer.PrevToken = content;
                 buffer.PrevClass = this.ClassName;
-                buffer.Position += token.Length;
 
                 return true;
             }
