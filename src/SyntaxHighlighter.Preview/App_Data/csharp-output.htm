@@ -4,7 +4,7 @@
 <span class="pl-k" data-transform="Keywords">namespace</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">Shadowsocks</span>.<span class="pl-e" data-transform="Member Entities">Encryption</span>
 {
     <span class="pl-k" data-transform="Keywords">public</span> <span class="pl-k" data-transform="Keywords">class</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">SodiumEncryptor</span>
-        : <span class="pl-en" data-transform="Entity Names">IVEncryptor</span>, <span class="pl-v" data-transform="Variables">IDisposable</span>
+        : <span class="pl-en" data-transform="Entity Name Lists">IVEncryptor, <span class="pl-k" data-transform="Entity Name Lists">IDisposable</span></span>
     {
         <span class="pl-k" data-transform="Keywords">const</span> <span class="pl-k" data-transform="Keywords">int</span> <span class="pl-v" data-transform="Variables">CIPHER_SALSA20</span> = <span class="pl-c1" data-transform="Numbers">1</span>;
         <span class="pl-k" data-transform="Keywords">const</span> <span class="pl-k" data-transform="Keywords">int</span> <span class="pl-v" data-transform="Variables">CIPHER_CHACHA20</span> = <span class="pl-c1" data-transform="Numbers">2</span>;
@@ -20,22 +20,26 @@
         <span class="pl-k" data-transform="Keywords">protected</span> <span class="pl-k" data-transform="Keywords">byte</span>[] <span class="pl-v" data-transform="Variables">_decryptBuf</span>;
 
         <span class="pl-k" data-transform="Keywords">public</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">SodiumEncryptor</span>(<span class="pl-k" data-transform="Keywords">string</span> <span class="pl-v" data-transform="Variables">method</span>, <span class="pl-k" data-transform="Keywords">string</span> <span class="pl-v" data-transform="Variables">password</span>, <span class="pl-k" data-transform="Keywords">bool</span> <span class="pl-v" data-transform="Variables">onetimeauth</span>, <span class="pl-k" data-transform="Keywords">bool</span> <span class="pl-v" data-transform="Variables">isudp</span>)
-            : <span class="pl-k" data-transform="Keywords">base</span>(<span class="pl-v" data-transform="Variables">method</span>, <span class="pl-v" data-transform="Variables">password</span>, <span class="pl-v" data-transform="Variables">onetimeauth</span>, <span class="pl-v" data-transform="Variables">isudp</span>)
+            : <span class="pl-en" data-transform="Entity Name Lists">base(method, password, onetimeauth, <span class="pl-k" data-transform="Entity Name Lists">isudp</span>)</span>
         {
             <span class="pl-v" data-transform="Variables">_encryptBuf</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-k" data-transform="Keywords">byte</span>[<span class="pl-v" data-transform="Variables">MAX_INPUT_SIZE</span> + <span class="pl-v" data-transform="Variables">SODIUM_BLOCK_SIZE</span>];
             <span class="pl-v" data-transform="Variables">_decryptBuf</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-k" data-transform="Keywords">byte</span>[<span class="pl-v" data-transform="Variables">MAX_INPUT_SIZE</span> + <span class="pl-v" data-transform="Variables">SODIUM_BLOCK_SIZE</span>];
         }
 
-        <span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">static</span> <span class="pl-en" data-transform="Exclusive Entity Names">Dictionary</span><<span class="pl-k" data-transform="Keywords">string</span>, <span class="pl-v" data-transform="Variables">EncryptorInfo</span>> <span class="pl-v" data-transform="Variables">_ciphers</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-en" data-transform="Entity Names">Dictionary</span><<span class="pl-k" data-transform="Keywords">string</span>, <span class="pl-v" data-transform="Variables">EncryptorInfo</span>> {
+        <span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">static</span> <span class="pl-en" data-transform="Exclusive Entity Names">Dictionary</span><<span class="pl-en" data-transform="Entity Name Lists">string, <span class="pl-k" data-transform="Entity Name Lists">EncryptorInfo</span>&gt;</span> <span class="pl-en" data-transform="Entity Name Lists">_ciphers = new Dictionary<string, <span class="pl-k" data-transform="Entity Name Lists">EncryptorInfo</span>&gt;</span> {
             { <span class="pl-s" data-transform="Strings">"salsa20"</span>, <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-e" data-transform="Call Entities">EncryptorInfo</span>(<span class="pl-c1" data-transform="Numbers">32</span>, <span class="pl-c1" data-transform="Numbers">8</span>, <span class="pl-v" data-transform="Variables">CIPHER_SALSA20</span>) },
             { <span class="pl-s" data-transform="Strings">"chacha20"</span>, <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-e" data-transform="Call Entities">EncryptorInfo</span>(<span class="pl-c1" data-transform="Numbers">32</span>, <span class="pl-c1" data-transform="Numbers">8</span>, <span class="pl-v" data-transform="Variables">CIPHER_CHACHA20</span>) },
             { <span class="pl-s" data-transform="Strings">"chacha20-ietf"</span>, <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-e" data-transform="Call Entities">EncryptorInfo</span>(<span class="pl-c1" data-transform="Numbers">32</span>, <span class="pl-c1" data-transform="Numbers">12</span>, <span class="pl-v" data-transform="Variables">CIPHER_CHACHA20_IETF</span>) }
         };
 
-        <span class="pl-k" data-transform="Keywords">protected</span> <span class="pl-k" data-transform="Keywords">override</span> <span class="pl-en" data-transform="Exclusive Entity Names">Dictionary</span><<span class="pl-k" data-transform="Keywords">string</span>, <span class="pl-v" data-transform="Variables">EncryptorInfo</span>> <span class="pl-e" data-transform="Call Entities">getCiphers</span>(<span class="pl-k" data-transform="Keywords">return</span> <span class="pl-v" data-transform="Variables">_ciphers</span>;
+        <span class="pl-k" data-transform="Keywords">protected</span> <span class="pl-k" data-transform="Keywords">override</span> <span class="pl-en" data-transform="Exclusive Entity Names">Dictionary</span><<span class="pl-en" data-transform="Entity Name Lists">string, <span class="pl-k" data-transform="Entity Name Lists">EncryptorInfo</span>&gt;</span> <span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">getCiphers</span>()</span>
+        {
+            <span class="pl-k" data-transform="Keywords">return</span> <span class="pl-v" data-transform="Variables">_ciphers</span>;
         }
 
-        <span class="pl-k" data-transform="Keywords">public</span> <span class="pl-k" data-transform="Keywords">static</span> <span class="pl-en" data-transform="Exclusive Entity Names">List</span><<span class="pl-k" data-transform="Keywords">string</span>> <span class="pl-e" data-transform="Call Entities">SupportedCiphers</span>(<span class="pl-k" data-transform="Keywords">return</span> <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-en" data-transform="Exclusive Entity Names">List</span><<span class="pl-k" data-transform="Keywords">string</span>>(<span class="pl-v" data-transform="Variables">_ciphers</span>.<span class="pl-e" data-transform="Member Entities">Keys</span>);
+        <span class="pl-k" data-transform="Keywords">public</span> <span class="pl-k" data-transform="Keywords">static</span> <span class="pl-en" data-transform="Exclusive Entity Names">List</span><<span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">string</span>&gt;</span> <span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">SupportedCiphers</span>()</span>
+        {
+            <span class="pl-k" data-transform="Keywords">return</span> <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-en" data-transform="Exclusive Entity Names">List</span><<span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">string</span>&gt;</span>(<span class="pl-v" data-transform="Variables">_ciphers</span>.<span class="pl-e" data-transform="Member Entities">Keys</span>);
         }
 
         <span class="pl-k" data-transform="Keywords">protected</span> <span class="pl-k" data-transform="Keywords">override</span> <span class="pl-k" data-transform="Keywords">void</span> <span class="pl-e" data-transform="Call Entities">cipherUpdate</span>(<span class="pl-k" data-transform="Keywords">bool</span> <span class="pl-v" data-transform="Variables">isCipher</span>, <span class="pl-k" data-transform="Keywords">int</span> <span class="pl-v" data-transform="Variables">length</span>, <span class="pl-k" data-transform="Keywords">byte</span>[] <span class="pl-v" data-transform="Variables">buf</span>, <span class="pl-k" data-transform="Keywords">byte</span>[] <span class="pl-v" data-transform="Variables">outbuf</span>)
@@ -66,14 +70,14 @@
             <span class="pl-k" data-transform="Keywords">switch</span> (<span class="pl-v" data-transform="Variables">_cipher</span>)
             {
                 <span class="pl-k" data-transform="Keywords">case</span> <span class="pl-c1" data-transform="Constant Identifiers">CIPHER_SALSA20</span>:
-                    <span class="pl-v" data-transform="Variables">Sodium</span>.<span class="pl-e" data-transform="Member Entities">crypto_stream_salsa20_xor_ic</span>(<span class="pl-v" data-transform="Variables">sodiumBuf</span>, <span class="pl-v" data-transform="Variables">sodiumBuf</span>, (<span class="pl-k" data-transform="Keywords">ulong</span>)(<span class="pl-v" data-transform="Variables">padding</span> + <span class="pl-v" data-transform="Variables">length</span>), <span class="pl-v" data-transform="Variables">iv</span>, <span class="pl-v" data-transform="Variables">ic</span>, <span class="pl-v" data-transform="Variables">_key</span>);
-                    <span class="pl-k" data-transform="Keywords">break</span>;
-                <span class="pl-k" data-transform="Keywords">case</span> <span class="pl-c1" data-transform="Constant Identifiers">CIPHER_CHACHA20</span>:
-                    <span class="pl-v" data-transform="Variables">Sodium</span>.<span class="pl-e" data-transform="Member Entities">crypto_stream_chacha20_xor_ic</span>(<span class="pl-v" data-transform="Variables">sodiumBuf</span>, <span class="pl-v" data-transform="Variables">sodiumBuf</span>, (<span class="pl-k" data-transform="Keywords">ulong</span>)(<span class="pl-v" data-transform="Variables">padding</span> + <span class="pl-v" data-transform="Variables">length</span>), <span class="pl-v" data-transform="Variables">iv</span>, <span class="pl-v" data-transform="Variables">ic</span>, <span class="pl-v" data-transform="Variables">_key</span>);
-                    <span class="pl-k" data-transform="Keywords">break</span>;
-                <span class="pl-k" data-transform="Keywords">case</span> <span class="pl-c1" data-transform="Constant Identifiers">CIPHER_CHACHA20_IETF</span>:
-                    <span class="pl-v" data-transform="Variables">Sodium</span>.<span class="pl-e" data-transform="Member Entities">crypto_stream_chacha20_ietf_xor_ic</span>(<span class="pl-v" data-transform="Variables">sodiumBuf</span>, <span class="pl-v" data-transform="Variables">sodiumBuf</span>, (<span class="pl-k" data-transform="Keywords">ulong</span>)(<span class="pl-v" data-transform="Variables">padding</span> + <span class="pl-v" data-transform="Variables">length</span>), <span class="pl-v" data-transform="Variables">iv</span>, (<span class="pl-k" data-transform="Keywords">uint</span>)<span class="pl-v" data-transform="Variables">ic</span>, <span class="pl-v" data-transform="Variables">_key</span>);
-                    <span class="pl-k" data-transform="Keywords">break</span>;
+                    <span class="pl-en" data-transform="Entity Name Lists">Sodium.crypto_stream_salsa20_xor_ic(sodiumBuf, sodiumBuf, (ulong)(padding + length), iv, ic, <span class="pl-k" data-transform="Entity Name Lists">_key</span>);</span>
+                    <span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">break</span>;</span>
+                <span class="pl-en" data-transform="Entity Name Lists">case <span class="pl-k" data-transform="Entity Name Lists">CIPHER_CHACHA20</span>:</span>
+                    <span class="pl-en" data-transform="Entity Name Lists">Sodium.crypto_stream_chacha20_xor_ic(sodiumBuf, sodiumBuf, (ulong)(padding + length), iv, ic, <span class="pl-k" data-transform="Entity Name Lists">_key</span>);</span>
+                    <span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">break</span>;</span>
+                <span class="pl-en" data-transform="Entity Name Lists">case <span class="pl-k" data-transform="Entity Name Lists">CIPHER_CHACHA20_IETF</span>:</span>
+                    <span class="pl-en" data-transform="Entity Name Lists">Sodium.crypto_stream_chacha20_ietf_xor_ic(sodiumBuf, sodiumBuf, (ulong)(padding + length), iv, (uint)ic, <span class="pl-k" data-transform="Entity Name Lists">_key</span>);</span>
+                    <span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">break</span>;</span>
             }
             <span class="pl-v" data-transform="Variables">Buffer</span>.<span class="pl-e" data-transform="Member Entities">BlockCopy</span>(<span class="pl-v" data-transform="Variables">sodiumBuf</span>, <span class="pl-v" data-transform="Variables">padding</span>, <span class="pl-v" data-transform="Variables">outbuf</span>, <span class="pl-c1" data-transform="Numbers">0</span>, <span class="pl-v" data-transform="Variables">length</span>);
             <span class="pl-v" data-transform="Variables">padding</span> += <span class="pl-v" data-transform="Variables">length</span>;
@@ -97,7 +101,7 @@
 <span class="pl-k" data-transform="Keywords">using</span> <span class="pl-e" data-transform="Namespace Entities">UnityEngine</span>.<span class="pl-e" data-transform="Member Entities">VR</span>.<span class="pl-e" data-transform="Member Entities">Utilities</span>;
 
 [<span class="pl-e" data-transform="Call Entities">CustomPropertyDrawer</span>(<span class="pl-k" data-transform="Keywords">typeof</span>(<span class="pl-en" data-transform="Entity Names">FlagsPropertyAttribute</span>))]
-<span class="pl-k" data-transform="Keywords">public</span> <span class="pl-k" data-transform="Keywords">class</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">FlagsPropertyDrawer</span> : <span class="pl-en" data-transform="Entity Names">PropertyDrawer</span>
+<span class="pl-k" data-transform="Keywords">public</span> <span class="pl-k" data-transform="Keywords">class</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">FlagsPropertyDrawer</span> : <span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">PropertyDrawer</span></span>
 {
 	<span class="pl-k" data-transform="Keywords">public</span> <span class="pl-k" data-transform="Keywords">override</span> <span class="pl-k" data-transform="Keywords">void</span> <span class="pl-e" data-transform="Call Entities">OnGUI</span>(<span class="pl-en" data-transform="Exclusive Entity Names">Rect</span> <span class="pl-v" data-transform="Variables">position</span>, <span class="pl-en" data-transform="Exclusive Entity Names">SerializedProperty</span> <span class="pl-v" data-transform="Variables">property</span>, <span class="pl-en" data-transform="Exclusive Entity Names">GUIContent</span> <span class="pl-v" data-transform="Variables">label</span>)
 	{
@@ -106,7 +110,7 @@
 }
 
 [<span class="pl-e" data-transform="Call Entities">CustomEditor</span>(<span class="pl-k" data-transform="Keywords">typeof</span>(<span class="pl-en" data-transform="Entity Names">RaySlider</span>))]
-<span class="pl-k" data-transform="Keywords">public</span> <span class="pl-k" data-transform="Keywords">class</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">RaySliderEditor</span> : <span class="pl-en" data-transform="Entity Names">SliderEditor</span>
+<span class="pl-k" data-transform="Keywords">public</span> <span class="pl-k" data-transform="Keywords">class</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">RaySliderEditor</span> : <span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">SliderEditor</span></span>
 {
 	<span class="pl-k" data-transform="Keywords">public</span> <span class="pl-k" data-transform="Keywords">override</span> <span class="pl-k" data-transform="Keywords">void</span> <span class="pl-e" data-transform="Call Entities">OnInspectorGUI</span>(<span class="pl-v" data-transform="Variables">serializedObject</span>.<span class="pl-e" data-transform="Member Entities">Update</span>();
 		<span class="pl-v" data-transform="Variables">EditorGUILayout</span>.<span class="pl-e" data-transform="Member Entities">PropertyField</span>(<span class="pl-v" data-transform="Variables">serializedObject</span>.<span class="pl-e" data-transform="Member Entities">FindProperty</span>(<span class="pl-s" data-transform="Strings">"m_SelectionFlags"</span>));
@@ -117,8 +121,8 @@
 
 <span class="pl-k" data-transform="Keywords">namespace</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">UnityEngine</span>.<span class="pl-e" data-transform="Member Entities">InputNew</span>
 {
-	<span class="pl-k" data-transform="Keywords">public</span> <span class="pl-k" data-transform="Keywords">class</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">ShowMenu</span> : <span class="pl-en" data-transform="Entity Names">ActionMapInput</span> {
-		<span class="pl-k" data-transform="Keywords">public</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">ShowMenu</span> (<span class="pl-en" data-transform="Exclusive Entity Names">ActionMap</span> <span class="pl-v" data-transform="Variables">actionMap</span>) : <span class="pl-k" data-transform="Keywords">base</span> (<span class="pl-v" data-transform="Variables">actionMap</span>) { }
+	<span class="pl-k" data-transform="Keywords">public</span> <span class="pl-k" data-transform="Keywords">class</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">ShowMenu</span> : <span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">ActionMapInput</span> </span>{
+		<span class="pl-k" data-transform="Keywords">public</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">ShowMenu</span> (<span class="pl-en" data-transform="Exclusive Entity Names">ActionMap</span> <span class="pl-v" data-transform="Variables">actionMap</span>) : <span class="pl-en" data-transform="Entity Name Lists">base (<span class="pl-k" data-transform="Entity Name Lists">actionMap</span>) </span>{ }
 		
 		<span class="pl-k" data-transform="Keywords">public</span> <span class="pl-en" data-transform="Exclusive Entity Names">ButtonInputControl</span> <span class="pl-v" data-transform="Variables">show</span> { <span class="pl-k" data-transform="Keywords">get</span> { <span class="pl-k" data-transform="Keywords">return</span> (<span class="pl-v" data-transform="Variables">ButtonInputControl</span>)<span class="pl-c1" data-transform="Constant Literals">this</span>[<span class="pl-c1" data-transform="Numbers">0</span>]; } }
 	}
@@ -135,18 +139,18 @@
     <span class="pl-c" data-transform="Comments">/// concurrently from multiple threads.</span>
     <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comments">remarks</span>&gt;</span>
     [<span class="pl-e" data-transform="Call Entities">DebuggerDisplay</span>(<span class="pl-s" data-transform="Strings">"Count = {Count}"</span>)]
-    <span class="pl-k" data-transform="Keywords">public</span> <span class="pl-k" data-transform="Keywords">sealed</span> <span class="pl-k" data-transform="Keywords">class</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">ConcurrentHashSet</span><<span class="pl-en" data-transform="Entity Names">T</span>> : <span class="pl-en" data-transform="Entity Names">IReadOnlyCollection</span><<span class="pl-en" data-transform="Entity Names">T</span>>, <span class="pl-v" data-transform="Variables">ICollection</span><<span class="pl-en" data-transform="Entity Names">T</span>>
+    <span class="pl-k" data-transform="Keywords">public</span> <span class="pl-k" data-transform="Keywords">sealed</span> <span class="pl-k" data-transform="Keywords">class</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">ConcurrentHashSet</span><<span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">T</span>&gt;</span> : <span class="pl-en" data-transform="Entity Name Lists">IReadOnlyCollection<<span class="pl-k" data-transform="Entity Name Lists">T</span>&gt;</span>, <span class="pl-en" data-transform="Exclusive Entity Names">ICollection</span><<span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">T</span>&gt;</span>
     {
         <span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">const</span> <span class="pl-k" data-transform="Keywords">int</span> <span class="pl-v" data-transform="Variables">DefaultCapacity</span> = <span class="pl-c1" data-transform="Numbers">31</span>;
         <span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">const</span> <span class="pl-k" data-transform="Keywords">int</span> <span class="pl-v" data-transform="Variables">MaxLockNumber</span> = <span class="pl-c1" data-transform="Numbers">1024</span>;
 
-        <span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">readonly</span> <span class="pl-en" data-transform="Exclusive Entity Names">IEqualityComparer</span><<span class="pl-en" data-transform="Entity Names">T</span>> <span class="pl-v" data-transform="Variables">_comparer</span>;
-        <span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">readonly</span> <span class="pl-k" data-transform="Keywords">bool</span> <span class="pl-v" data-transform="Variables">_growLockArray</span>;
+        <span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">readonly</span> <span class="pl-en" data-transform="Exclusive Entity Names">IEqualityComparer</span><<span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">T</span>&gt;</span> <span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">_comparer</span>;</span>
+        <span class="pl-en" data-transform="Entity Name Lists">private readonly bool <span class="pl-k" data-transform="Entity Name Lists">_growLockArray</span>;</span>
 
-        <span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">int</span> <span class="pl-v" data-transform="Variables">_budget</span>;
-        <span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">volatile</span> <span class="pl-en" data-transform="Exclusive Entity Names">Tables</span> <span class="pl-v" data-transform="Variables">_tables</span>;
+        <span class="pl-en" data-transform="Entity Name Lists">private int <span class="pl-k" data-transform="Entity Name Lists">_budget</span>;</span>
+        <span class="pl-en" data-transform="Entity Name Lists">private volatile Tables <span class="pl-k" data-transform="Entity Name Lists">_tables</span>;</span>
 
-        <span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">static</span> <span class="pl-k" data-transform="Keywords">int</span> <span class="pl-v" data-transform="Variables">DefaultConcurrencyLevel</span> => <span class="pl-v" data-transform="Variables">PlatformHelper</span>.<span class="pl-e" data-transform="Member Entities">ProcessorCount</span>;
+        <span class="pl-en" data-transform="Entity Name Lists">private static int <span class="pl-k" data-transform="Entity Name Lists">DefaultConcurrencyLevel</span> =&gt;</span> <span class="pl-en" data-transform="Entity Name Lists">PlatformHelper.<span class="pl-k" data-transform="Entity Name Lists">ProcessorCount</span>;</span>
 	}
 }
 
@@ -251,7 +255,7 @@
     <span class="pl-c" data-transform="Comments">/// The News Endpoint.</span>
     <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
     [<span class="pl-e" data-transform="Call Entities">Route</span>(<span class="pl-s" data-transform="Strings">"api/news"</span>)]
-    <span class="pl-k" data-transform="Keywords">public</span> <span class="pl-k" data-transform="Keywords">class</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">NewsController</span>: <span class="pl-en" data-transform="Entity Names">Controller</span>
+    <span class="pl-k" data-transform="Keywords">public</span> <span class="pl-k" data-transform="Keywords">class</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">NewsController</span>: <span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">Controller</span></span>
     {
         <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
         <span class="pl-c" data-transform="Comments">/// The site data store.</span>
@@ -280,9 +284,12 @@
 
 			<span class="pl-v" data-transform="Variables">MyConsole</span>.<span class="pl-e" data-transform="Member Entities">WriteLine</span>();
 
-			<span class="pl-en" data-transform="Exclusive Entity Names">MyFunc</span><<span class="pl-k" data-transform="Keywords">string</span>> <span class="pl-v" data-transform="Variables">test</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-e" data-transform="Call Entities">test</span>(<span class="pl-en" data-transform="Exclusive Entity Names">MyFunc</span><<span class="pl-en" data-transform="Entity Names">ICat</span>> <span class="pl-v" data-transform="Variables">testing</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-e" data-transform="Call Entities">testing</span>(<span class="pl-k" data-transform="Keywords">const</span> <span class="pl-c1" data-transform="Constant Identifiers">whatever</span> = <span class="pl-s" data-transform="Strings">"testing"</span>;
+			<span class="pl-en" data-transform="Exclusive Entity Names">MyFunc</span><<span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">string</span>&gt;</span> <span class="pl-en" data-transform="Entity Name Lists">test = new <span class="pl-k" data-transform="Entity Name Lists">test</span>();</span>
+			<span class="pl-en" data-transform="Entity Name Lists">MyFunc<<span class="pl-k" data-transform="Entity Name Lists">ICat</span>&gt;</span> <span class="pl-en" data-transform="Entity Name Lists">testing = new <span class="pl-k" data-transform="Entity Name Lists">testing</span>();</span>
 
-			<span class="pl-c1" data-transform="Constant Literals">Console</span>.<span class="pl-e" data-transform="Call Entities">WriteLine</span>(<span class="pl-s" data-transform="Strings">"lazy fox"</span>);
+			<span class="pl-en" data-transform="Entity Name Lists">const whatever = "<span class="pl-k" data-transform="Entity Name Lists">testing</span>";</span>
+
+			<span class="pl-en" data-transform="Entity Name Lists">Console.WriteLine("lazy <span class="pl-k" data-transform="Entity Name Lists">fox</span>");</span>
         }
 
         <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
@@ -341,8 +348,9 @@
                     <span class="pl-k" data-transform="Keywords">switch</span>(<span class="pl-v" data-transform="Variables">hello</span>)
                     {
                         <span class="pl-k" data-transform="Keywords">case</span> <span class="pl-c1" data-transform="Constant Identifiers">ONE</span>:
-                            <span class="pl-e" data-transform="Call Entities">helloWorld</span>(<span class="pl-k" data-transform="Keywords">break</span>;
-                        <span class="pl-k" data-transform="Keywords">case</span> <span class="pl-c1" data-transform="Constant Identifiers">TWO</span>:
+                            <span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">helloWorld</span>();</span>
+                            <span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">break</span>;</span>
+                        <span class="pl-en" data-transform="Entity Name Lists">case <span class="pl-k" data-transform="Entity Name Lists">TWO</span>:</span>
                             {
                                 <span class="pl-e" data-transform="Call Entities">helloWorld</span>(<span class="pl-k" data-transform="Keywords">break</span>;
                         <span class="pl-k" data-transform="Keywords">case</span> <span class="pl-c1" data-transform="Constant Identifiers">THREE</span>:
@@ -433,8 +441,10 @@
         <span class="pl-k" data-transform="Keywords">public</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">Startup</span>(<span class="pl-en" data-transform="Exclusive Entity Names">IHostingEnvironment</span> <span class="pl-v" data-transform="Variables">env</span>)
         {
             <span class="pl-k" data-transform="Keywords">var</span> <span class="pl-v" data-transform="Variables">builder</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-e" data-transform="Call Entities">ConfigurationBuilder</span>(<span class="pl-e" data-transform="Member Entities">SetBasePath</span>(<span class="pl-v" data-transform="Variables">env</span>.<span class="pl-e" data-transform="Member Entities">ContentRootPath</span>)
-                .<span class="pl-e" data-transform="Member Entities">AddJsonFile</span>(<span class="pl-v" data-transform="Variables">Program</span>.<span class="pl-e" data-transform="Member Entities">Settings</span>, <span class="pl-v" data-transform="Variables">optional</span>: <span class="pl-c1" data-transform="Constant Literals">false</span>)
-                .<span class="pl-e" data-transform="Call Entities">AddEnvironmentVariables</span>(<span class="pl-k" data-transform="Keywords">if</span> (<span class="pl-v" data-transform="Variables">env</span>.<span class="pl-e" data-transform="Member Entities">IsDevelopment</span>())
+                .<span class="pl-e" data-transform="Member Entities">AddJsonFile</span>(<span class="pl-v" data-transform="Variables">Program</span>.<span class="pl-e" data-transform="Member Entities">Settings</span>, <span class="pl-v" data-transform="Variables">optional</span>: <span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">false</span>)</span>
+                .<span class="pl-e" data-transform="Member Entities">AddEnvironmentVariables</span>();
+
+            <span class="pl-k" data-transform="Keywords">if</span> (<span class="pl-v" data-transform="Variables">env</span>.<span class="pl-e" data-transform="Member Entities">IsDevelopment</span>())
             {
                 <span class="pl-v" data-transform="Variables">builder</span>.<span class="pl-e" data-transform="Member Entities">AddUserSecrets</span>();
             }
@@ -457,16 +467,16 @@
             <span class="pl-v" data-transform="Variables">services</span>.<span class="pl-e" data-transform="Member Entities">AddSession</span>();
 
             <span class="pl-v" data-transform="Variables">services</span>.<span class="pl-e" data-transform="Member Entities">AddOptions</span>();
-            <span class="pl-v" data-transform="Variables">services</span>.<span class="pl-e" data-transform="Member Entities">AddSingleton</span><IConfiguration>(<span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-v" data-transform="Variables">Configuration</span>);
+            <span class="pl-v" data-transform="Variables">services</span>.<span class="pl-e" data-transform="Member Entities">AddSingleton</span><<span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">IConfiguration</span>&gt;</span>(<span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-v" data-transform="Variables">Configuration</span>);
 
             <span class="pl-v" data-transform="Variables">services</span>.<span class="pl-e" data-transform="Member Entities">AddEntityFrameworkSqlite</span>()
-                    .<span class="pl-e" data-transform="Member Entities">AddDbContext</span><Context>();
+                    .<span class="pl-e" data-transform="Member Entities">AddDbContext</span><<span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">Context</span>&gt;</span>();
             
-            <span class="pl-v" data-transform="Variables">services</span>.<span class="pl-e" data-transform="Member Entities">AddIdentity</span><<span class="pl-en" data-transform="Entity Names">User</span>, IdentityRole>(<span class="pl-v" data-transform="Variables">options</span> =>
+            <span class="pl-v" data-transform="Variables">services</span>.<span class="pl-e" data-transform="Member Entities">AddIdentity</span><<span class="pl-en" data-transform="Entity Name Lists">User, <span class="pl-k" data-transform="Entity Name Lists">IdentityRole</span>&gt;</span>(<span class="pl-v" data-transform="Variables">options</span> =>
                     {
                         <span class="pl-v" data-transform="Variables">options</span>.<span class="pl-e" data-transform="Member Entities">User</span>.<span class="pl-e" data-transform="Member Entities">AllowedUserNameCharacters</span> += <span class="pl-s" data-transform="Strings">"="</span>;
                     })
-                    .<span class="pl-e" data-transform="Member Entities">AddEntityFrameworkStores</span><Context>()
+                    .<span class="pl-e" data-transform="Member Entities">AddEntityFrameworkStores</span><<span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">Context</span>&gt;</span>()
                     .<span class="pl-e" data-transform="Member Entities">AddDefaultTokenProviders</span>();
 
             <span class="pl-v" data-transform="Variables">services</span>.<span class="pl-e" data-transform="Member Entities">AddScoped</span>(<span class="pl-k" data-transform="Keywords">typeof</span>(<span class="pl-en" data-transform="Entity Names">IDataStore</span>), <span class="pl-k" data-transform="Keywords">typeof</span>(<span class="pl-en" data-transform="Entity Names">SiteDataStore</span>));
@@ -546,8 +556,8 @@
                 <span class="pl-c" data-transform="Comments">// Default route redirects to Startup controller.</span>
                 <span class="pl-v" data-transform="Variables">routes</span>.<span class="pl-e" data-transform="Member Entities">MapRoute</span>(
                     <span class="pl-v" data-transform="Variables">name</span>: <span class="pl-s" data-transform="Strings">"default"</span>,
-                    <span class="pl-v" data-transform="Variables">template</span>: <span class="pl-k" data-transform="Keywords">string</span>.<span class="pl-e" data-transform="Member Entities">Empty</span>,
-                    <span class="pl-v" data-transform="Variables">defaults</span>: <span class="pl-k" data-transform="Keywords">new</span>
+                    <span class="pl-v" data-transform="Variables">template</span>: <span class="pl-en" data-transform="Entity Name Lists">string.<span class="pl-k" data-transform="Entity Name Lists">Empty</span>,</span>
+                    <span class="pl-en" data-transform="Entity Name Lists">defaults: <span class="pl-k" data-transform="Entity Name Lists">new</span></span>
                     {
                         <span class="pl-v" data-transform="Variables">controller</span> = <span class="pl-s" data-transform="Strings">"Startup"</span>,
                         <span class="pl-v" data-transform="Variables">action</span> = <span class="pl-s" data-transform="Strings">"Index"</span>
@@ -558,7 +568,7 @@
                 <span class="pl-v" data-transform="Variables">routes</span>.<span class="pl-e" data-transform="Member Entities">MapRoute</span>(
                     <span class="pl-v" data-transform="Variables">name</span>: <span class="pl-s" data-transform="Strings">"news-view"</span>,
                     <span class="pl-v" data-transform="Variables">template</span>: <span class="pl-s" data-transform="Strings">"views/news/{id:int?}"</span>,
-                    <span class="pl-v" data-transform="Variables">defaults</span>: <span class="pl-k" data-transform="Keywords">new</span>
+                    <span class="pl-v" data-transform="Variables">defaults</span>: <span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">new</span></span>
                     {
                         <span class="pl-v" data-transform="Variables">controller</span> = <span class="pl-s" data-transform="Strings">"News"</span>,
                         <span class="pl-v" data-transform="Variables">action</span> = <span class="pl-s" data-transform="Strings">"Index"</span>,
@@ -570,7 +580,7 @@
                 <span class="pl-v" data-transform="Variables">routes</span>.<span class="pl-e" data-transform="Member Entities">MapRoute</span>(
                     <span class="pl-v" data-transform="Variables">name</span>: <span class="pl-s" data-transform="Strings">"news"</span>,
                     <span class="pl-v" data-transform="Variables">template</span>: <span class="pl-s" data-transform="Strings">"news"</span>,
-                    <span class="pl-v" data-transform="Variables">defaults</span>: <span class="pl-k" data-transform="Keywords">new</span>
+                    <span class="pl-v" data-transform="Variables">defaults</span>: <span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">new</span></span>
                     {
                         <span class="pl-v" data-transform="Variables">controller</span> = <span class="pl-s" data-transform="Strings">"Startup"</span>,
                         <span class="pl-v" data-transform="Variables">action</span> = <span class="pl-s" data-transform="Strings">"Index"</span>
@@ -581,7 +591,7 @@
                 <span class="pl-v" data-transform="Variables">routes</span>.<span class="pl-e" data-transform="Member Entities">MapRoute</span>(
                     <span class="pl-v" data-transform="Variables">name</span>: <span class="pl-s" data-transform="Strings">"articles-view"</span>,
                     <span class="pl-v" data-transform="Variables">template</span>: <span class="pl-s" data-transform="Strings">"views/articles"</span>,
-                    <span class="pl-v" data-transform="Variables">defaults</span>: <span class="pl-k" data-transform="Keywords">new</span>
+                    <span class="pl-v" data-transform="Variables">defaults</span>: <span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">new</span></span>
                     {
                         <span class="pl-v" data-transform="Variables">controller</span> = <span class="pl-s" data-transform="Strings">"Articles"</span>,
                         <span class="pl-v" data-transform="Variables">action</span> = <span class="pl-s" data-transform="Strings">"Index"</span>
@@ -592,7 +602,7 @@
                 <span class="pl-v" data-transform="Variables">routes</span>.<span class="pl-e" data-transform="Member Entities">MapRoute</span>(
                     <span class="pl-v" data-transform="Variables">name</span>: <span class="pl-s" data-transform="Strings">"articles"</span>,
                     <span class="pl-v" data-transform="Variables">template</span>: <span class="pl-s" data-transform="Strings">"articles"</span>,
-                    <span class="pl-v" data-transform="Variables">defaults</span>: <span class="pl-k" data-transform="Keywords">new</span>
+                    <span class="pl-v" data-transform="Variables">defaults</span>: <span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">new</span></span>
                     {
                         <span class="pl-v" data-transform="Variables">controller</span> = <span class="pl-s" data-transform="Strings">"Startup"</span>,
                         <span class="pl-v" data-transform="Variables">action</span> = <span class="pl-s" data-transform="Strings">"Index"</span>
@@ -603,7 +613,7 @@
                 <span class="pl-v" data-transform="Variables">routes</span>.<span class="pl-e" data-transform="Member Entities">MapRoute</span>(
                     <span class="pl-v" data-transform="Variables">name</span>: <span class="pl-s" data-transform="Strings">"projects-view"</span>,
                     <span class="pl-v" data-transform="Variables">template</span>: <span class="pl-s" data-transform="Strings">"views/projects"</span>,
-                    <span class="pl-v" data-transform="Variables">defaults</span>: <span class="pl-k" data-transform="Keywords">new</span>
+                    <span class="pl-v" data-transform="Variables">defaults</span>: <span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">new</span></span>
                     {
                         <span class="pl-v" data-transform="Variables">controller</span> = <span class="pl-s" data-transform="Strings">"Projects"</span>,
                         <span class="pl-v" data-transform="Variables">action</span> = <span class="pl-s" data-transform="Strings">"Index"</span>
@@ -614,7 +624,7 @@
                 <span class="pl-v" data-transform="Variables">routes</span>.<span class="pl-e" data-transform="Member Entities">MapRoute</span>(
                     <span class="pl-v" data-transform="Variables">name</span>: <span class="pl-s" data-transform="Strings">"projects"</span>,
                     <span class="pl-v" data-transform="Variables">template</span>: <span class="pl-s" data-transform="Strings">"projects"</span>,
-                    <span class="pl-v" data-transform="Variables">defaults</span>: <span class="pl-k" data-transform="Keywords">new</span>
+                    <span class="pl-v" data-transform="Variables">defaults</span>: <span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">new</span></span>
                     {
                         <span class="pl-v" data-transform="Variables">controller</span> = <span class="pl-s" data-transform="Strings">"Startup"</span>,
                         <span class="pl-v" data-transform="Variables">action</span> = <span class="pl-s" data-transform="Strings">"Index"</span>
@@ -625,7 +635,7 @@
                 <span class="pl-v" data-transform="Variables">routes</span>.<span class="pl-e" data-transform="Member Entities">MapRoute</span>(
                     <span class="pl-v" data-transform="Variables">name</span>: <span class="pl-s" data-transform="Strings">"about-view"</span>,
                     <span class="pl-v" data-transform="Variables">template</span>: <span class="pl-s" data-transform="Strings">"views/about"</span>,
-                    <span class="pl-v" data-transform="Variables">defaults</span>: <span class="pl-k" data-transform="Keywords">new</span>
+                    <span class="pl-v" data-transform="Variables">defaults</span>: <span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">new</span></span>
                     {
                         <span class="pl-v" data-transform="Variables">controller</span> = <span class="pl-s" data-transform="Strings">"About"</span>,
                         <span class="pl-v" data-transform="Variables">action</span> = <span class="pl-s" data-transform="Strings">"Index"</span>
@@ -636,7 +646,7 @@
                 <span class="pl-v" data-transform="Variables">routes</span>.<span class="pl-e" data-transform="Member Entities">MapRoute</span>(
                     <span class="pl-v" data-transform="Variables">name</span>: <span class="pl-s" data-transform="Strings">"about"</span>,
                     <span class="pl-v" data-transform="Variables">template</span>: <span class="pl-s" data-transform="Strings">"about"</span>,
-                    <span class="pl-v" data-transform="Variables">defaults</span>: <span class="pl-k" data-transform="Keywords">new</span>
+                    <span class="pl-v" data-transform="Variables">defaults</span>: <span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">new</span></span>
                     {
                         <span class="pl-v" data-transform="Variables">controller</span> = <span class="pl-s" data-transform="Strings">"Startup"</span>,
                         <span class="pl-v" data-transform="Variables">action</span> = <span class="pl-s" data-transform="Strings">"Index"</span>
@@ -840,7 +850,7 @@
 <span class="pl-k" data-transform="Keywords">namespace</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">zeroweb</span>.<span class="pl-e" data-transform="Member Entities">Migrations</span>
 {
     [<span class="pl-e" data-transform="Call Entities">DbContext</span>(<span class="pl-k" data-transform="Keywords">typeof</span>(<span class="pl-en" data-transform="Entity Names">Context</span>))]
-    <span class="pl-k" data-transform="Keywords">partial</span> <span class="pl-k" data-transform="Keywords">class</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">ContextModelSnapshot</span> : <span class="pl-en" data-transform="Entity Names">ModelSnapshot</span>
+    <span class="pl-k" data-transform="Keywords">partial</span> <span class="pl-k" data-transform="Keywords">class</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">ContextModelSnapshot</span> : <span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">ModelSnapshot</span></span>
     {
         <span class="pl-k" data-transform="Keywords">protected</span> <span class="pl-k" data-transform="Keywords">override</span> <span class="pl-k" data-transform="Keywords">void</span> <span class="pl-e" data-transform="Call Entities">BuildModel</span>(<span class="pl-en" data-transform="Exclusive Entity Names">ModelBuilder</span> <span class="pl-v" data-transform="Variables">modelBuilder</span>)
         {
@@ -849,45 +859,45 @@
 
             <span class="pl-v" data-transform="Variables">modelBuilder</span>.<span class="pl-e" data-transform="Member Entities">Entity</span>(<span class="pl-s" data-transform="Strings">"ZeroWeb.Models.Article"</span>, <span class="pl-v" data-transform="Variables">b</span> =>
                 {
-                    <span class="pl-v" data-transform="Variables">b</span>.<span class="pl-e" data-transform="Member Entities">Property</span><<span class="pl-k" data-transform="Keywords">int</span>>(<span class="pl-s" data-transform="Strings">"Id"</span>)
+                    <span class="pl-v" data-transform="Variables">b</span>.<span class="pl-e" data-transform="Member Entities">Property</span><<span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">int</span>&gt;</span>(<span class="pl-s" data-transform="Strings">"Id"</span>)
                         .<span class="pl-e" data-transform="Member Entities">ValueGeneratedOnAdd</span>();
 
-                    <span class="pl-v" data-transform="Variables">b</span>.<span class="pl-e" data-transform="Member Entities">Property</span><<span class="pl-k" data-transform="Keywords">int</span>?>(<span class="pl-s" data-transform="Strings">"AuthorId"</span>)
+                    <span class="pl-v" data-transform="Variables">b</span>.<span class="pl-e" data-transform="Member Entities">Property</span><<span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">int</span>?&gt;</span>(<span class="pl-s" data-transform="Strings">"AuthorId"</span>)
                         .<span class="pl-e" data-transform="Member Entities">IsRequired</span>();
 
-                    <span class="pl-v" data-transform="Variables">b</span>.<span class="pl-e" data-transform="Member Entities">Property</span><<span class="pl-k" data-transform="Keywords">string</span>>(<span class="pl-s" data-transform="Strings">"Content"</span>)
+                    <span class="pl-v" data-transform="Variables">b</span>.<span class="pl-e" data-transform="Member Entities">Property</span><<span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">string</span>&gt;</span>(<span class="pl-s" data-transform="Strings">"Content"</span>)
                         .<span class="pl-e" data-transform="Member Entities">IsRequired</span>()
                         .<span class="pl-e" data-transform="Member Entities">HasColumnType</span>(<span class="pl-s" data-transform="Strings">"char"</span>);
 
-                    <span class="pl-v" data-transform="Variables">b</span>.<span class="pl-e" data-transform="Member Entities">Property</span><DateTime>(<span class="pl-s" data-transform="Strings">"Date"</span>);
+                    <span class="pl-v" data-transform="Variables">b</span>.<span class="pl-e" data-transform="Member Entities">Property</span><<span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">DateTime</span>&gt;</span>(<span class="pl-s" data-transform="Strings">"Date"</span>);
 
-                    <span class="pl-v" data-transform="Variables">b</span>.<span class="pl-e" data-transform="Member Entities">Property</span><<span class="pl-k" data-transform="Keywords">string</span>>(<span class="pl-s" data-transform="Strings">"Key"</span>)
+                    <span class="pl-v" data-transform="Variables">b</span>.<span class="pl-e" data-transform="Member Entities">Property</span><<span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">string</span>&gt;</span>(<span class="pl-s" data-transform="Strings">"Key"</span>)
                         .<span class="pl-e" data-transform="Member Entities">IsRequired</span>()
                         .<span class="pl-e" data-transform="Member Entities">HasColumnType</span>(<span class="pl-s" data-transform="Strings">"char"</span>)
                         .<span class="pl-e" data-transform="Member Entities">HasAnnotation</span>(<span class="pl-s" data-transform="Strings">"MaxLength"</span>, <span class="pl-c1" data-transform="Numbers">128</span>);
 
-                    <span class="pl-v" data-transform="Variables">b</span>.<span class="pl-e" data-transform="Member Entities">Property</span><<span class="pl-k" data-transform="Keywords">double</span>?>(<span class="pl-s" data-transform="Strings">"LocationLatitude"</span>);
+                    <span class="pl-v" data-transform="Variables">b</span>.<span class="pl-e" data-transform="Member Entities">Property</span><<span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">double</span>?&gt;</span>(<span class="pl-s" data-transform="Strings">"LocationLatitude"</span>);
 
-                    <span class="pl-v" data-transform="Variables">b</span>.<span class="pl-e" data-transform="Member Entities">Property</span><<span class="pl-k" data-transform="Keywords">double</span>?>(<span class="pl-s" data-transform="Strings">"LocationLongitude"</span>);
+                    <span class="pl-v" data-transform="Variables">b</span>.<span class="pl-e" data-transform="Member Entities">Property</span><<span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">double</span>?&gt;</span>(<span class="pl-s" data-transform="Strings">"LocationLongitude"</span>);
 
-                    <span class="pl-v" data-transform="Variables">b</span>.<span class="pl-e" data-transform="Member Entities">Property</span><<span class="pl-k" data-transform="Keywords">string</span>>(<span class="pl-s" data-transform="Strings">"LocationName"</span>)
+                    <span class="pl-v" data-transform="Variables">b</span>.<span class="pl-e" data-transform="Member Entities">Property</span><<span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">string</span>&gt;</span>(<span class="pl-s" data-transform="Strings">"LocationName"</span>)
                         .<span class="pl-e" data-transform="Member Entities">HasAnnotation</span>(<span class="pl-s" data-transform="Strings">"MaxLength"</span>, <span class="pl-c1" data-transform="Numbers">32</span>);
 
-                    <span class="pl-v" data-transform="Variables">b</span>.<span class="pl-e" data-transform="Member Entities">Property</span><<span class="pl-k" data-transform="Keywords">double</span>?>(<span class="pl-s" data-transform="Strings">"LocationZoom"</span>);
+                    <span class="pl-v" data-transform="Variables">b</span>.<span class="pl-e" data-transform="Member Entities">Property</span><<span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">double</span>?&gt;</span>(<span class="pl-s" data-transform="Strings">"LocationZoom"</span>);
 
-                    <span class="pl-v" data-transform="Variables">b</span>.<span class="pl-e" data-transform="Member Entities">Property</span><<span class="pl-k" data-transform="Keywords">bool</span>>(<span class="pl-s" data-transform="Strings">"Published"</span>);
+                    <span class="pl-v" data-transform="Variables">b</span>.<span class="pl-e" data-transform="Member Entities">Property</span><<span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">bool</span>&gt;</span>(<span class="pl-s" data-transform="Strings">"Published"</span>);
 
-                    <span class="pl-v" data-transform="Variables">b</span>.<span class="pl-e" data-transform="Member Entities">Property</span><<span class="pl-k" data-transform="Keywords">string</span>>(<span class="pl-s" data-transform="Strings">"Thumbnail"</span>)
+                    <span class="pl-v" data-transform="Variables">b</span>.<span class="pl-e" data-transform="Member Entities">Property</span><<span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">string</span>&gt;</span>(<span class="pl-s" data-transform="Strings">"Thumbnail"</span>)
                         .<span class="pl-e" data-transform="Member Entities">IsRequired</span>()
                         .<span class="pl-e" data-transform="Member Entities">HasColumnType</span>(<span class="pl-s" data-transform="Strings">"char"</span>)
                         .<span class="pl-e" data-transform="Member Entities">HasAnnotation</span>(<span class="pl-s" data-transform="Strings">"MaxLength"</span>, <span class="pl-c1" data-transform="Numbers">256</span>);
 
-                    <span class="pl-v" data-transform="Variables">b</span>.<span class="pl-e" data-transform="Member Entities">Property</span><<span class="pl-k" data-transform="Keywords">string</span>>(<span class="pl-s" data-transform="Strings">"Title"</span>)
+                    <span class="pl-v" data-transform="Variables">b</span>.<span class="pl-e" data-transform="Member Entities">Property</span><<span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">string</span>&gt;</span>(<span class="pl-s" data-transform="Strings">"Title"</span>)
                         .<span class="pl-e" data-transform="Member Entities">IsRequired</span>()
                         .<span class="pl-e" data-transform="Member Entities">HasColumnType</span>(<span class="pl-s" data-transform="Strings">"char"</span>)
                         .<span class="pl-e" data-transform="Member Entities">HasAnnotation</span>(<span class="pl-s" data-transform="Strings">"MaxLength"</span>, <span class="pl-c1" data-transform="Numbers">64</span>);
 
-                    <span class="pl-v" data-transform="Variables">b</span>.<span class="pl-e" data-transform="Member Entities">Property</span><<span class="pl-k" data-transform="Keywords">int</span>>(<span class="pl-s" data-transform="Strings">"Views"</span>);
+                    <span class="pl-v" data-transform="Variables">b</span>.<span class="pl-e" data-transform="Member Entities">Property</span><<span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">int</span>&gt;</span>(<span class="pl-s" data-transform="Strings">"Views"</span>);
 
                     <span class="pl-v" data-transform="Variables">b</span>.<span class="pl-e" data-transform="Member Entities">HasKey</span>(<span class="pl-s" data-transform="Strings">"Id"</span>);
 
@@ -949,40 +959,40 @@
     <span class="pl-k" data-transform="Keywords">var</span> <span class="pl-v" data-transform="Variables">output</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-e" data-transform="Call Entities">StringBuilder</span>(<span class="pl-v" data-transform="Variables">text</span>.<span class="pl-e" data-transform="Member Entities">Length</span>);
     <span class="pl-k" data-transform="Keywords">var</span> <span class="pl-v" data-transform="Variables">line</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-e" data-transform="Call Entities">StringBuilder</span>(<span class="pl-k" data-transform="Keywords">bool</span> <span class="pl-v" data-transform="Variables">valid</span> = <span class="pl-c1" data-transform="Constant Literals">false</span>;
 
-    <span class="pl-k" data-transform="Keywords">for</span> (<span class="pl-k" data-transform="Keywords">int</span> <span class="pl-v" data-transform="Variables">i</span> = <span class="pl-c1" data-transform="Numbers">0</span>; <span class="pl-v" data-transform="Variables">i</span> < <span class="pl-v" data-transform="Variables">text</span>.<span class="pl-e" data-transform="Member Entities">Length</span>; <span class="pl-v" data-transform="Variables">i</span>++)
+    <span class="pl-k" data-transform="Keywords">for</span> (<span class="pl-k" data-transform="Keywords">int</span> <span class="pl-v" data-transform="Variables">i</span> = <span class="pl-c1" data-transform="Numbers">0</span>; <span class="pl-v" data-transform="Variables">i</span> < <span class="pl-en" data-transform="Entity Name Lists">text.Length; <span class="pl-k" data-transform="Entity Name Lists">i</span>++)</span>
     {
         <span class="pl-k" data-transform="Keywords">switch</span> (<span class="pl-v" data-transform="Variables">text</span>[<span class="pl-v" data-transform="Variables">i</span>])
         {
-            <span class="pl-k" data-transform="Keywords">case</span> <span class="pl-s" data-transform="Strings">'\n'</span><span class="pl-en" data-transform="Entity Name Lists">:
-                if (valid) output.Append(line);
-                output.Append('\n');
-                line.Length = 0; valid = false;
-                break;
-            case '\r':
-                if ((i < text.Length - 1) && (text[i + 1] != '\n'))
-                </span>{
+            <span class="pl-k" data-transform="Keywords">case</span> <span class="pl-s" data-transform="Strings">'\n'</span>:
+                <span class="pl-en" data-transform="Entity Name Lists">if (valid) output.Append(<span class="pl-k" data-transform="Entity Name Lists">line</span>);</span>
+                <span class="pl-en" data-transform="Entity Name Lists">output.Append('\<span class="pl-k" data-transform="Entity Name Lists">n</span>');</span>
+                <span class="pl-en" data-transform="Entity Name Lists">line.Length = 0; valid = <span class="pl-k" data-transform="Entity Name Lists">false</span>;</span>
+                <span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">break</span>;</span>
+            <span class="pl-en" data-transform="Entity Name Lists">case '\<span class="pl-k" data-transform="Entity Name Lists">r</span>':</span>
+                <span class="pl-en" data-transform="Entity Name Lists">if ((i < text.Length - 1) && (text[i + 1] != '\<span class="pl-k" data-transform="Entity Name Lists">n</span>'))</span>
+                {
                     <span class="pl-k" data-transform="Keywords">if</span> (<span class="pl-v" data-transform="Variables">valid</span>) <span class="pl-v" data-transform="Variables">output</span>.<span class="pl-e" data-transform="Member Entities">Append</span>(<span class="pl-v" data-transform="Variables">line</span>);
                     <span class="pl-v" data-transform="Variables">output</span>.<span class="pl-e" data-transform="Member Entities">Append</span>(<span class="pl-s" data-transform="Strings">'\n'</span>);
                     <span class="pl-v" data-transform="Variables">line</span>.<span class="pl-e" data-transform="Member Entities">Length</span> = <span class="pl-c1" data-transform="Numbers">0</span>; <span class="pl-v" data-transform="Variables">valid</span> = <span class="pl-c1" data-transform="Constant Literals">false</span>;
                 }
                 <span class="pl-k" data-transform="Keywords">break</span>;
-            <span class="pl-k" data-transform="Keywords">case</span> <span class="pl-s" data-transform="Strings">'\t'</span><span class="pl-en" data-transform="Entity Name Lists">:
-                int width = (_tabWidth - line.Length % _tabWidth);
-                for (int k = 0; k < width; k++)
-                    line.Append(' ');
-                break;
-            case '\x1A':
-                break;
-            default:
-                if (!valid && text[i] != ' ') valid = true;
-                line.Append(text[i]);
-                break;
+            <span class="pl-k" data-transform="Keywords">case</span> <span class="pl-s" data-transform="Strings">'\t'</span>:
+                <span class="pl-en" data-transform="Entity Name Lists">int width = (_tabWidth - line.Length % <span class="pl-k" data-transform="Entity Name Lists">_tabWidth</span>);</span>
+                <span class="pl-en" data-transform="Entity Name Lists">for (int k = 0; k < width; <span class="pl-k" data-transform="Entity Name Lists">k</span>++)</span>
+                    <span class="pl-en" data-transform="Entity Name Lists">line.<span class="pl-k" data-transform="Entity Name Lists">Append</span>(' ');</span>
+                <span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">break</span>;</span>
+            <span class="pl-en" data-transform="Entity Name Lists">case '\<span class="pl-k" data-transform="Entity Name Lists">x1A</span>':</span>
+                <span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">break</span>;</span>
+            <span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">default</span>:</span>
+                <span class="pl-en" data-transform="Entity Name Lists">if (!valid && text[i] != ' ') valid = <span class="pl-k" data-transform="Entity Name Lists">true</span>;</span>
+                <span class="pl-en" data-transform="Entity Name Lists">line.Append(text[<span class="pl-k" data-transform="Entity Name Lists">i</span>]);</span>
+                <span class="pl-en" data-transform="Entity Name Lists"><span class="pl-k" data-transform="Entity Name Lists">break</span>;</span>
         }
     }
 
-    if (valid) output.Append(line);
-    output.Append('\n');
+    <span class="pl-k" data-transform="Keywords">if</span> (<span class="pl-v" data-transform="Variables">valid</span>) <span class="pl-v" data-transform="Variables">output</span>.<span class="pl-e" data-transform="Member Entities">Append</span>(<span class="pl-v" data-transform="Variables">line</span>);
+    <span class="pl-v" data-transform="Variables">output</span>.<span class="pl-e" data-transform="Member Entities">Append</span>(<span class="pl-s" data-transform="Strings">'\n'</span>);
 
-    // add two newlines to the end before return
-    return output.Append("\n\n").ToString();
-}</span>
+    <span class="pl-c" data-transform="Comments">// add two newlines to the end before return</span>
+    <span class="pl-k" data-transform="Keywords">return</span> <span class="pl-v" data-transform="Variables">output</span>.<span class="pl-e" data-transform="Member Entities">Append</span>(<span class="pl-s" data-transform="Strings">"\n\n"</span>).<span class="pl-e" data-transform="Member Entities">ToString</span>();
+}

@@ -75,8 +75,9 @@ namespace SyntaxHighlighter.Preview.Controllers
 
             Options options = new Options()
             {
-                DebugInfo = true//,
-                //BreakOnTransform = "Entity Name Lists"
+                DebugInfo = true,
+                //BreakOnTransform = "Entity Name Lists",
+                //BreakOnToken = "IVEncryptor"
             };
 
             string transformFileName = string.Format(TransformFormat, language);

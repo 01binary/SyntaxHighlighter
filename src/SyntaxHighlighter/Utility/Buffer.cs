@@ -299,15 +299,18 @@ namespace SyntaxHighlighter
                     this.Position, this.Next - this.Position);
             }
 
+            bool breakOnTransform = false;
+            bool breakOnToken = false;
+            string breakMessage = string.Empty;
+
             if (!string.IsNullOrEmpty(this.Options.BreakOnTransform) &&
                 !string.IsNullOrEmpty(transformName) &&
                 transformName == this.Options.BreakOnTransform)
             {
-                System.Diagnostics.Debug.WriteLine(
+                breakOnTransform = true;
+                breakMessage = string.Format(
                     "Breaking on transform {0}",
                     this.Options.BreakOnTransform);
-
-                System.Diagnostics.Debugger.Break();
             }
 
             if (!string.IsNullOrEmpty(this.Options.BreakOnToken) &&
@@ -316,12 +319,6 @@ namespace SyntaxHighlighter
                     (match && this.Options.BreakOnNotClass != className) ||
                     (!match && this.Options.BreakOnNotClass == className)))
             {
-                if (this.Options.BreakSkip > 0)
-                {
-                    this.Options.BreakSkip--;
-                    return;
-                }
-
                 if (this.Options.BreakOnNotClass != null)
                 {
                     string reason = string.Empty;
@@ -335,20 +332,42 @@ namespace SyntaxHighlighter
                         reason = "does not match expected class";
                     }
 
-                    System.Diagnostics.Debug.WriteLine(
+                    breakOnToken = true;
+                    breakMessage = string.Format(
                         "Breaking because '{0}' {1} {2}",
                         this.Options.BreakOnToken,
                         reason,
                         this.Options.BreakOnNotClass.ToString());
-
-                    System.Diagnostics.Debugger.Break();
                 }
                 else if (!this.Options.BreakOnMatch || (this.Options.BreakOnMatch && match))
                 {
-                    System.Diagnostics.Debug.WriteLine(
+                    breakOnToken = true;
+                    breakMessage = string.Format(
                         "Breaking on {0}",
                         this.Options.BreakOnToken);
+                }
 
+                if (breakOnToken || breakOnTransform)
+                {
+                    if (this.Options.BreakSkip > 0)
+                    {
+                        this.Options.BreakSkip--;
+                        return;
+                    }
+
+                    if (!string.IsNullOrEmpty(this.Options.BreakOnToken) && !breakOnToken)
+                    {
+                        // If break on token specified, break only if token matches.
+                        return;
+                    }
+
+                    if (!string.IsNullOrEmpty(this.Options.BreakOnTransform) && !breakOnTransform)
+                    {
+                        // If brak on transform specified, break only if transform matches.
+                        return;
+                    }
+
+                    System.Diagnostics.Debug.WriteLine(breakMessage);
                     System.Diagnostics.Debugger.Break();
                 }
             }
