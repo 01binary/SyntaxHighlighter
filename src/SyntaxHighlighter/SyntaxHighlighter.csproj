@@ -53,7 +53,6 @@
     <Compile Include="Highlighter.cs" />
     <Compile Include="Transforms\TransformFactory.cs" />
     <Compile Include="Transforms\TransformToken.cs" />
-    <Compile Include="Transforms\TransformTokenModifier.cs" />
     <Compile Include="Transforms\TransformTokenSpan.cs" />
   </ItemGroup>
   <ItemGroup>
