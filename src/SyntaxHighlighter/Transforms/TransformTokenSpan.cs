@@ -21,12 +21,22 @@ namespace SyntaxHighlighter
         /// <param name="name">The transform name for debugging.</param>
         /// <param name="description">The transform description for debugging.</param>
         /// <param name="patternName">The pattern name for debugging.</param>
-        /// <param name="pattern">The pattern to match to the current token.</param>
+        /// <param name="pattern">The pattern to match.</param>
         /// <param name="modifierPatternName">The modifier pattern name for debugging.</param>
         /// <param name="modifierPattern">The pattern to match to the previous token and previous separator, whichever succeeds.</param>
-        /// <param name="className">The transformed token class.</param>
+        /// <param name="className">The class name of the transformed token.</param>
+        /// <param name="transforms">The transforms to apply to inner token content.</param>
         /// <param name="excludeClassNames">The class name the previous token must not match.</param>
-        public TransformTokenSpan(string name, string description, string patternName, Regex pattern, string modifierPatternName, Regex modifierPattern, string className, List<TransformToken> transforms, params string[] excludeClassNames)
+        public TransformTokenSpan(
+            string name,
+            string description,
+            string patternName,
+            Regex pattern,
+            string modifierPatternName,
+            Regex modifierPattern,
+            string className,
+            List<TransformToken> transforms,
+            params string[] excludeClassNames)
             : base(name, description, patternName, pattern, modifierPatternName, modifierPattern, className, excludeClassNames)
         {
             this.Transforms = transforms;

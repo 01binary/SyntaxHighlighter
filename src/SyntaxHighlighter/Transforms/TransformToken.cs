@@ -58,9 +58,12 @@ namespace SyntaxHighlighter
         public string PatternName { get; set; }
 
         /// <summary>
-        /// Gets or sets the token class name.
+        /// Gets or sets the modifier pattern.
         /// </summary>
-        public string ClassName { get; set; }
+        /// <remarks>
+        /// This pattern must match either the previous token or previous separator.
+        /// </remarks>
+        public Regex ModifierPattern { get; set; }
 
         /// <summary>
         /// Gets or sets the modifier pattern name for debugging.
@@ -68,12 +71,9 @@ namespace SyntaxHighlighter
         public string ModifierPatternName { get; set; }
 
         /// <summary>
-        /// Gets or sets the modifier pattern.
+        /// Gets or sets the token class name.
         /// </summary>
-        /// <remarks>
-        /// This pattern must match either the previous token or previous separator.
-        /// </remarks>
-        public Regex ModifierPattern { get; set; }
+        public string ClassName { get; set; }
 
         /// <summary>
         /// Gets or sets the previous token class name to exclude.
