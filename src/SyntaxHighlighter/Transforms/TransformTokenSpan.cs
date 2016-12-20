@@ -22,10 +22,22 @@ namespace SyntaxHighlighter
         /// <param name="description">The transform description for debugging.</param>
         /// <param name="patternName">The pattern name for debugging.</param>
         /// <param name="pattern">The pattern to match.</param>
+        /// <param name="modifierPatternName">The modifier pattern name for debugging.</param>
+        /// <param name="modifierPattern">The pattern to match to the previous token and previous separator, whichever succeeds.</param>
         /// <param name="className">The class name of the transformed token.</param>
         /// <param name="transforms">The transforms to apply to inner token content.</param>
-        public TransformTokenSpan(string name, string description, string patternName, Regex pattern, string className, List<TransformToken> transforms)
-            : base(name, description, patternName, pattern, className)
+        /// <param name="excludeClassNames">The class name the previous token must not match.</param>
+        public TransformTokenSpan(
+            string name,
+            string description,
+            string patternName,
+            Regex pattern,
+            string modifierPatternName,
+            Regex modifierPattern,
+            string className,
+            List<TransformToken> transforms,
+            params string[] excludeClassNames)
+            : base(name, description, patternName, pattern, modifierPatternName, modifierPattern, className, excludeClassNames)
         {
             this.Transforms = transforms;
         }
@@ -43,22 +55,33 @@ namespace SyntaxHighlighter
         /// <returns>Whether the transformation was applied.</returns>
         public override bool Apply(Buffer buffer, Options options)
         {
-            Match match = this.Pattern.Match(buffer.Data, buffer.Position);
+            Match tokenMatch = this.Pattern.Match(buffer.Data, buffer.Position);
 
-            if (match.Success && match.Index == buffer.Position)
+            bool modifierMatch = this.ModifierPattern == null ||
+                this.ModifierPattern.IsMatch(buffer.PrevToken) ||
+                this.ModifierPattern.IsMatch(buffer.PrevSeparator.ToString());
+
+            bool typeMatch = !this.ExcludeClassNames.Any(
+                exclude => exclude != null && buffer.PrevClass == exclude);
+
+            buffer.Break(tokenMatch.Success, this.Name, this.ClassName);
+
+            if (tokenMatch.Success && tokenMatch.Index == buffer.Position &&
+                modifierMatch &&
+                typeMatch)
             {
                 string content;
 
                 if (this.Transforms.Count > 0)
                 {
-                    content = this.TransformInnerTokens(match.Value, this.Transforms.ToArray());
+                    content = this.TransformInnerTokens(tokenMatch.Value, this.Transforms.ToArray());
                 }
                 else
                 {
-                    content = Buffer.EncodeContent(match.Value);
+                    content = Buffer.EncodeContent(tokenMatch.Value);
                 }
 
-                buffer.ReplaceSpan(match, Buffer.FormatToken(content, this.ClassName, this.Name));
+                buffer.ReplaceSpan(tokenMatch, Buffer.FormatToken(content, this.ClassName, this.Name));
                 buffer.NextSeparator = buffer.PrevSeparator;
                 buffer.PrevToken = string.Empty;
                 buffer.PrevClass = this.ClassName;
