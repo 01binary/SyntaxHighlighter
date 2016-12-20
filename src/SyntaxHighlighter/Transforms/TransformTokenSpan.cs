@@ -16,7 +16,7 @@ namespace SyntaxHighlighter
     public class TransformTokenSpan : TransformToken
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TransformTokenModifier"/> class.
+        /// Initializes a new instance of the <see cref="TransformTokenSpan"/> class.
         /// </summary>
         /// <param name="name">The transform name for debugging.</param>
         /// <param name="description">The transform description for debugging.</param>

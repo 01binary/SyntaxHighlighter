@@ -15,7 +15,7 @@ namespace SyntaxHighlighter
     public class TransformToken : ITransform
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TransformTokenModifier"/> class.
+        /// Initializes a new instance of the <see cref="TransformToken"/> class.
         /// </summary>
         /// <param name="name">The transform name for debugging.</param>
         /// <param name="description">The transform description for debugging.</param>
