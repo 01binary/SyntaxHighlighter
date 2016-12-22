@@ -30,7 +30,7 @@
     "entitiesNamespaces": "(\\w+)\\s*[;.]\\s*",
     "entityNamespaceModifier": "using\\W*$",
 
-    "entityNameLists": "\\w+[^\\>\\{\\r\\n]*[\\>\\{]+", // how not to skip > ?
+    "entityNameLists": "(\\w+[^\\>\\{\\r\\n]*)[\\>\\{]+", // how not to skip > ?
     "entityNameListModifiers": ": | <",
 
     "entityNamesExclusive": "(\\w+)\\s*[^=\\(\\)\\.,:{\\[&|*+-<>\\/]?[;\\s]*$ | (\\w+)\\<[\\s\\W]*",
