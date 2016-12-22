@@ -41,6 +41,11 @@ namespace SyntaxHighlighter
         private const string ExcludeClassesKey = "excludeClasses";
 
         /// <summary>
+        /// The JSON key for value indicating whether to escape transformed strings.
+        /// </summary>
+        private const string EscapeKey = "escape";
+
+        /// <summary>
         /// The JSON key for the transforms inside a token span.
         /// </summary>
         private const string TransformsKey = "transforms";
@@ -59,11 +64,6 @@ namespace SyntaxHighlighter
         /// The basic token transform that specifies a pattern and a transformed token class.
         /// </summary>
         private const string TokenType = "Token";
-
-        /// <summary>
-        /// The transform that also matches pattern and classes against previous token and separator.
-        /// </summary>
-        private const string TokenModifierType = "TokenModifier";
 
         /// <summary>
         /// The transform that replaces large spans of text and supports nested transforms.
@@ -88,9 +88,20 @@ namespace SyntaxHighlighter
             Regex pattern = definition.Patterns[node.Property(TokenPatternKey)
                 .Value.ToString()];
 
+            string[] excludeClassNames = node[ExcludeClassesKey] != null ?
+                node[ExcludeClassesKey].ToObject<string[]>() : new string[0];
+
             string name = null;
             string description = null;
             string patternName = null;
+            string modifierPatternName = null;
+            Regex modifierPattern = null;
+
+            if (node[ModifierPatternKey] != null)
+            {
+                modifierPatternName = node[ModifierPatternKey].ToString();
+                modifierPattern = definition.Patterns[modifierPatternName];
+            }
 
             if (options.DebugInfo)
             {
@@ -111,16 +122,8 @@ namespace SyntaxHighlighter
             {
                 default:
                 case TokenType:
-                    return new TransformToken(name, description, patternName, pattern, className);
-                case TokenModifierType:
                     {
-                        string[] excludeClassNames = node[ExcludeClassesKey] != null ?
-                            node[ExcludeClassesKey].ToObject<string[]>() : new string[0];
-
-                        string modifierPatternName = node[ModifierPatternKey].ToString();
-                        Regex modifierPattern = definition.Patterns[modifierPatternName];
-
-                        return new TransformTokenModifier(
+                        return new TransformToken(
                             name,
                             description,
                             patternName,
@@ -145,13 +148,21 @@ namespace SyntaxHighlighter
                             }
                         }
 
+                        // Escape by default.
+                        bool escape = node.Property(EscapeKey) != null ?
+                            bool.Parse(node.Property(EscapeKey).Value.ToString()) : true;
+
                         return new TransformTokenSpan(
                             name,
                             description,
                             patternName,
                             pattern,
+                            modifierPatternName,
+                            modifierPattern,
                             className,
-                            transforms);
+                            transforms,
+                            escape,
+                            excludeClassNames);
                     }
             }
         }
