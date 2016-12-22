@@ -78,9 +78,7 @@ namespace SyntaxHighlighter
                 modifierMatch &&
                 typeMatch)
             {
-                string content = tokenMatch.Value;
-
-                // Goes wrong here, amp gt
+                string content = Buffer.ExplicitMatch(tokenMatch);
 
                 if (this.Transforms.Count > 0)
                 {
@@ -178,7 +176,7 @@ namespace SyntaxHighlighter
                 token.Substring(0, leftOffset)) : token.Substring(0, leftOffset);
 
             string right = this.Escape ? Buffer.EncodeContent(
-                    token.Substring(token.Length - rightOffset)) : token.Substring(token.Length - rightOffset);
+                token.Substring(token.Length - rightOffset)) : token.Substring(token.Length - rightOffset);
 
             if (rightOffset > 3)
             {

@@ -138,14 +138,14 @@
 
 <span class="pl-k" data-transform="Keywords">namespace</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">System</span>.<span class="pl-e" data-transform="Member Entities">Collections</span>.<span class="pl-e" data-transform="Member Entities">Concurrent</span>
 {
-    <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
+    <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
     <span class="pl-c" data-transform="Comments">/// Represents a thread-safe hash-based unique collection.</span>
-    <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
-    <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">typeparam</span> <span class="pl-e" data-transform="Comments">name</span>=<span class="pl-s" data-transform="Comments">"T"</span>&gt;The type of the items in the collection.&lt;/<span class="pl-ent" data-transform="Comments">typeparam</span>&gt;</span>
-    <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">remarks</span>&gt;</span>
-    <span class="pl-c" data-transform="Comments">/// All public members of &lt;<span class="pl-ent" data-transform="Comments">see</span> <span class="pl-e" data-transform="Comments">cref</span>="ConcurrentHashSet{T}"/&gt; are thread-safe and may be used</span>
+    <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
+    <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">typeparam</span> <span class="pl-e" data-transform="Comment Attributes">name</span>=<span class="pl-s" data-transform="Comment Attribute Values">"T"</span>&gt;The type of the items in the collection.&lt;/<span class="pl-ent" data-transform="Comment Entities">typeparam</span>&gt;</span>
+    <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">remarks</span>&gt;</span>
+    <span class="pl-c" data-transform="Comments">/// All public members of &lt;<span class="pl-ent" data-transform="Comment Entities">see</span> <span class="pl-e" data-transform="Comment Attributes">cref</span>="ConcurrentHashSet{T}"/&gt; are thread-safe and may be used</span>
     <span class="pl-c" data-transform="Comments">/// concurrently from multiple threads.</span>
-    <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comments">remarks</span>&gt;</span>
+    <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comment Entities">remarks</span>&gt;</span>
     [<span class="pl-e" data-transform="Call Entities">DebuggerDisplay</span>(<span class="pl-s" data-transform="Strings">"Count = {Count}"</span>)]
     <span class="pl-k" data-transform="Keywords">public</span> <span class="pl-k" data-transform="Keywords">sealed</span> <span class="pl-k" data-transform="Keywords">class</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">ConcurrentHashSet</span><<span class="pl-en" data-transform="Entity Names">T</span>> : <span class="pl-en" data-transform="Entity Names">IReadOnlyCollection</span><<span class="pl-en" data-transform="Entity Names">T</span>>, <span class="pl-v" data-transform="Variables">ICollection</span><<span class="pl-en" data-transform="Entity Names">T</span>>
     {
@@ -162,9 +162,9 @@
 	}
 }
 
-<span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
+<span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
 <span class="pl-c" data-transform="Comments">/// Gets the news stories.</span>
-<span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
+<span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
 <span class="pl-k" data-transform="Keywords">public</span> <span class="pl-en" data-transform="Exclusive Entity Names">IActionResult</span> <span class="pl-e" data-transform="Call Entities">GetStories</span>()
 {
     <span class="pl-k" data-transform="Keywords">try</span>
@@ -198,10 +198,10 @@
     }
 }
 
-<span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
+<span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
 <span class="pl-c" data-transform="Comments">/// Star a news story.</span>
-<span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
-<span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">param</span> <span class="pl-e" data-transform="Comments">name</span>=<span class="pl-s" data-transform="Comments">"id"</span>&gt;The story id&lt;/<span class="pl-ent" data-transform="Comments">param</span>&gt;</span>
+<span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
+<span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">param</span> <span class="pl-e" data-transform="Comment Attributes">name</span>=<span class="pl-s" data-transform="Comment Attribute Values">"id"</span>&gt;The story id&lt;/<span class="pl-ent" data-transform="Comment Entities">param</span>&gt;</span>
 [<span class="pl-e" data-transform="Call Entities">HttpPost</span>(<span class="pl-s" data-transform="Strings">"star/{id}"</span>)]
 <span class="pl-k" data-transform="Keywords">public</span> <span class="pl-en" data-transform="Exclusive Entity Names">IActionResult</span> <span class="pl-e" data-transform="Call Entities">StarStory</span>(<span class="pl-k" data-transform="Keywords">int</span> <span class="pl-v" data-transform="Variables">id</span>)
 {
@@ -254,29 +254,29 @@
 <span class="pl-k" data-transform="Keywords">const</span> <span class="pl-k" data-transform="Keywords">bool</span> <span class="pl-v" data-transform="Variables">myvar</span> = <span class="pl-c1" data-transform="Constant Literals">false</span>;
 
 <span class="pl-c" data-transform="Comments">/*
-&lt;<span class="pl-ent" data-transform="Comments">CommentList</span>/&gt;
-&lt;<span class="pl-ent" data-transform="Comments">UserList</span> /&gt;
+&lt;<span class="pl-ent" data-transform="Comment Entities">CommentList</span>/&gt;
+&lt;<span class="pl-ent" data-transform="Comment Entities">UserList</span> /&gt;
 
-&lt;<span class="pl-ent" data-transform="Comments">SomeTag</span>&gt;
-	&lt;<span class="pl-ent" data-transform="Comments">ChildTag</span>&gt;
-		&lt;<span class="pl-ent" data-transform="Comments">Child</span> /&gt;
-	&lt;/<span class="pl-ent" data-transform="Comments">ChildTag</span>&gt;
-&lt;/<span class="pl-ent" data-transform="Comments">SomeTag</span>&gt;
+&lt;<span class="pl-ent" data-transform="Comment Entities">SomeTag</span>&gt;
+	&lt;<span class="pl-ent" data-transform="Comment Entities">ChildTag</span>&gt;
+		&lt;<span class="pl-ent" data-transform="Comment Entities">Child</span> /&gt;
+	&lt;/<span class="pl-ent" data-transform="Comment Entities">ChildTag</span>&gt;
+&lt;/<span class="pl-ent" data-transform="Comment Entities">SomeTag</span>&gt;
 
-&lt;<span class="pl-ent" data-transform="Comments">WithAttribute</span> <span class="pl-e" data-transform="Comments">One</span>=<span class="pl-s" data-transform="Comments">"hello"</span> <span class="pl-e" data-transform="Comments">Two</span>=<span class="pl-s" data-transform="Comments">"world"</span>/&gt;
+&lt;<span class="pl-ent" data-transform="Comment Entities">WithAttribute</span> <span class="pl-e" data-transform="Comment Attributes">One</span>=<span class="pl-s" data-transform="Comment Attribute Values">"hello"</span> <span class="pl-e" data-transform="Comment Attributes">Two</span>=<span class="pl-s" data-transform="Comment Attribute Values">"world"</span>/&gt;
 */</span>
 
 <span class="pl-k" data-transform="Keywords">namespace</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">ZeroWeb</span>.<span class="pl-e" data-transform="Member Entities">Api</span>
 {
-    <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
+    <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
     <span class="pl-c" data-transform="Comments">/// The News Endpoint.</span>
-    <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
+    <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
     [<span class="pl-e" data-transform="Call Entities">Route</span>(<span class="pl-s" data-transform="Strings">"api/news"</span>)]
     <span class="pl-k" data-transform="Keywords">public</span> <span class="pl-k" data-transform="Keywords">class</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">NewsController</span>: <span class="pl-en" data-transform="Entity Names">Controller</span>
     {
-        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
         <span class="pl-c" data-transform="Comments">/// The site data store.</span>
-        <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
         <span class="pl-en" data-transform="Exclusive Entity Names">IServiceProvider</span> <span class="pl-v" data-transform="Variables">services</span>;
 		<span class="pl-en" data-transform="Exclusive Entity Names">AnotherType</span> <span class="pl-v" data-transform="Variables">more</span>;
 		<span class="pl-en" data-transform="Exclusive Entity Names">OneMoreType</span> <span class="pl-v" data-transform="Variables">evenMore</span>;
@@ -285,10 +285,10 @@
 
 		<span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">const</span> <span class="pl-c1" data-transform="Constant Identifiers">mustBeConst</span> = <span class="pl-c1" data-transform="Numbers">3</span> > <span class="pl-c1" data-transform="Numbers">5</span>;
 
-        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
-        <span class="pl-c" data-transform="Comments">/// Initializes a new instance of the &lt;<span class="pl-ent" data-transform="Comments">see</span> <span class="pl-e" data-transform="Comments">cref</span>=<span class="pl-s" data-transform="Comments">"NewsController"</span>/&gt; class.</span>
-        <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
-        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">param</span> <span class="pl-e" data-transform="Comments">name</span>=<span class="pl-s" data-transform="Comments">"services"</span>&gt;The application container.&lt;/<span class="pl-ent" data-transform="Comments">param</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// Initializes a new instance of the &lt;<span class="pl-ent" data-transform="Comment Entities">see</span> <span class="pl-e" data-transform="Comment Attributes">cref</span>=<span class="pl-s" data-transform="Comment Attribute Values">"NewsController"</span>/&gt; class.</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">param</span> <span class="pl-e" data-transform="Comment Attributes">name</span>=<span class="pl-s" data-transform="Comment Attribute Values">"services"</span>&gt;The application container.&lt;/<span class="pl-ent" data-transform="Comment Entities">param</span>&gt;</span>
         <span class="pl-k" data-transform="Keywords">public</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">NewsController</span>(<span class="pl-en" data-transform="Exclusive Entity Names">IServiceProvider</span> <span class="pl-v" data-transform="Variables">services</span>)
         {
             <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-v" data-transform="Variables">services</span> = <span class="pl-v" data-transform="Variables">services</span>;
@@ -309,9 +309,9 @@
 			<span class="pl-c1" data-transform="Constant Literals">Console</span>.<span class="pl-e" data-transform="Call Entities">WriteLine</span>(<span class="pl-s" data-transform="Strings">"lazy fox"</span>);
         }
 
-        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
         <span class="pl-c" data-transform="Comments">/// Gets the news stories.</span>
-        <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
         <span class="pl-k" data-transform="Keywords">public</span> <span class="pl-en" data-transform="Exclusive Entity Names">IActionResult</span> <span class="pl-e" data-transform="Call Entities">GetStories</span>()
         {
             <span class="pl-k" data-transform="Keywords">try</span>
@@ -345,10 +345,10 @@
             }
         }
 
-        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
         <span class="pl-c" data-transform="Comments">/// Gets the news story markdown content.</span>
-        <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
-        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">param</span> <span class="pl-e" data-transform="Comments">name</span>=<span class="pl-s" data-transform="Comments">"id"</span>&gt;The story id&lt;/<span class="pl-ent" data-transform="Comments">param</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">param</span> <span class="pl-e" data-transform="Comment Attributes">name</span>=<span class="pl-s" data-transform="Comment Attribute Values">"id"</span>&gt;The story id&lt;/<span class="pl-ent" data-transform="Comment Entities">param</span>&gt;</span>
         [<span class="pl-e" data-transform="Call Entities">Route</span>(<span class="pl-s" data-transform="Strings">"{id}"</span>)]
         <span class="pl-k" data-transform="Keywords">public</span> <span class="pl-en" data-transform="Exclusive Entity Names">IActionResult</span> <span class="pl-e" data-transform="Call Entities">GetStory</span>(<span class="pl-k" data-transform="Keywords">int</span> <span class="pl-v" data-transform="Variables">id</span>)
         {
@@ -393,10 +393,10 @@
             }
         }
 
-        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
         <span class="pl-c" data-transform="Comments">/// Star a news story.</span>
-        <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
-        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">param</span> <span class="pl-e" data-transform="Comments">name</span>=<span class="pl-s" data-transform="Comments">"id"</span>&gt;The story id&lt;/<span class="pl-ent" data-transform="Comments">param</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">param</span> <span class="pl-e" data-transform="Comment Attributes">name</span>=<span class="pl-s" data-transform="Comment Attribute Values">"id"</span>&gt;The story id&lt;/<span class="pl-ent" data-transform="Comment Entities">param</span>&gt;</span>
         [<span class="pl-e" data-transform="Call Entities">HttpPost</span>(<span class="pl-s" data-transform="Strings">"star/{id}"</span>)]
         <span class="pl-k" data-transform="Keywords">public</span> <span class="pl-en" data-transform="Exclusive Entity Names">IActionResult</span> <span class="pl-e" data-transform="Call Entities">StarStory</span>(<span class="pl-k" data-transform="Keywords">int</span> <span class="pl-v" data-transform="Variables">id</span>)
         {
@@ -461,15 +461,15 @@
 
 <span class="pl-k" data-transform="Keywords">namespace</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">ZeroWeb</span>
 {
-    <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
+    <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
     <span class="pl-c" data-transform="Comments">/// Application startup.</span>
-    <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
+    <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
     <span class="pl-k" data-transform="Keywords">public</span> <span class="pl-k" data-transform="Keywords">class</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">Startup</span>
     {
-        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
         <span class="pl-c" data-transform="Comments">/// Initialize configuration.</span>
-        <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
-        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">param</span> <span class="pl-e" data-transform="Comments">name</span>=<span class="pl-s" data-transform="Comments">"env"</span>&gt;The hosting environment.</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">param</span> <span class="pl-e" data-transform="Comment Attributes">name</span>=<span class="pl-s" data-transform="Comment Attribute Values">"env"</span>&gt;The hosting environment.</span>
         <span class="pl-k" data-transform="Keywords">public</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">Startup</span>(<span class="pl-en" data-transform="Exclusive Entity Names">IHostingEnvironment</span> <span class="pl-v" data-transform="Variables">env</span>)
         {
             <span class="pl-k" data-transform="Keywords">var</span> <span class="pl-v" data-transform="Variables">builder</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-e" data-transform="Call Entities">ConfigurationBuilder</span>()
@@ -485,15 +485,15 @@
             <span class="pl-v" data-transform="Variables">Configuration</span> = <span class="pl-v" data-transform="Variables">builder</span>.<span class="pl-e" data-transform="Member Entities">Build</span>();
         }
 
-        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
         <span class="pl-c" data-transform="Comments">/// Gets the application configuration.</span>
-        <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
         <span class="pl-k" data-transform="Keywords">public</span> <span class="pl-en" data-transform="Exclusive Entity Names">IConfigurationRoot</span> <span class="pl-v" data-transform="Variables">Configuration</span> { <span class="pl-k" data-transform="Keywords">get</span>; }
 
-        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
         <span class="pl-c" data-transform="Comments">/// Configures the injection container.</span>
-        <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
-        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">param</span> <span class="pl-e" data-transform="Comments">name</span>=<span class="pl-s" data-transform="Comments">"services"</span>&gt;The IoC container interface.&lt;/<span class="pl-ent" data-transform="Comments">param</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">param</span> <span class="pl-e" data-transform="Comment Attributes">name</span>=<span class="pl-s" data-transform="Comment Attribute Values">"services"</span>&gt;The IoC container interface.&lt;/<span class="pl-ent" data-transform="Comment Entities">param</span>&gt;</span>
         <span class="pl-k" data-transform="Keywords">public</span> <span class="pl-k" data-transform="Keywords">void</span> <span class="pl-e" data-transform="Call Entities">ConfigureServices</span>(<span class="pl-en" data-transform="Exclusive Entity Names">IServiceCollection</span> <span class="pl-v" data-transform="Variables">services</span>)
         {
             <span class="pl-v" data-transform="Variables">services</span>.<span class="pl-e" data-transform="Member Entities">AddMvc</span>();
@@ -515,12 +515,12 @@
             <span class="pl-v" data-transform="Variables">services</span>.<span class="pl-e" data-transform="Member Entities">AddScoped</span>(<span class="pl-k" data-transform="Keywords">typeof</span>(<span class="pl-en" data-transform="Entity Names">IDataStore</span>), <span class="pl-k" data-transform="Keywords">typeof</span>(<span class="pl-en" data-transform="Entity Names">SiteDataStore</span>));
         }
         
-        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
         <span class="pl-c" data-transform="Comments">/// Configures the injected dependencies.</span>
-        <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
-        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">param</span> <span class="pl-e" data-transform="Comments">name</span>=<span class="pl-s" data-transform="Comments">"app"</span>&gt;The application configuration.&lt;/<span class="pl-ent" data-transform="Comments">param</span>&gt;</span>
-        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">param</span> <span class="pl-e" data-transform="Comments">name</span>=<span class="pl-s" data-transform="Comments">"env"</span>&gt;The hosting environment.&lt;/<span class="pl-ent" data-transform="Comments">param</span>&gt;</span>
-        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">param</span> <span class="pl-e" data-transform="Comments">name</span>=<span class="pl-s" data-transform="Comments">"loggerFactory"</span>&gt;The logger factory.&lt;/<span class="pl-ent" data-transform="Comments">param</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">param</span> <span class="pl-e" data-transform="Comment Attributes">name</span>=<span class="pl-s" data-transform="Comment Attribute Values">"app"</span>&gt;The application configuration.&lt;/<span class="pl-ent" data-transform="Comment Entities">param</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">param</span> <span class="pl-e" data-transform="Comment Attributes">name</span>=<span class="pl-s" data-transform="Comment Attribute Values">"env"</span>&gt;The hosting environment.&lt;/<span class="pl-ent" data-transform="Comment Entities">param</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">param</span> <span class="pl-e" data-transform="Comment Attributes">name</span>=<span class="pl-s" data-transform="Comment Attribute Values">"loggerFactory"</span>&gt;The logger factory.&lt;/<span class="pl-ent" data-transform="Comment Entities">param</span>&gt;</span>
         <span class="pl-k" data-transform="Keywords">public</span> <span class="pl-k" data-transform="Keywords">void</span> <span class="pl-e" data-transform="Call Entities">Configure</span>(<span class="pl-en" data-transform="Exclusive Entity Names">IApplicationBuilder</span> <span class="pl-v" data-transform="Variables">app</span>, <span class="pl-en" data-transform="Exclusive Entity Names">IHostingEnvironment</span> <span class="pl-v" data-transform="Variables">env</span>, <span class="pl-en" data-transform="Exclusive Entity Names">ILoggerFactory</span> <span class="pl-v" data-transform="Variables">loggerFactory</span>)
         {
             <span class="pl-k" data-transform="Keywords">if</span> (<span class="pl-v" data-transform="Variables">env</span>.<span class="pl-e" data-transform="Member Entities">IsDevelopment</span>())
@@ -578,10 +578,10 @@
             <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-e" data-transform="Call Entities">ConfigureRoutes</span>(<span class="pl-v" data-transform="Variables">app</span>);
         }
 
-        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
         <span class="pl-c" data-transform="Comments">/// Configures the application routing.</span>
-        <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
-        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">param</span> <span class="pl-e" data-transform="Comments">name</span>=<span class="pl-s" data-transform="Comments">"app"</span>&gt;The application configuration.&lt;/<span class="pl-ent" data-transform="Comments">param</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">param</span> <span class="pl-e" data-transform="Comment Attributes">name</span>=<span class="pl-s" data-transform="Comment Attribute Values">"app"</span>&gt;The application configuration.&lt;/<span class="pl-ent" data-transform="Comment Entities">param</span>&gt;</span>
         <span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">void</span> <span class="pl-e" data-transform="Call Entities">ConfigureRoutes</span>(<span class="pl-en" data-transform="Exclusive Entity Names">IApplicationBuilder</span> <span class="pl-v" data-transform="Variables">app</span>)
         {
             <span class="pl-v" data-transform="Variables">app</span>.<span class="pl-e" data-transform="Member Entities">UseMvc</span>(<span class="pl-v" data-transform="Variables">routes</span> =>
@@ -688,10 +688,10 @@
             });
         }
 
-        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
         <span class="pl-c" data-transform="Comments">/// Configures the Yahoo external login provider.</span>
-        <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
-        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">param</span> <span class="pl-e" data-transform="Comments">name</span>=<span class="pl-s" data-transform="Comments">"app"</span>&gt;The application configuration.&lt;/<span class="pl-ent" data-transform="Comments">param</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">param</span> <span class="pl-e" data-transform="Comment Attributes">name</span>=<span class="pl-s" data-transform="Comment Attribute Values">"app"</span>&gt;The application configuration.&lt;/<span class="pl-ent" data-transform="Comment Entities">param</span>&gt;</span>
         <span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">void</span> <span class="pl-e" data-transform="Call Entities">ConfigureYahooAuthentication</span>(<span class="pl-en" data-transform="Exclusive Entity Names">IApplicationBuilder</span> <span class="pl-v" data-transform="Variables">app</span>)
         {
             <span class="pl-k" data-transform="Keywords">var</span> <span class="pl-v" data-transform="Variables">yahooOptions</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-e" data-transform="Call Entities">YahooAuthenticationOptions</span>()
@@ -710,10 +710,10 @@
             <span class="pl-v" data-transform="Variables">app</span>.<span class="pl-e" data-transform="Member Entities">UseYahooAuthentication</span>(<span class="pl-v" data-transform="Variables">yahooOptions</span>);
         }
 
-        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
         <span class="pl-c" data-transform="Comments">/// Configures the Reddit external login provider.</span>
-        <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
-        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">param</span> <span class="pl-e" data-transform="Comments">name</span>=<span class="pl-s" data-transform="Comments">"app"</span>&gt;The application configuration.&lt;/<span class="pl-ent" data-transform="Comments">param</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">param</span> <span class="pl-e" data-transform="Comment Attributes">name</span>=<span class="pl-s" data-transform="Comment Attribute Values">"app"</span>&gt;The application configuration.&lt;/<span class="pl-ent" data-transform="Comment Entities">param</span>&gt;</span>
         <span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">void</span> <span class="pl-e" data-transform="Call Entities">ConfigureRedditAuthentication</span>(<span class="pl-en" data-transform="Exclusive Entity Names">IApplicationBuilder</span> <span class="pl-v" data-transform="Variables">app</span>)
         {
             <span class="pl-k" data-transform="Keywords">var</span> <span class="pl-v" data-transform="Variables">redditOptions</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-e" data-transform="Call Entities">RedditAuthenticationOptions</span>()
@@ -732,10 +732,10 @@
             <span class="pl-v" data-transform="Variables">app</span>.<span class="pl-e" data-transform="Member Entities">UseRedditAuthentication</span>(<span class="pl-v" data-transform="Variables">redditOptions</span>);
         }
 
-        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
         <span class="pl-c" data-transform="Comments">/// Configures the LinkedIn external login provider.</span>
-        <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
-        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">param</span> <span class="pl-e" data-transform="Comments">name</span>=<span class="pl-s" data-transform="Comments">"app"</span>&gt;The application configuration.&lt;/<span class="pl-ent" data-transform="Comments">param</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">param</span> <span class="pl-e" data-transform="Comment Attributes">name</span>=<span class="pl-s" data-transform="Comment Attribute Values">"app"</span>&gt;The application configuration.&lt;/<span class="pl-ent" data-transform="Comment Entities">param</span>&gt;</span>
         <span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">void</span> <span class="pl-e" data-transform="Call Entities">ConfigureLinkedInAuthentication</span>(<span class="pl-en" data-transform="Exclusive Entity Names">IApplicationBuilder</span> <span class="pl-v" data-transform="Variables">app</span>)
         {
             <span class="pl-k" data-transform="Keywords">var</span> <span class="pl-v" data-transform="Variables">linkedInOptions</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-e" data-transform="Call Entities">LinkedInAuthenticationOptions</span>()
@@ -754,10 +754,10 @@
             <span class="pl-v" data-transform="Variables">app</span>.<span class="pl-e" data-transform="Member Entities">UseLinkedInAuthentication</span>(<span class="pl-v" data-transform="Variables">linkedInOptions</span>);
         }
 
-        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
         <span class="pl-c" data-transform="Comments">/// Configures the Google external login provider.</span>
-        <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
-        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">param</span> <span class="pl-e" data-transform="Comments">name</span>=<span class="pl-s" data-transform="Comments">"app"</span>&gt;The application configuration.&lt;/<span class="pl-ent" data-transform="Comments">param</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">param</span> <span class="pl-e" data-transform="Comment Attributes">name</span>=<span class="pl-s" data-transform="Comment Attribute Values">"app"</span>&gt;The application configuration.&lt;/<span class="pl-ent" data-transform="Comment Entities">param</span>&gt;</span>
         <span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">void</span> <span class="pl-e" data-transform="Call Entities">ConfigureGoogleAuthentication</span>(<span class="pl-en" data-transform="Exclusive Entity Names">IApplicationBuilder</span> <span class="pl-v" data-transform="Variables">app</span>)
         {
             <span class="pl-k" data-transform="Keywords">var</span> <span class="pl-v" data-transform="Variables">googleOptions</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-e" data-transform="Call Entities">GoogleOptions</span>()
@@ -776,10 +776,10 @@
             <span class="pl-v" data-transform="Variables">app</span>.<span class="pl-e" data-transform="Member Entities">UseGoogleAuthentication</span>(<span class="pl-v" data-transform="Variables">googleOptions</span>);
         }
 
-        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
         <span class="pl-c" data-transform="Comments">/// Configures the Github external login provider.</span>
-        <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
-        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">param</span> <span class="pl-e" data-transform="Comments">name</span>=<span class="pl-s" data-transform="Comments">"app"</span>&gt;The application configuration.&lt;/<span class="pl-ent" data-transform="Comments">param</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">param</span> <span class="pl-e" data-transform="Comment Attributes">name</span>=<span class="pl-s" data-transform="Comment Attribute Values">"app"</span>&gt;The application configuration.&lt;/<span class="pl-ent" data-transform="Comment Entities">param</span>&gt;</span>
         <span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">void</span> <span class="pl-e" data-transform="Call Entities">ConfigureGithubAuthentication</span>(<span class="pl-en" data-transform="Exclusive Entity Names">IApplicationBuilder</span> <span class="pl-v" data-transform="Variables">app</span>)
         {
             <span class="pl-k" data-transform="Keywords">var</span> <span class="pl-v" data-transform="Variables">githubOptions</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-en" data-transform="Entity Names">GitHubAuthenticationOptions</span>
@@ -799,10 +799,10 @@
             <span class="pl-v" data-transform="Variables">app</span>.<span class="pl-e" data-transform="Member Entities">UseGitHubAuthentication</span>(<span class="pl-v" data-transform="Variables">githubOptions</span>);
         }
 
-        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
         <span class="pl-c" data-transform="Comments">/// Configures the Microsoft external login provider.</span>
-        <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
-        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">param</span> <span class="pl-e" data-transform="Comments">name</span>=<span class="pl-s" data-transform="Comments">"app"</span>&gt;The application configuration.&lt;/<span class="pl-ent" data-transform="Comments">param</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">param</span> <span class="pl-e" data-transform="Comment Attributes">name</span>=<span class="pl-s" data-transform="Comment Attribute Values">"app"</span>&gt;The application configuration.&lt;/<span class="pl-ent" data-transform="Comment Entities">param</span>&gt;</span>
         <span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">void</span> <span class="pl-e" data-transform="Call Entities">ConfigureMicrosoftAuthentication</span>(<span class="pl-en" data-transform="Exclusive Entity Names">IApplicationBuilder</span> <span class="pl-v" data-transform="Variables">app</span>)
         {
             <span class="pl-k" data-transform="Keywords">var</span> <span class="pl-v" data-transform="Variables">microsoftOptions</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-e" data-transform="Call Entities">MicrosoftAccountOptions</span>()
@@ -821,10 +821,10 @@
             <span class="pl-v" data-transform="Variables">app</span>.<span class="pl-e" data-transform="Member Entities">UseMicrosoftAccountAuthentication</span>(<span class="pl-v" data-transform="Variables">microsoftOptions</span>);
         }
 
-        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
         <span class="pl-c" data-transform="Comments">/// Configures the Twitter external login provider.</span>
-        <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
-        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">param</span> <span class="pl-e" data-transform="Comments">name</span>=<span class="pl-s" data-transform="Comments">"app"</span>&gt;The application configuration.&lt;/<span class="pl-ent" data-transform="Comments">param</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">param</span> <span class="pl-e" data-transform="Comment Attributes">name</span>=<span class="pl-s" data-transform="Comment Attribute Values">"app"</span>&gt;The application configuration.&lt;/<span class="pl-ent" data-transform="Comment Entities">param</span>&gt;</span>
         <span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">void</span> <span class="pl-e" data-transform="Call Entities">ConfigureTwitterAuthentication</span>(<span class="pl-en" data-transform="Exclusive Entity Names">IApplicationBuilder</span> <span class="pl-v" data-transform="Variables">app</span>)
         {
             <span class="pl-k" data-transform="Keywords">var</span> <span class="pl-v" data-transform="Variables">twitterOptions</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-e" data-transform="Call Entities">TwitterOptions</span>()
@@ -843,10 +843,10 @@
             <span class="pl-v" data-transform="Variables">app</span>.<span class="pl-e" data-transform="Member Entities">UseTwitterAuthentication</span>(<span class="pl-v" data-transform="Variables">twitterOptions</span>);
         }
 
-        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
         <span class="pl-c" data-transform="Comments">/// Configures the Faceboook external login provider.</span>
-        <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
-        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">param</span> <span class="pl-e" data-transform="Comments">name</span>=<span class="pl-s" data-transform="Comments">"app"</span>&gt;The application configuration.&lt;/<span class="pl-ent" data-transform="Comments">param</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
+        <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">param</span> <span class="pl-e" data-transform="Comment Attributes">name</span>=<span class="pl-s" data-transform="Comment Attribute Values">"app"</span>&gt;The application configuration.&lt;/<span class="pl-ent" data-transform="Comment Entities">param</span>&gt;</span>
         <span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">void</span> <span class="pl-e" data-transform="Call Entities">ConfigureFacebookAuthentication</span>(<span class="pl-en" data-transform="Exclusive Entity Names">IApplicationBuilder</span> <span class="pl-v" data-transform="Variables">app</span>)
         {
             <span class="pl-k" data-transform="Keywords">var</span> <span class="pl-v" data-transform="Variables">facebookOptions</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-e" data-transform="Call Entities">FacebookOptions</span>()
@@ -963,13 +963,13 @@
     }
 }
 
-<span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
+<span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
 <span class="pl-c" data-transform="Comments">/// Within tags -- meaning between &lt; and &gt; -- encode [\ ` * _] so they </span>
 <span class="pl-c" data-transform="Comments">/// don't conflict with their use in Markdown for code, italics and strong. </span>
 <span class="pl-c" data-transform="Comments">/// We're replacing each such character with its corresponding hash </span>
 <span class="pl-c" data-transform="Comments">/// value; this is likely overkill, but it should prevent us from colliding </span>
 <span class="pl-c" data-transform="Comments">/// with the escape values by accident.</span>
-<span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
+<span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
 <span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">string</span> <span class="pl-e" data-transform="Call Entities">EscapeSpecialCharsWithinTagAttributes</span>(<span class="pl-k" data-transform="Keywords">string</span> <span class="pl-v" data-transform="Variables">text</span>)
 {
     <span class="pl-k" data-transform="Keywords">var</span> <span class="pl-v" data-transform="Variables">tokens</span> = <span class="pl-e" data-transform="Call Entities">TokenizeHTML</span>(<span class="pl-v" data-transform="Variables">text</span>);
@@ -998,12 +998,12 @@
     <span class="pl-k" data-transform="Keywords">return</span> <span class="pl-v" data-transform="Variables">sb</span>.<span class="pl-e" data-transform="Member Entities">ToString</span>();
 }
 
-<span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
+<span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
 <span class="pl-c" data-transform="Comments">/// convert all tabs to _tabWidth spaces; </span>
 <span class="pl-c" data-transform="Comments">/// standardizes line endings from DOS (CR LF) or Mac (CR) to UNIX (LF); </span>
 <span class="pl-c" data-transform="Comments">/// makes sure text ends with a couple of newlines; </span>
 <span class="pl-c" data-transform="Comments">/// removes any blank lines (only spaces) in the text</span>
-<span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comments">summary</span>&gt;</span>
+<span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
 <span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">string</span> <span class="pl-e" data-transform="Call Entities">Normalize</span>(<span class="pl-k" data-transform="Keywords">string</span> <span class="pl-v" data-transform="Variables">text</span>)
 {
     <span class="pl-k" data-transform="Keywords">var</span> <span class="pl-v" data-transform="Variables">output</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-e" data-transform="Call Entities">StringBuilder</span>(<span class="pl-v" data-transform="Variables">text</span>.<span class="pl-e" data-transform="Member Entities">Length</span>);

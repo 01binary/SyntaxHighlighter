@@ -57,16 +57,25 @@
 
         "transforms": [
           {
+            "name": "Comment Entities",
+            "description": "Comment documentation tags",
+
             "tokenClass": "pl-ent",
             "tokenPattern": "tags"
           },
 
           {
+            "name": "Comment Attributes",
+            "description": "Comment documentation attributes",
+
             "tokenClass": "pl-e",
             "tokenPattern": "attributes"
           },
 
           {
+            "name": "Comment Attribute Values",
+            "description": "Comment documentation attribute values",
+
             "tokenClass": "pl-s",
             "tokenPattern": "attributeValues"
           }
