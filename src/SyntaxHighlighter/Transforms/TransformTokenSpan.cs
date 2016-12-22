@@ -83,7 +83,7 @@ namespace SyntaxHighlighter
 
                 if (this.Transforms.Count > 0)
                 {
-                    content = this.TransformInnerTokens(tokenMatch.Value, this.Transforms.ToArray());
+                    content = this.TransformInnerTokens(tokenMatch.Value, buffer, this.Transforms.ToArray());
                 }
                 else if (this.Escape)
                 {
@@ -113,9 +113,10 @@ namespace SyntaxHighlighter
         /// Performs non context-specific token transformations.
         /// </summary>
         /// <param name="source">The source text.</param>
+        /// <param name="buffer">The original buffer so that we can keep last separator in sync.</param>
         /// <param name="transforms">The transforms to apply.</param>
         /// <returns>The transformed text.</returns>
-        private string TransformInnerTokens(string source, TransformToken[] transforms)
+        private string TransformInnerTokens(string source, Buffer buffer, TransformToken[] transforms)
         {
             for (int n = 0; n < transforms.Length; n++)
             {
@@ -128,6 +129,7 @@ namespace SyntaxHighlighter
                     transformed = true;
 
                     return this.InnerTransformEvaluator(
+                        buffer,
                         match,
                         transforms[n].Name,
                         transforms[n].ClassName,
@@ -146,12 +148,13 @@ namespace SyntaxHighlighter
         /// <summary>
         /// Evaluates global transforms for each matching instance.
         /// </summary>
+        /// <param name="buffer">The original buffer used to keep last separator in sync.</param>
         /// <param name="match">The match to evaluate.</param>
         /// <param name="transformName">The name of the transform, if debug options are on.</param>
         /// <param name="className">The token class name to apply.</param>
         /// <param name="transforms">The transforms to apply to inner content.</param>
         /// <returns>The transformed token.</returns>
-        private string InnerTransformEvaluator(Match match, string transformName, string className, TransformToken[] transforms)
+        private string InnerTransformEvaluator(Buffer buffer, Match match, string transformName, string className, TransformToken[] transforms)
         {
             string token = match.Value;
             string content = Buffer.ExplicitMatch(match);
@@ -179,9 +182,19 @@ namespace SyntaxHighlighter
             string right = this.Escape ? Buffer.EncodeContent(
                 token.Substring(token.Length - rightOffset)) : token.Substring(token.Length - rightOffset);
 
+            for (int n = token.Length - rightOffset;
+                n < token.Length && buffer.IsTokenSeparator(token, n);
+                n++)
+            {
+                if (!char.IsWhiteSpace(token[n]))
+                {
+                    buffer.PrevSeparator = token[n];
+                }
+            }
+
             if (rightOffset > 3)
             {
-                right = this.TransformInnerTokens(right, transforms);
+                right = this.TransformInnerTokens(right, buffer, transforms);
             }
 
             return left + formatted + right;
