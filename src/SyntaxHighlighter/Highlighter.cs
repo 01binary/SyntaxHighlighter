@@ -79,6 +79,7 @@ namespace SyntaxHighlighter
 
             while (!this.buffer.Eof)
             {
+                string test = this.buffer.Data.Substring(this.buffer.Position, this.buffer.Next - this.buffer.Position);
                 if (!this.transformDefinition.Apply(this.buffer))
                 {
                     this.buffer.SkipToken();

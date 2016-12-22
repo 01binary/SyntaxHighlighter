@@ -30,7 +30,7 @@
     "entitiesNamespaces": "(\\w+)\\s*[;.]\\s*",
     "entityNamespaceModifier": "using\\W*$",
 
-    "entityNameLists": "\\w+[^\\>\\{\\r\\n]*",
+    "entityNameLists": "\\w+[^\\>\\{\\r\\n]*[\\>\\{]+", // how not to skip > ?
     "entityNameListModifiers": ": | <",
 
     "entityNamesExclusive": "(\\w+)\\s*[^=\\(\\)\\.,:{\\[&|*+-<>\\/]?[;\\s]*$ | (\\w+)\\<[\\s\\W]*",
@@ -43,7 +43,7 @@
 
     "types": "^int\\W*$ | ^bool\\W*$ | ^var\\W*$ | ^string\\W*$ | ^float\\W*$ | ^double\\W*$ | ^uint\\W*$ | ^long\\W*$ | ^ulong\\W*$ | ^uint\\W*$ | ^short\\W*$ | ^ushort\\W*$",
 
-    "default": "(\\w+)\\W*$"
+    "default": "(\\w+)[^\\(]*"
   },
 
   "transforms": [
@@ -83,15 +83,6 @@
     },
 
     {
-      "name": "Keywords",
-      "description": "Language keywords",
-
-      "transformType": "Token",
-      "tokenClass": "pl-k",
-      "tokenPattern": "keywords"
-    },
-
-    {
       "name": "Entity Name Lists",
       "description": "Lists of base classes or template parameters",
 
@@ -99,11 +90,12 @@
       "tokenClass": "",
       "tokenPattern": "entityNameLists",
       "modifierPattern": "entityNameListModifiers",
+      "escape": false,
       "excludeClasses": [ "pl-k", "pl-c1" ],
 
       "transforms": [
         {
-          "name": "Entity Name List Keyword",
+          "name": "Keywords",
           "description": "Keyword template parameter",
 
           "transformType": "Token",
@@ -112,7 +104,7 @@
         },
 
         {
-          "name": "Entity Name List Item",
+          "name": "Entity Names",
           "description": "Base class or template parameter",
 
           "transformType": "Token",
@@ -120,6 +112,15 @@
           "tokenPattern": "default"
         }
       ]
+    },
+
+    {
+      "name": "Keywords",
+      "description": "Language keywords",
+
+      "transformType": "Token",
+      "tokenClass": "pl-k",
+      "tokenPattern": "keywords"
     },
 
     {

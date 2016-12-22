@@ -26,6 +26,7 @@ namespace SyntaxHighlighter
         /// <param name="modifierPattern">The pattern to match to the previous token and previous separator, whichever succeeds.</param>
         /// <param name="className">The class name of the transformed token.</param>
         /// <param name="transforms">The transforms to apply to inner token content.</param>
+        /// <param name="escape">Whether to escape HTML entities.</param>
         /// <param name="excludeClassNames">The class name the previous token must not match.</param>
         public TransformTokenSpan(
             string name,
@@ -36,16 +37,23 @@ namespace SyntaxHighlighter
             Regex modifierPattern,
             string className,
             List<TransformToken> transforms,
+            bool escape,
             params string[] excludeClassNames)
             : base(name, description, patternName, pattern, modifierPatternName, modifierPattern, className, excludeClassNames)
         {
             this.Transforms = transforms;
+            this.Escape = escape;
         }
 
         /// <summary>
         /// Gets or sets the transforms to apply to span contents.
         /// </summary>
         public List<TransformToken> Transforms { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to escape web entities.
+        /// </summary>
+        public bool Escape { get; set; }
 
         /// <summary>
         /// Apply the transform to the text buffer.
@@ -70,18 +78,28 @@ namespace SyntaxHighlighter
                 modifierMatch &&
                 typeMatch)
             {
-                string content;
+                string content = tokenMatch.Value;
+
+                // Goes wrong here, amp gt
 
                 if (this.Transforms.Count > 0)
                 {
                     content = this.TransformInnerTokens(tokenMatch.Value, this.Transforms.ToArray());
                 }
-                else
+                else if (this.Escape)
                 {
                     content = Buffer.EncodeContent(tokenMatch.Value);
                 }
 
-                buffer.ReplaceSpan(tokenMatch, Buffer.FormatToken(content, this.ClassName, this.Name));
+                if (string.IsNullOrEmpty(this.ClassName))
+                {
+                    buffer.ReplaceSpan(tokenMatch, content);
+                }
+                else
+                {
+                    buffer.ReplaceSpan(tokenMatch, Buffer.FormatToken(content, this.ClassName, this.Name));
+                }
+
                 buffer.NextSeparator = buffer.PrevSeparator;
                 buffer.PrevToken = string.Empty;
                 buffer.PrevClass = this.ClassName;
@@ -100,38 +118,53 @@ namespace SyntaxHighlighter
         /// <returns>The transformed text.</returns>
         private string TransformInnerTokens(string source, TransformToken[] transforms)
         {
-            if (transforms.Length == 0)
+            for (int n = 0; n < transforms.Length; n++)
             {
-                return source;
+                bool transformed = false;
+
+                source = transforms[n].Pattern.Replace(
+                    source,
+                    match =>
+                {
+                    transformed = true;
+
+                    return this.InnerTransformEvaluator(
+                        match,
+                        transforms[n].Name,
+                        transforms[n].ClassName,
+                        transforms.Skip(1).ToArray());
+                });
+
+                if (transformed)
+                {
+                    break;
+                }
             }
 
-            return transforms[0].Pattern.Replace(
-                source,
-                match =>
-            {
-                return this.InnerTransformEvaluator(
-                    match,
-                    transforms[0].ClassName,
-                    transforms.Skip(1).ToArray());
-            });
+            return source;
         }
 
         /// <summary>
         /// Evaluates global transforms for each matching instance.
         /// </summary>
         /// <param name="match">The match to evaluate.</param>
+        /// <param name="transformName">The name of the transform, if debug options are on.</param>
         /// <param name="className">The token class name to apply.</param>
         /// <param name="transforms">The transforms to apply to inner content.</param>
         /// <returns>The transformed token.</returns>
-        private string InnerTransformEvaluator(Match match, string className, TransformToken[] transforms)
+        private string InnerTransformEvaluator(Match match, string transformName, string className, TransformToken[] transforms)
         {
             string token = match.Value;
             string content = Buffer.ExplicitMatch(match);
+            string formatted = content;
 
-            string formatted = Buffer.FormatToken(
-                Buffer.EncodeContent(content),
-                className,
-                this.Name);
+            if (!string.IsNullOrEmpty(className))
+            {
+                formatted = Buffer.FormatToken(
+                    this.Escape ? Buffer.EncodeContent(content) : content,
+                    className,
+                    transformName);
+            }
 
             int leftOffset = token.IndexOf(content);
             int rightOffset = token.Length - content.Length - leftOffset;
@@ -141,11 +174,11 @@ namespace SyntaxHighlighter
                 return formatted;
             }
 
-            string left = Buffer.EncodeContent(
-                token.Substring(0, leftOffset));
+            string left = this.Escape ? Buffer.EncodeContent(
+                token.Substring(0, leftOffset)) : token.Substring(0, leftOffset);
 
-            string right = Buffer.EncodeContent(
-                token.Substring(token.Length - rightOffset));
+            string right = this.Escape ? Buffer.EncodeContent(
+                    token.Substring(token.Length - rightOffset)) : token.Substring(token.Length - rightOffset);
 
             if (rightOffset > 3)
             {

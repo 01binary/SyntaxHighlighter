@@ -41,6 +41,11 @@ namespace SyntaxHighlighter
         private const string ExcludeClassesKey = "excludeClasses";
 
         /// <summary>
+        /// The JSON key for value indicating whether to escape transformed strings.
+        /// </summary>
+        private const string EscapeKey = "escape";
+
+        /// <summary>
         /// The JSON key for the transforms inside a token span.
         /// </summary>
         private const string TransformsKey = "transforms";
@@ -143,6 +148,10 @@ namespace SyntaxHighlighter
                             }
                         }
 
+                        // Escape by default.
+                        bool escape = node.Property(EscapeKey) != null ?
+                            bool.Parse(node.Property(EscapeKey).Value.ToString()) : true;
+
                         return new TransformTokenSpan(
                             name,
                             description,
@@ -152,6 +161,7 @@ namespace SyntaxHighlighter
                             modifierPattern,
                             className,
                             transforms,
+                            escape,
                             excludeClassNames);
                     }
             }
