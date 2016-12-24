@@ -72,7 +72,7 @@ namespace SyntaxHighlighter
             bool typeMatch = !this.ExcludeClassNames.Any(
                 exclude => exclude != null && buffer.PrevClass == exclude);
 
-            buffer.Break(tokenMatch.Success, this.Name, this.ClassName);
+            buffer.Break(tokenMatch.Success, this.Name, this.ClassName, tokenMatch.Value);
 
             if (tokenMatch.Success && tokenMatch.Index == buffer.Position &&
                 modifierMatch &&

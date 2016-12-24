@@ -199,6 +199,13 @@ namespace SyntaxHighlighter
             int start = this.FindNextSeparator(this.Position);
             int length = 1;
 
+            // Hack?
+            while (start == this.Position && start < this.Data.Length)
+            {
+                start = this.FindNextSeparator(start + 1);
+                this.NextSeparator = this.Data[start];
+            }
+
             while (start < this.Data.Length &&
                    this.IsTokenSeparator(start, out length))
             {
@@ -314,7 +321,7 @@ namespace SyntaxHighlighter
             }
 
             if (!string.IsNullOrEmpty(this.Options.BreakOnToken) &&
-                token.StartsWith(this.Options.BreakOnToken) &&
+                token.IndexOf(this.Options.BreakOnToken) != -1 &&
                 (this.Options.BreakOnNotClass == null ||
                     (match && this.Options.BreakOnNotClass != className) ||
                     (!match && this.Options.BreakOnNotClass == className)))

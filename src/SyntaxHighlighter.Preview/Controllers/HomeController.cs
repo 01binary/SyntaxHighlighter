@@ -75,7 +75,10 @@ namespace SyntaxHighlighter.Preview.Controllers
 
             Options options = new Options()
             {
-                DebugInfo = true
+                DebugInfo = true,
+                BreakOnToken = "case",
+                BreakOnMatch = true,
+                BreakSkip = 7
             };
 
             string transformFileName = string.Format(TransformFormat, language);

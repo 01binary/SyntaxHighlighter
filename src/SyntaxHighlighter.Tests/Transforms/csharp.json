@@ -11,23 +11,23 @@
       "explicit": true
     },
 
-    "keywords": "^(abstract)\\W+$ | ^(as)\\W+$ | ^(base)\\W+$ | ^(bool)\\W+$ | ^(break)\\W+$ | ^(byte)\\W+$ | ^(case)\\W+$ | ^(catch)\\W+$ | ^(char)\\W+$ | ^(checked)\\W+$ | ^(class)\\W+$ | ^(const)\\W+$ | ^(continue)\\W+$ | ^(decimal)\\W+$ | ^(default)\\W+$ | ^(delegate)\\W+$ | ^(do)\\W+$ | ^(double)\\W+$ | ^(else)\\W+$ | ^(enum)\\W+$ | ^(event)\\W+$ | ^(explicit)\\W+$ | ^(extern)\\W+$ | ^(finally)\\W+$ | ^(fixed)\\W+$ | ^(float)\\W+$ | ^(for)\\W+$ | ^(foreach)\\W+$ | ^(goto)\\W+$ | ^(if)\\W+$ | ^(implicit)\\W+$ | ^(in)\\W+$ | ^(int)\\W+$ | ^(interface)\\W+$ | ^(internal)\\W+$ | ^(is)\\W+$ | ^(lock)\\W+$ | ^(long)\\W+$ | ^(namespace)\\W+$ | ^(new)\\W+$ | ^(object)\\W+$ | ^(operator)\\W+$ | ^(out)\\W+$ | ^(override)\\W+$ | ^(get)\\W+$ | ^(set)\\W+$ | ^(params)\\W+$ | ^(private)\\W+$ | ^(protected)\\W+$ | ^(public)\\W+$ | ^(readonly)\\W+$ | ^(ref)\\W+$ | ^(return)\\W+$ | ^(sbyte)\\W+$ | ^(sealed)\\W+$ | ^(short)\\W+$ | ^(sizeof)\\W+$ | ^(stackalloc)\\W+$ | ^(static)\\W+$ | ^(string)\\W+$ | ^(struct)\\W+$ | ^(switch)\\W+$ | ^(throw)\\W+$ | ^(try)\\W+$ | ^(typeof)\\W+$ | ^(uint)\\W+$ | ^(ulong)\\W+$ | ^(unchecked)\\W+$ | ^(unsafe)\\W+$ | ^(ushort)\\W+$ | ^(using)\\W+$ | ^(virtual)\\W+$ | ^(var)\\W+$ | ^(void)\\W+$ | ^(volatile)\\W+$ | ^(while)\\W+$ | ^(partial)\\W+$ | ^(yield)\\W+$",
+    "keywords": "\\babstract\\b | \\bas\\b | \\bbase\\b | \\bbool\\b | \\bbreak\\b | \\bbyte\\b | \\bcase\\b | \\bcatch\\b | \\bchar\\b | \\bchecked\\b | \\bclass\\b | \\bconst\\b | \\bcontinue\\b | \\bdecimal\\b | \\bdefault\\b | \\bdelegate\\b | \\bdo\\b | \\bdouble\\b | \\belse\\b | \\benum\\b | \\bevent\\b | \\bexplicit\\b | \\bextern\\b | \\bfinally\\b | \\bfixed\\b | \\bfloat\\b | \\bfor\\b | \\bforeach\\b | \\bgoto\\b | \\bif\\b | \\bimplicit\\b | \\bin\\b | \\bint\\b | \\binterface\\b | \\binternal\\b | \\bis\\b | \\block\\b | \\blong\\b | \\bnamespace\\b | \\bnew\\b | \\bobject\\b | \\boperator\\b | \\bout\\b | \\boverride\\b | \\bget\\b | \\bset\\b | \\bparams\\b | \\bprivate\\b | \\bprotected\\b | \\bpublic\\b | \\breadonly\\b | \\bref\\b | \\breturn\\b | \\bsbyte\\b | \\bsealed\\b | \\bshort\\b | \\bsizeof\\b | \\bstackalloc\\b | \\bstatic\\b | \\bstring\\b | \\bstruct\\b | \\bswitch\\b | \\bthrow\\b | \\btry\\b | \\btypeof\\b | \\buint\\b | \\bulong\\b | \\bunchecked\\b | \\bunsafe\\b | \\bushort\\b | \\busing\\b | \\bvirtual\\b | \\bvar\\b | \\bvoid\\b | \\bvolatile\\b | \\bwhile\\b | \\bpartial\\b | \\byield\\b",
 
     "tags": "<\\/?\\s*(\\w+)[^<>]*\\/?>",
     "attributes": "(\\w+)\\s*=\\s*\"[^\"]*\"",
     "attributeValues": "=\\s*(\"\\w+\")",
 
-    "constants": "^(this)\\W* | ^(null)\\W* | ^(true)\\W* | ^(false)\\W* | ^(Console)\\W*",
+    "constants": "\\bthis\\b | \\bnull\\b | \\btrue\\n | \\bfalse\\b | \\bConsole\\b",
     "constantModifiers": "^case\\W*$ | ^const\\W*$",
 
     "entities": "(\\w+)\\s*[\\(]",
-    "entitiesExclusive": "(\\w+)\\s*[^=+-]*$ | (\\w+)\\s*: | (\\w+)\\. | value\\W*$",
+    "entitiesExclusive": "(\\w+)\\s*[^=+-]* | (\\w+)\\s*: | (\\w+)\\. | value\\b",
     "entityModifiers": "public\\W*$ | private\\W*$ | protected\\W*$ | class\\W*$ | interface\\W*$ | struct\\W*$ | enum\\W*$ | namespace\\W*$ | \\.",
 
     "entitiesMembers": "(\\w+)\\s*={1,2}\\s* | (\\w+)\\s*[\\+-\\/\\*]?=\\s* | (\\w+)\\s*\\+{1,2}\\s* | (\\w+)\\s*-{1,2}\\s* | (\\w+)\\s*\\*\\s* | (\\w+)\\s*\\/\\s* | (\\w+)\\s*,\\s* | (\\w+)\\s*\\W*",
     "entityMemberModifiers": "\\.",
 
-    "entitiesNamespaces":  "(\\w+)\\s*[;.]\\s*",
+    "entitiesNamespaces": "(\\w+)\\s*[;.]\\s*",
     "entityNamespaceModifier": "using\\W*$",
 
     "entityNamesExclusive": "(\\w+)\\s*[^=\\(\\)\\.,:{\\[&|*+-<>\\/]?[;\\s]*$ | (\\w+)\\<[\\s\\W]*",
