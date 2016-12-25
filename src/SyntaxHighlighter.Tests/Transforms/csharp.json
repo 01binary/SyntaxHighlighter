@@ -11,17 +11,17 @@
       "explicit": true
     },
 
-    "keywords": "\\babstract\\b | \\bas\\b | \\bbase\\b | \\bbool\\b | \\bbreak\\b | \\bbyte\\b | \\bcase\\b | \\bcatch\\b | \\bchar\\b | \\bchecked\\b | \\bclass\\b | \\bconst\\b | \\bcontinue\\b | \\bdecimal\\b | \\bdefault\\b | \\bdelegate\\b | \\bdo\\b | \\bdouble\\b | \\belse\\b | \\benum\\b | \\bevent\\b | \\bexplicit\\b | \\bextern\\b | \\bfinally\\b | \\bfixed\\b | \\bfloat\\b | \\bfor\\b | \\bforeach\\b | \\bgoto\\b | \\bif\\b | \\bimplicit\\b | \\bin\\b | \\bint\\b | \\binterface\\b | \\binternal\\b | \\bis\\b | \\block\\b | \\blong\\b | \\bnamespace\\b | \\bnew\\b | \\bobject\\b | \\boperator\\b | \\bout\\b | \\boverride\\b | \\bget\\b | \\bset\\b | \\bparams\\b | \\bprivate\\b | \\bprotected\\b | \\bpublic\\b | \\breadonly\\b | \\bref\\b | \\breturn\\b | \\bsbyte\\b | \\bsealed\\b | \\bshort\\b | \\bsizeof\\b | \\bstackalloc\\b | \\bstatic\\b | \\bstring\\b | \\bstruct\\b | \\bswitch\\b | \\bthrow\\b | \\btry\\b | \\btypeof\\b | \\buint\\b | \\bulong\\b | \\bunchecked\\b | \\bunsafe\\b | \\bushort\\b | \\busing\\b | \\bvirtual\\b | \\bvar\\b | \\bvoid\\b | \\bvolatile\\b | \\bwhile\\b | \\bpartial\\b | \\byield\\b",
+    "keywords": "\\b(abstract)\\W+ | \\b(as)\\W+ | \\b(base)\\W+ | \\b(bool)\\W+ | \\b(break)\\W+ | \\b(byte)\\W+ | \\b(case)\\W+ | \\b(catch)\\W+ | \\b(char)\\W+ | \\b(checked)\\W+ | \\b(class)\\W+ | \\b(const)\\W+ | \\b(continue)\\W+ | \\b(decimal)\\W+ | \\b(default)\\W+ | \\b(delegate)\\W+ | \\b(do)\\W+ | \\b(double)\\W+ | \\b(else)\\W+ | \\b(enum)\\W+ | \\b(event)\\W+ | \\b(explicit)\\W+ | \\b(extern)\\W+ | \\b(finally)\\W+ | \\b(fixed)\\W+ | \\b(float)\\W+ | \\b(for)\\W+ | \\b(foreach)\\W+ | \\b(goto)\\W+ | \\b(if)\\W+ | \\b(implicit)\\W+ | \\b(in)\\W+ | \\b(int)\\W+ | \\b(interface)\\W+ | \\b(internal)\\W+ | \\b(is)\\W+ | \\b(lock)\\W+ | \\b(long)\\W+ | \\b(namespace)\\W+ | \\b(new)\\W+ | \\b(object)\\W+ | \\b(operator)\\W+ | \\b(out)\\W+ | \\b(override)\\W+ | \\b(get)\\W+ | \\b(set)\\W+ | \\b(params)\\W+ | \\b(private)\\W+ | \\b(protected)\\W+ | \\b(public)\\W+ | \\b(readonly)\\W+ | \\b(ref)\\W+ | \\b(return)\\W+ | \\b(sbyte)\\W+ | \\b(sealed)\\W+ | \\b(short)\\W+ | \\b(sizeof)\\W+ | \\b(stackalloc)\\W+ | \\b(static)\\W+ | \\b(string)\\W+ | \\b(struct)\\W+ | \\b(switch)\\W+ | \\b(throw)\\W+ | \\b(try)\\W+ | \\b(typeof)\\W+ | \\b(uint)\\W+ | \\b(ulong)\\W+ | \\b(unchecked)\\W+ | \\b(unsafe)\\W+ | \\b(ushort)\\W+ | \\b(using)\\W+ | \\b(virtual)\\W+ | \\b(var)\\W+ | \\b(void)\\W+ | \\b(volatile)\\W+ | \\b(while)\\W+ | \\b(partial)\\W+ | \\b(yield)\\W+",
 
     "tags": "<\\/?\\s*(\\w+)[^<>]*\\/?>",
     "attributes": "(\\w+)\\s*=\\s*\"[^\"]*\"",
     "attributeValues": "=\\s*(\"\\w+\")",
 
-    "constants": "\\bthis\\b | \\bnull\\b | \\btrue\\n | \\bfalse\\b | \\bConsole\\b",
+    "constants": "^(this)\\W* | ^(null)\\W* | ^(true)\\W* | ^(false)\\W* | ^(Console)\\W*",
     "constantModifiers": "^case\\W*$ | ^const\\W*$",
 
     "entities": "(\\w+)\\s*[\\(]",
-    "entitiesExclusive": "(\\w+)\\s*[^=+-]* | (\\w+)\\s*: | (\\w+)\\. | value\\b",
+    "entitiesExclusive": "(\\w+)\\s*[^=+-]*$ | (\\w+)\\s*: | (\\w+)\\. | value\\W*$",
     "entityModifiers": "public\\W*$ | private\\W*$ | protected\\W*$ | class\\W*$ | interface\\W*$ | struct\\W*$ | enum\\W*$ | namespace\\W*$ | \\.",
 
     "entitiesMembers": "(\\w+)\\s*={1,2}\\s* | (\\w+)\\s*[\\+-\\/\\*]?=\\s* | (\\w+)\\s*\\+{1,2}\\s* | (\\w+)\\s*-{1,2}\\s* | (\\w+)\\s*\\*\\s* | (\\w+)\\s*\\/\\s* | (\\w+)\\s*,\\s* | (\\w+)\\s*\\W*",

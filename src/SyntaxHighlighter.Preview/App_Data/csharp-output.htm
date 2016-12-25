@@ -32,14 +32,14 @@
             { <span class="pl-s" data-transform="Strings">"chacha20-ietf"</span>, <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-e" data-transform="Call Entities">EncryptorInfo</span>(<span class="pl-c1" data-transform="Numbers">32</span>, <span class="pl-c1" data-transform="Numbers">12</span>, <span class="pl-v" data-transform="Variables">CIPHER_CHACHA20_IETF</span>) }
         };
 
-        <span class="pl-k" data-transform="Keywords">protected</span> <span class="pl-k" data-transform="Keywords">override</span> <span class="pl-v" data-transform="Variables">Dictionary</span><<span class="pl-k" data-transform="Keywords">string</span>, <span class="pl-v" data-transform="Variables">EncryptorInfo</span>> <span class="pl-e" data-transform="Call Entities">getCiphers</span>()
+        <span class="pl-k" data-transform="Keywords">protected</span> <span class="pl-k" data-transform="Keywords">override</span> <span class="pl-en" data-transform="Exclusive Entity Names">Dictionary</span><<span class="pl-k" data-transform="Keywords">string</span>, <span class="pl-v" data-transform="Variables">EncryptorInfo</span>> <span class="pl-e" data-transform="Call Entities">getCiphers</span>()
         {
             <span class="pl-k" data-transform="Keywords">return</span> <span class="pl-v" data-transform="Variables">_ciphers</span>;
         }
 
         <span class="pl-k" data-transform="Keywords">public</span> <span class="pl-k" data-transform="Keywords">static</span> <span class="pl-en" data-transform="Exclusive Entity Names">List</span><<span class="pl-k" data-transform="Keywords">string</span>> <span class="pl-e" data-transform="Call Entities">SupportedCiphers</span>()
         {
-            <span class="pl-k" data-transform="Keywords">return</span> <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-en" data-transform="Entity Names">List</span><<span class="pl-k" data-transform="Keywords">string</span>>(<span class="pl-v" data-transform="Variables">_ciphers</span>.<span class="pl-e" data-transform="Member Entities">Keys</span>);
+            <span class="pl-k" data-transform="Keywords">return</span> <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-en" data-transform="Exclusive Entity Names">List</span><<span class="pl-k" data-transform="Keywords">string</span>>(<span class="pl-v" data-transform="Variables">_ciphers</span>.<span class="pl-e" data-transform="Member Entities">Keys</span>);
         }
 
         <span class="pl-k" data-transform="Keywords">protected</span> <span class="pl-k" data-transform="Keywords">override</span> <span class="pl-k" data-transform="Keywords">void</span> <span class="pl-e" data-transform="Call Entities">cipherUpdate</span>(<span class="pl-k" data-transform="Keywords">bool</span> <span class="pl-v" data-transform="Variables">isCipher</span>, <span class="pl-k" data-transform="Keywords">int</span> <span class="pl-v" data-transform="Variables">length</span>, <span class="pl-k" data-transform="Keywords">byte</span>[] <span class="pl-v" data-transform="Variables">buf</span>, <span class="pl-k" data-transform="Keywords">byte</span>[] <span class="pl-v" data-transform="Variables">outbuf</span>)
@@ -132,7 +132,7 @@
 	<span class="pl-k" data-transform="Keywords">public</span> <span class="pl-k" data-transform="Keywords">class</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">ShowMenu</span> : <span class="pl-en" data-transform="Entity Names">ActionMapInput</span> {
 		<span class="pl-k" data-transform="Keywords">public</span> <span class="pl-e" data-transform="Exclusive Entities (Non-Scoped)">ShowMenu</span> (<span class="pl-en" data-transform="Exclusive Entity Names">ActionMap</span> <span class="pl-v" data-transform="Variables">actionMap</span>) : <span class="pl-k" data-transform="Keywords">base</span> (<span class="pl-v" data-transform="Variables">actionMap</span>) { }
 		
-		<span class="pl-k" data-transform="Keywords">public</span> <span class="pl-en" data-transform="Exclusive Entity Names">ButtonInputControl</span> @<span class="pl-v" data-transform="Variables">show</span> { <span class="pl-k" data-transform="Keywords">get</span> { <span class="pl-k" data-transform="Keywords">return</span> (<span class="pl-v" data-transform="Variables">ButtonInputControl</span>)<span class="pl-c1" data-transform="Constant Literals">this</span>[<span class="pl-v" data-transform="Variables">0</span>]; } }
+		<span class="pl-k" data-transform="Keywords">public</span> <span class="pl-en" data-transform="Exclusive Entity Names">ButtonInputControl</span> @<span class="pl-v" data-transform="Variables">show</span> { <span class="pl-k" data-transform="Keywords">get</span> { <span class="pl-k" data-transform="Keywords">return</span> (<span class="pl-v" data-transform="Variables">ButtonInputControl</span>)<span class="pl-c1" data-transform="Constant Literals">this</span>[<span class="pl-c1" data-transform="Numbers">0</span>]; } }
 	}
 }
 
@@ -152,11 +152,11 @@
         <span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">const</span> <span class="pl-k" data-transform="Keywords">int</span> <span class="pl-v" data-transform="Variables">DefaultCapacity</span> = <span class="pl-c1" data-transform="Numbers">31</span>;
         <span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">const</span> <span class="pl-k" data-transform="Keywords">int</span> <span class="pl-v" data-transform="Variables">MaxLockNumber</span> = <span class="pl-c1" data-transform="Numbers">1024</span>;
 
-        <span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">readonly</span> <span class="pl-v" data-transform="Variables">IEqualityComparer</span><<span class="pl-en" data-transform="Entity Names">T</span>> <span class="pl-v" data-transform="Variables">_comparer</span>;
+        <span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">readonly</span> <span class="pl-en" data-transform="Exclusive Entity Names">IEqualityComparer</span><<span class="pl-en" data-transform="Entity Names">T</span>> <span class="pl-v" data-transform="Variables">_comparer</span>;
         <span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">readonly</span> <span class="pl-k" data-transform="Keywords">bool</span> <span class="pl-v" data-transform="Variables">_growLockArray</span>;
 
         <span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">int</span> <span class="pl-v" data-transform="Variables">_budget</span>;
-        <span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">volatile</span> <span class="pl-v" data-transform="Variables">Tables</span> <span class="pl-v" data-transform="Variables">_tables</span>;
+        <span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">volatile</span> <span class="pl-en" data-transform="Exclusive Entity Names">Tables</span> <span class="pl-v" data-transform="Variables">_tables</span>;
 
         <span class="pl-k" data-transform="Keywords">private</span> <span class="pl-k" data-transform="Keywords">static</span> <span class="pl-k" data-transform="Keywords">int</span> <span class="pl-v" data-transform="Variables">DefaultConcurrencyLevel</span> => <span class="pl-v" data-transform="Variables">PlatformHelper</span>.<span class="pl-e" data-transform="Member Entities">ProcessorCount</span>;
 	}
@@ -277,7 +277,7 @@
         <span class="pl-c" data-transform="Comments">/// &lt;<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
         <span class="pl-c" data-transform="Comments">/// The site data store.</span>
         <span class="pl-c" data-transform="Comments">/// &lt;/<span class="pl-ent" data-transform="Comment Entities">summary</span>&gt;</span>
-        <span class="pl-v" data-transform="Variables">IServiceProvider</span> <span class="pl-v" data-transform="Variables">services</span>;
+        <span class="pl-en" data-transform="Exclusive Entity Names">IServiceProvider</span> <span class="pl-v" data-transform="Variables">services</span>;
 		<span class="pl-en" data-transform="Exclusive Entity Names">AnotherType</span> <span class="pl-v" data-transform="Variables">more</span>;
 		<span class="pl-en" data-transform="Exclusive Entity Names">OneMoreType</span> <span class="pl-v" data-transform="Variables">evenMore</span>;
 		<span class="pl-en" data-transform="Exclusive Entity Names">HelloWorld</span> <span class="pl-v" data-transform="Variables">goodbye</span>;
@@ -294,7 +294,7 @@
             <span class="pl-c1" data-transform="Constant Literals">this</span>.<span class="pl-v" data-transform="Variables">services</span> = <span class="pl-v" data-transform="Variables">services</span>;
 
 			<span class="pl-c1" data-transform="Constant Literals">this</span>
-				.<span class="pl-e" data-transform="Member Entities">property</span> = <span class="pl-v" data-transform="Variables">value</span>;
+				.<span class="pl-v" data-transform="Variables">property</span> = <span class="pl-v" data-transform="Variables">value</span>;
 
 			<span class="pl-v" data-transform="Variables">another</span>
 				.<span class="pl-e" data-transform="Member Entities">property</span> = <span class="pl-s" data-transform="Strings">"goodbye"</span>;
@@ -475,7 +475,7 @@
             <span class="pl-k" data-transform="Keywords">var</span> <span class="pl-v" data-transform="Variables">builder</span> = <span class="pl-k" data-transform="Keywords">new</span> <span class="pl-e" data-transform="Call Entities">ConfigurationBuilder</span>()
                 .<span class="pl-e" data-transform="Member Entities">SetBasePath</span>(<span class="pl-v" data-transform="Variables">env</span>.<span class="pl-e" data-transform="Member Entities">ContentRootPath</span>)
                 .<span class="pl-e" data-transform="Member Entities">AddJsonFile</span>(<span class="pl-v" data-transform="Variables">Program</span>.<span class="pl-e" data-transform="Member Entities">Settings</span>, <span class="pl-v" data-transform="Variables">optional</span>: <span class="pl-c1" data-transform="Constant Literals">false</span>)
-                .<span class="pl-e" data-transform="Member Entities">AddEnvironmentVariables</span>();
+                .<span class="pl-e" data-transform="Call Entities">AddEnvironmentVariables</span>();
 
             <span class="pl-k" data-transform="Keywords">if</span> (<span class="pl-v" data-transform="Variables">env</span>.<span class="pl-e" data-transform="Member Entities">IsDevelopment</span>())
             {
@@ -1014,12 +1014,12 @@
     {
         <span class="pl-k" data-transform="Keywords">switch</span> (<span class="pl-v" data-transform="Variables">text</span>[<span class="pl-v" data-transform="Variables">i</span>])
         {
-            <span class="pl-k" data-transform="Keywords">case</span> '\<span class="pl-c1" data-transform="Constant Identifiers">n</span>':
+            <span class="pl-k" data-transform="Keywords">case</span> <span class="pl-s" data-transform="Strings">'\n'</span>:
                 <span class="pl-k" data-transform="Keywords">if</span> (<span class="pl-v" data-transform="Variables">valid</span>) <span class="pl-v" data-transform="Variables">output</span>.<span class="pl-e" data-transform="Member Entities">Append</span>(<span class="pl-v" data-transform="Variables">line</span>);
                 <span class="pl-v" data-transform="Variables">output</span>.<span class="pl-e" data-transform="Member Entities">Append</span>(<span class="pl-s" data-transform="Strings">'\n'</span>);
                 <span class="pl-v" data-transform="Variables">line</span>.<span class="pl-e" data-transform="Member Entities">Length</span> = <span class="pl-c1" data-transform="Numbers">0</span>; <span class="pl-v" data-transform="Variables">valid</span> = <span class="pl-c1" data-transform="Constant Literals">false</span>;
                 <span class="pl-k" data-transform="Keywords">break</span>;
-            <span class="pl-k" data-transform="Keywords">case</span> '\<span class="pl-c1" data-transform="Constant Identifiers">r</span>':
+            <span class="pl-k" data-transform="Keywords">case</span> <span class="pl-s" data-transform="Strings">'\r'</span>:
                 <span class="pl-k" data-transform="Keywords">if</span> ((<span class="pl-v" data-transform="Variables">i</span> < <span class="pl-v" data-transform="Variables">text</span>.<span class="pl-e" data-transform="Member Entities">Length</span> - <span class="pl-c1" data-transform="Numbers">1</span>) && (<span class="pl-v" data-transform="Variables">text</span>[<span class="pl-v" data-transform="Variables">i</span> + <span class="pl-c1" data-transform="Numbers">1</span>] != <span class="pl-s" data-transform="Strings">'\n'</span>))
                 {
                     <span class="pl-k" data-transform="Keywords">if</span> (<span class="pl-v" data-transform="Variables">valid</span>) <span class="pl-v" data-transform="Variables">output</span>.<span class="pl-e" data-transform="Member Entities">Append</span>(<span class="pl-v" data-transform="Variables">line</span>);
@@ -1027,15 +1027,15 @@
                     <span class="pl-v" data-transform="Variables">line</span>.<span class="pl-e" data-transform="Member Entities">Length</span> = <span class="pl-c1" data-transform="Numbers">0</span>; <span class="pl-v" data-transform="Variables">valid</span> = <span class="pl-c1" data-transform="Constant Literals">false</span>;
                 }
                 <span class="pl-k" data-transform="Keywords">break</span>;
-            <span class="pl-k" data-transform="Keywords">case</span> '\<span class="pl-c1" data-transform="Constant Identifiers">t</span>':
+            <span class="pl-k" data-transform="Keywords">case</span> <span class="pl-s" data-transform="Strings">'\t'</span>:
                 <span class="pl-k" data-transform="Keywords">int</span> <span class="pl-v" data-transform="Variables">width</span> = (<span class="pl-v" data-transform="Variables">_tabWidth</span> - <span class="pl-v" data-transform="Variables">line</span>.<span class="pl-e" data-transform="Member Entities">Length</span> % <span class="pl-v" data-transform="Variables">_tabWidth</span>);
                 <span class="pl-k" data-transform="Keywords">for</span> (<span class="pl-k" data-transform="Keywords">int</span> <span class="pl-v" data-transform="Variables">k</span> = <span class="pl-c1" data-transform="Numbers">0</span>; <span class="pl-v" data-transform="Variables">k</span> < <span class="pl-v" data-transform="Variables">width</span>; <span class="pl-v" data-transform="Variables">k</span>++)
                     <span class="pl-v" data-transform="Variables">line</span>.<span class="pl-e" data-transform="Member Entities">Append</span>(<span class="pl-s" data-transform="Strings">' '</span>);
                 <span class="pl-k" data-transform="Keywords">break</span>;
-            <span class="pl-k" data-transform="Keywords">case</span> '\<span class="pl-c1" data-transform="Constant Identifiers">x1A</span>':
+            <span class="pl-k" data-transform="Keywords">case</span> <span class="pl-s" data-transform="Strings">'\x1A'</span>:
                 <span class="pl-k" data-transform="Keywords">break</span>;
             <span class="pl-k" data-transform="Keywords">default</span>:
-                <span class="pl-k" data-transform="Keywords">if</span> (!<span class="pl-v" data-transform="Variables">valid</span> && <span class="pl-v" data-transform="Variables">text</span>[<span class="pl-v" data-transform="Variables">i</span>] != <span class="pl-s" data-transform="Strings">' '</span>) <span class="pl-v" data-transform="Variables">valid</span> = <span class="pl-v" data-transform="Variables">true</span>;
+                <span class="pl-k" data-transform="Keywords">if</span> (!<span class="pl-v" data-transform="Variables">valid</span> && <span class="pl-v" data-transform="Variables">text</span>[<span class="pl-v" data-transform="Variables">i</span>] != <span class="pl-s" data-transform="Strings">' '</span>) <span class="pl-v" data-transform="Variables">valid</span> = <span class="pl-c1" data-transform="Constant Literals">true</span>;
                 <span class="pl-v" data-transform="Variables">line</span>.<span class="pl-e" data-transform="Member Entities">Append</span>(<span class="pl-v" data-transform="Variables">text</span>[<span class="pl-v" data-transform="Variables">i</span>]);
                 <span class="pl-k" data-transform="Keywords">break</span>;
         }
