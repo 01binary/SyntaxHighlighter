@@ -11,7 +11,7 @@
       "explicit": true
     },
 
-    "keywords": "^(abstract)\\W+$ | ^(as)\\W+$ | ^(base)\\W+$ | ^(bool)\\W+$ | ^(break)\\W+$ | ^(byte)\\W+$ | ^(case)\\W+$ | ^(catch)\\W+$ | ^(char)\\W+$ | ^(checked)\\W+$ | ^(class)\\W+$ | ^(const)\\W+$ | ^(continue)\\W+$ | ^(decimal)\\W+$ | ^(default)\\W+$ | ^(delegate)\\W+$ | ^(do)\\W+$ | ^(double)\\W+$ | ^(else)\\W+$ | ^(enum)\\W+$ | ^(event)\\W+$ | ^(explicit)\\W+$ | ^(extern)\\W+$ | ^(finally)\\W+$ | ^(fixed)\\W+$ | ^(float)\\W+$ | ^(for)\\W+$ | ^(foreach)\\W+$ | ^(goto)\\W+$ | ^(if)\\W+$ | ^(implicit)\\W+$ | ^(in)\\W+$ | ^(int)\\W+$ | ^(interface)\\W+$ | ^(internal)\\W+$ | ^(is)\\W+$ | ^(lock)\\W+$ | ^(long)\\W+$ | ^(namespace)\\W+$ | ^(new)\\W+$ | ^(object)\\W+$ | ^(operator)\\W+$ | ^(out)\\W+$ | ^(override)\\W+$ | ^(get)\\W+$ | ^(set)\\W+$ | ^(params)\\W+$ | ^(private)\\W+$ | ^(protected)\\W+$ | ^(public)\\W+$ | ^(readonly)\\W+$ | ^(ref)\\W+$ | ^(return)\\W+$ | ^(sbyte)\\W+$ | ^(sealed)\\W+$ | ^(short)\\W+$ | ^(sizeof)\\W+$ | ^(stackalloc)\\W+$ | ^(static)\\W+$ | ^(string)\\W+$ | ^(struct)\\W+$ | ^(switch)\\W+$ | ^(throw)\\W+$ | ^(try)\\W+$ | ^(typeof)\\W+$ | ^(uint)\\W+$ | ^(ulong)\\W+$ | ^(unchecked)\\W+$ | ^(unsafe)\\W+$ | ^(ushort)\\W+$ | ^(using)\\W+$ | ^(virtual)\\W+$ | ^(var)\\W+$ | ^(void)\\W+$ | ^(volatile)\\W+$ | ^(while)\\W+$ | ^(partial)\\W+$ | ^(yield)\\W+$",
+    "keywords": "\\b(abstract)\\W+ | \\b(as)\\W+ | \\b(base)\\W+ | \\b(bool)\\W+ | \\b(break)\\W+ | \\b(byte)\\W+ | \\b(case)\\W+ | \\b(catch)\\W+ | \\b(char)\\W+ | \\b(checked)\\W+ | \\b(class)\\W+ | \\b(const)\\W+ | \\b(continue)\\W+ | \\b(decimal)\\W+ | \\b(default)\\W+ | \\b(delegate)\\W+ | \\b(do)\\W+ | \\b(double)\\W+ | \\b(else)\\W+ | \\b(enum)\\W+ | \\b(event)\\W+ | \\b(explicit)\\W+ | \\b(extern)\\W+ | \\b(finally)\\W+ | \\b(fixed)\\W+ | \\b(float)\\W+ | \\b(for)\\W+ | \\b(foreach)\\W+ | \\b(goto)\\W+ | \\b(if)\\W+ | \\b(implicit)\\W+ | \\b(in)\\W+ | \\b(int)\\W+ | \\b(interface)\\W+ | \\b(internal)\\W+ | \\b(is)\\W+ | \\b(lock)\\W+ | \\b(long)\\W+ | \\b(namespace)\\W+ | \\b(new)\\W+ | \\b(object)\\W+ | \\b(operator)\\W+ | \\b(out)\\W+ | \\b(override)\\W+ | \\b(get)\\W+ | \\b(set)\\W+ | \\b(params)\\W+ | \\b(private)\\W+ | \\b(protected)\\W+ | \\b(public)\\W+ | \\b(readonly)\\W+ | \\b(ref)\\W+ | \\b(return)\\W+ | \\b(sbyte)\\W+ | \\b(sealed)\\W+ | \\b(short)\\W+ | \\b(sizeof)\\W+ | \\b(stackalloc)\\W+ | \\b(static)\\W+ | \\b(string)\\W+ | \\b(struct)\\W+ | \\b(switch)\\W+ | \\b(throw)\\W+ | \\b(try)\\W+ | \\b(typeof)\\W+ | \\b(uint)\\W+ | \\b(ulong)\\W+ | \\b(unchecked)\\W+ | \\b(unsafe)\\W+ | \\b(ushort)\\W+ | \\b(using)\\W+ | \\b(virtual)\\W+ | \\b(var)\\W+ | \\b(void)\\W+ | \\b(volatile)\\W+ | \\b(while)\\W+ | \\b(partial)\\W+ | \\b(yield)\\W+",
 
     "tags": "<\\/?\\s*(\\w+)[^<>]*\\/?>",
     "attributes": "(\\w+)\\s*=\\s*\"[^\"]*\"",
@@ -27,7 +27,7 @@
     "entitiesMembers": "(\\w+)\\s*={1,2}\\s* | (\\w+)\\s*[\\+-\\/\\*]?=\\s* | (\\w+)\\s*\\+{1,2}\\s* | (\\w+)\\s*-{1,2}\\s* | (\\w+)\\s*\\*\\s* | (\\w+)\\s*\\/\\s* | (\\w+)\\s*,\\s* | (\\w+)\\s*\\W*",
     "entityMemberModifiers": "\\.",
 
-    "entitiesNamespaces":  "(\\w+)\\s*[;.]\\s*",
+    "entitiesNamespaces": "(\\w+)\\s*[;.]\\s*",
     "entityNamespaceModifier": "using\\W*$",
 
     "entityNamesExclusive": "(\\w+)\\s*[^=\\(\\)\\.,:{\\[&|*+-<>\\/]?[;\\s]*$ | (\\w+)\\<[\\s\\W]*",

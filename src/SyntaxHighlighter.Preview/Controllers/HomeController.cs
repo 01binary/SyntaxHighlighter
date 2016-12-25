@@ -75,7 +75,7 @@ namespace SyntaxHighlighter.Preview.Controllers
 
             Options options = new Options()
             {
-                DebugInfo = true
+                DebugInfo = true,
             };
 
             string transformFileName = string.Format(TransformFormat, language);
