@@ -1,4 +1,7 @@
-﻿namespace Shadowsocks.Encryption
+﻿using System;
+using System.Collections.Generic;
+
+namespace Shadowsocks.Encryption
 {
     public class SodiumEncryptor
         : IVEncryptor, IDisposable
@@ -41,6 +44,7 @@
 
         protected override void cipherUpdate(bool isCipher, int length, byte[] buf, byte[] outbuf)
         {
+            // TODO write a unidirection cipher so we don't have to if if if
             int bytesRemaining;
             ulong ic;
             byte[] sodiumBuf;
@@ -96,4 +100,64 @@
         {
         }
     }
+}
+
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.VR.Utilities;
+
+[CustomPropertyDrawer(typeof(FlagsPropertyAttribute))]
+public class FlagsPropertyDrawer : PropertyDrawer
+{
+	public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+	{
+		property.intValue = U.UI.MaskField(position, label, property.intValue, property.enumNames, U.UI.SerializedPropertyToType(property));
+	}
+}
+
+[CustomEditor(typeof(RaySlider))]
+public class RaySliderEditor : SliderEditor
+{
+	public override void OnInspectorGUI()
+	{
+		serializedObject.Update();
+		EditorGUILayout.PropertyField(serializedObject.FindProperty("m_SelectionFlags"));
+		serializedObject.ApplyModifiedProperties();
+		base.OnInspectorGUI();
+	}
+}
+
+namespace UnityEngine.InputNew
+{
+	public class ShowMenu : ActionMapInput {
+		public ShowMenu (ActionMap actionMap) : base (actionMap) { }
+		
+		public ButtonInputControl @show { get { return (ButtonInputControl)this[0]; } }
+	}
+}
+
+namespace System.Collections.Concurrent
+{
+    /// <summary>
+    /// Represents a thread-safe hash-based unique collection.
+    /// </summary>
+    /// <typeparam name="T">The type of the items in the collection.</typeparam>
+    /// <remarks>
+    /// All public members of <see cref="ConcurrentHashSet{T}"/> are thread-safe and may be used
+    /// concurrently from multiple threads.
+    /// </remarks>
+    [DebuggerDisplay("Count = {Count}")]
+    public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T>
+    {
+        private const int DefaultCapacity = 31;
+        private const int MaxLockNumber = 1024;
+
+        private readonly IEqualityComparer<T> _comparer;
+        private readonly bool _growLockArray;
+
+        private int _budget;
+        private volatile Tables _tables;
+
+        private static int DefaultConcurrencyLevel => PlatformHelper.ProcessorCount;
+	}
 }

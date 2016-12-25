@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Code Highlight Preview</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" type="text/css" href="../Template/Styles.css">
+</head>
+<body>
+<pre><span class="pl-k">using</span> <span class="pl-e">System</span>;
+<span class="pl-k">using</span> <span class="pl-e">System</span>.<span class="pl-e">Collections</span>.<span class="pl-e">Generic</span>;
+
+<span class="pl-k">namespace</span> <span class="pl-e">Shadowsocks</span>.<span class="pl-e">Encryption</span>
+{
+    <span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-e">SodiumEncryptor</span>
+        : <span class="pl-en">IVEncryptor</span>, <span class="pl-v">IDisposable</span>
+    {
+        <span class="pl-k">const</span> <span class="pl-k">int</span> <span class="pl-v">CIPHER_SALSA20</span> = <span class="pl-c1">1</span>;
+        <span class="pl-k">const</span> <span class="pl-k">int</span> <span class="pl-v">CIPHER_CHACHA20</span> = <span class="pl-c1">2</span>;
+        <span class="pl-k">const</span> <span class="pl-k">int</span> <span class="pl-v">CIPHER_CHACHA20_IETF</span> = <span class="pl-c1">3</span>;
+
+        <span class="pl-k">const</span> <span class="pl-k">int</span> <span class="pl-v">SODIUM_BLOCK_SIZE</span> = <span class="pl-c1">64</span>;
+
+        <span class="pl-k">protected</span> <span class="pl-k">int</span> <span class="pl-v">_encryptBytesRemaining</span>;
+        <span class="pl-k">protected</span> <span class="pl-k">int</span> <span class="pl-v">_decryptBytesRemaining</span>;
+        <span class="pl-k">protected</span> <span class="pl-k">ulong</span> <span class="pl-v">_encryptIC</span>;
+        <span class="pl-k">protected</span> <span class="pl-k">ulong</span> <span class="pl-v">_decryptIC</span>;
+        <span class="pl-k">protected</span> <span class="pl-k">byte</span>[] <span class="pl-v">_encryptBuf</span>;
+        <span class="pl-k">protected</span> <span class="pl-k">byte</span>[] <span class="pl-v">_decryptBuf</span>;
+
+        <span class="pl-k">public</span> <span class="pl-e">SodiumEncryptor</span>(<span class="pl-k">string</span> <span class="pl-v">method</span>, <span class="pl-k">string</span> <span class="pl-v">password</span>, <span class="pl-k">bool</span> <span class="pl-v">onetimeauth</span>, <span class="pl-k">bool</span> <span class="pl-v">isudp</span>)
+            : <span class="pl-k">base</span>(<span class="pl-v">method</span>, <span class="pl-v">password</span>, <span class="pl-v">onetimeauth</span>, <span class="pl-v">isudp</span>)
+        {
+            <span class="pl-v">_encryptBuf</span> = <span class="pl-k">new</span> <span class="pl-k">byte</span>[<span class="pl-v">MAX_INPUT_SIZE</span> + <span class="pl-v">SODIUM_BLOCK_SIZE</span>];
+            <span class="pl-v">_decryptBuf</span> = <span class="pl-k">new</span> <span class="pl-k">byte</span>[<span class="pl-v">MAX_INPUT_SIZE</span> + <span class="pl-v">SODIUM_BLOCK_SIZE</span>];
+        }
+
+        <span class="pl-k">private</span> <span class="pl-k">static</span> <span class="pl-en">Dictionary</span><<span class="pl-k">string</span>, <span class="pl-v">EncryptorInfo</span>> <span class="pl-v">_ciphers</span> = <span class="pl-k">new</span> <span class="pl-en">Dictionary</span><<span class="pl-k">string</span>, <span class="pl-v">EncryptorInfo</span>> {
+            { <span class="pl-s">"salsa20"</span>, <span class="pl-k">new</span> <span class="pl-e">EncryptorInfo</span>(<span class="pl-c1">32</span>, <span class="pl-c1">8</span>, <span class="pl-v">CIPHER_SALSA20</span>) },
+            { <span class="pl-s">"chacha20"</span>, <span class="pl-k">new</span> <span class="pl-e">EncryptorInfo</span>(<span class="pl-c1">32</span>, <span class="pl-c1">8</span>, <span class="pl-v">CIPHER_CHACHA20</span>) },
+            { <span class="pl-s">"chacha20-ietf"</span>, <span class="pl-k">new</span> <span class="pl-e">EncryptorInfo</span>(<span class="pl-c1">32</span>, <span class="pl-c1">12</span>, <span class="pl-v">CIPHER_CHACHA20_IETF</span>) }
+        };
+
+        <span class="pl-k">protected</span> <span class="pl-k">override</span> <span class="pl-en">Dictionary</span><<span class="pl-k">string</span>, <span class="pl-v">EncryptorInfo</span>> <span class="pl-e">getCiphers</span>()
+        {
+            <span class="pl-k">return</span> <span class="pl-v">_ciphers</span>;
+        }
+
+        <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-en">List</span><<span class="pl-k">string</span>> <span class="pl-e">SupportedCiphers</span>()
+        {
+            <span class="pl-k">return</span> <span class="pl-k">new</span> <span class="pl-en">List</span><<span class="pl-k">string</span>>(<span class="pl-v">_ciphers</span>.<span class="pl-e">Keys</span>);
+        }
+
+        <span class="pl-k">protected</span> <span class="pl-k">override</span> <span class="pl-k">void</span> <span class="pl-e">cipherUpdate</span>(<span class="pl-k">bool</span> <span class="pl-v">isCipher</span>, <span class="pl-k">int</span> <span class="pl-v">length</span>, <span class="pl-k">byte</span>[] <span class="pl-v">buf</span>, <span class="pl-k">byte</span>[] <span class="pl-v">outbuf</span>)
+        {
+            <span class="pl-c">// TODO write a unidirection cipher so we don't have to if if if</span>
+            <span class="pl-k">int</span> <span class="pl-v">bytesRemaining</span>;
+            <span class="pl-k">ulong</span> <span class="pl-v">ic</span>;
+            <span class="pl-k">byte</span>[] <span class="pl-v">sodiumBuf</span>;
+            <span class="pl-k">byte</span>[] <span class="pl-v">iv</span>;
+
+            <span class="pl-k">if</span> (<span class="pl-v">isCipher</span>)
+            {
+                <span class="pl-v">bytesRemaining</span> = <span class="pl-v">_encryptBytesRemaining</span>;
+                <span class="pl-v">ic</span> = <span class="pl-v">_encryptIC</span>;
+                <span class="pl-v">sodiumBuf</span> = <span class="pl-v">_encryptBuf</span>;
+                <span class="pl-v">iv</span> = <span class="pl-v">_encryptIV</span>;
+            }
+            <span class="pl-k">else</span>
+            {
+                <span class="pl-v">bytesRemaining</span> = <span class="pl-v">_decryptBytesRemaining</span>;
+                <span class="pl-v">ic</span> = <span class="pl-v">_decryptIC</span>;
+                <span class="pl-v">sodiumBuf</span> = <span class="pl-v">_decryptBuf</span>;
+                <span class="pl-v">iv</span> = <span class="pl-v">_decryptIV</span>;
+            }
+            <span class="pl-k">int</span> <span class="pl-v">padding</span> = <span class="pl-v">bytesRemaining</span>;
+            <span class="pl-v">Buffer</span>.<span class="pl-e">BlockCopy</span>(<span class="pl-v">buf</span>, <span class="pl-c1">0</span>, <span class="pl-v">sodiumBuf</span>, <span class="pl-v">padding</span>, <span class="pl-v">length</span>);
+
+            <span class="pl-k">switch</span> (<span class="pl-v">_cipher</span>)
+            {
+                <span class="pl-k">case</span> <span class="pl-c1">CIPHER_SALSA20</span>:
+                    <span class="pl-v">Sodium</span>.<span class="pl-e">crypto_stream_salsa20_xor_ic</span>(<span class="pl-v">sodiumBuf</span>, sodiumBuf, (<span class="pl-k">ulong</span>)(<span class="pl-v">padding</span> + <span class="pl-v">length</span>), <span class="pl-v">iv</span>, <span class="pl-v">ic</span>, <span class="pl-v">_key</span>);
+                    <span class="pl-k">break</span>;
+                <span class="pl-k">case</span> <span class="pl-c1">CIPHER_CHACHA20</span>:
+                    <span class="pl-v">Sodium</span>.<span class="pl-e">crypto_stream_chacha20_xor_ic</span>(<span class="pl-v">sodiumBuf</span>, sodiumBuf, (<span class="pl-k">ulong</span>)(<span class="pl-v">padding</span> + <span class="pl-v">length</span>), <span class="pl-v">iv</span>, <span class="pl-v">ic</span>, <span class="pl-v">_key</span>);
+                    <span class="pl-k">break</span>;
+                <span class="pl-k">case</span> <span class="pl-c1">CIPHER_CHACHA20_IETF</span>:
+                    <span class="pl-v">Sodium</span>.<span class="pl-e">crypto_stream_chacha20_ietf_xor_ic</span>(<span class="pl-v">sodiumBuf</span>, sodiumBuf, (<span class="pl-k">ulong</span>)(<span class="pl-v">padding</span> + <span class="pl-v">length</span>), iv, (<span class="pl-k">uint</span>)<span class="pl-v">ic</span>, <span class="pl-v">_key</span>);
+                    <span class="pl-k">break</span>;
+            }
+            <span class="pl-v">Buffer</span>.<span class="pl-e">BlockCopy</span>(<span class="pl-v">sodiumBuf</span>, <span class="pl-v">padding</span>, <span class="pl-v">outbuf</span>, <span class="pl-c1">0</span>, <span class="pl-v">length</span>);
+            <span class="pl-v">padding</span> += <span class="pl-v">length</span>;
+            ic += (<span class="pl-k">ulong</span>)<span class="pl-v">padding</span> / <span class="pl-v">SODIUM_BLOCK_SIZE</span>;
+            <span class="pl-v">bytesRemaining</span> = <span class="pl-v">padding</span> % <span class="pl-v">SODIUM_BLOCK_SIZE</span>;
+
+            <span class="pl-k">if</span> (<span class="pl-v">isCipher</span>)
+            {
+                <span class="pl-v">_encryptBytesRemaining</span> = <span class="pl-v">bytesRemaining</span>;
+                <span class="pl-v">_encryptIC</span> = <span class="pl-v">ic</span>;
+            }
+            <span class="pl-k">else</span>
+            {
+                <span class="pl-v">_decryptBytesRemaining</span> = <span class="pl-v">bytesRemaining</span>;
+                <span class="pl-v">_decryptIC</span> = <span class="pl-v">ic</span>;
+            }
+        }
+
+        <span class="pl-k">public</span> <span class="pl-k">override</span> <span class="pl-k">void</span> <span class="pl-e">Dispose</span>()
+        {
+        }
+    }
+}
+
+<span class="pl-k">using</span> <span class="pl-e">UnityEditor</span>;
+<span class="pl-k">using</span> <span class="pl-en">UnityEngine</span>;
+<span class="pl-k">using</span> <span class="pl-e">UnityEngine</span>.<span class="pl-e">VR</span>.<span class="pl-e">Utilities</span>;
+
+[<span class="pl-e">CustomPropertyDrawer</span>(<span class="pl-k">typeof</span>(<span class="pl-en">FlagsPropertyAttribute</span>))]
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-e">FlagsPropertyDrawer</span> : <span class="pl-en">PropertyDrawer</span>
+{
+	<span class="pl-k">public</span> <span class="pl-k">override</span> <span class="pl-k">void</span> <span class="pl-e">OnGUI</span>(<span class="pl-en">Rect</span> <span class="pl-v">position</span>, <span class="pl-en">SerializedProperty</span> <span class="pl-v">property</span>, <span class="pl-en">GUIContent</span> <span class="pl-v">label</span>)
+	{
+		<span class="pl-v">property</span>.<span class="pl-e">intValue</span> = <span class="pl-v">U</span>.<span class="pl-e">UI</span>.<span class="pl-e">MaskField</span>(<span class="pl-v">position</span>, <span class="pl-v">label</span>, <span class="pl-v">property</span>.<span class="pl-e">intValue</span>, <span class="pl-v">property</span>.<span class="pl-e">enumNames</span>, <span class="pl-v">U</span>.<span class="pl-e">UI</span>.<span class="pl-e">SerializedPropertyToType</span>(<span class="pl-v">property</span>));
+	}
+}
+
+[<span class="pl-e">CustomEditor</span>(<span class="pl-k">typeof</span>(<span class="pl-en">RaySlider</span>))]
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-e">RaySliderEditor</span> : <span class="pl-en">SliderEditor</span>
+{
+	<span class="pl-k">public</span> <span class="pl-k">override</span> <span class="pl-k">void</span> <span class="pl-e">OnInspectorGUI</span>()
+	{
+		<span class="pl-v">serializedObject</span>.<span class="pl-e">Update</span>();
+		<span class="pl-v">EditorGUILayout</span>.<span class="pl-e">PropertyField</span>(<span class="pl-v">serializedObject</span>.<span class="pl-e">FindProperty</span>(<span class="pl-s">"m_SelectionFlags"</span>));
+		<span class="pl-v">serializedObject</span>.<span class="pl-e">ApplyModifiedProperties</span>();
+		<span class="pl-k">base</span>.<span class="pl-e">OnInspectorGUI</span>();
+	}
+}
+
+<span class="pl-k">namespace</span> <span class="pl-e">UnityEngine</span>.<span class="pl-e">InputNew</span>
+{
+	<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-e">ShowMenu</span> : <span class="pl-en">ActionMapInput</span> {
+		<span class="pl-k">public</span> <span class="pl-e">ShowMenu</span> (<span class="pl-en">ActionMap</span> <span class="pl-v">actionMap</span>) : <span class="pl-k">base</span> (<span class="pl-v">actionMap</span>) { }
+		
+		<span class="pl-k">public</span> <span class="pl-en">ButtonInputControl</span> @<span class="pl-v">show</span> { <span class="pl-k">get</span> { <span class="pl-k">return</span> (<span class="pl-v">ButtonInputControl</span>)<span class="pl-c1">this</span>[<span class="pl-c1">0</span>]; } }
+	}
+}
+
+<span class="pl-k">namespace</span> <span class="pl-e">System</span>.<span class="pl-e">Collections</span>.<span class="pl-e">Concurrent</span>
+{
+    <span class="pl-c">/// &lt;<span class="pl-ent">summary</span>&gt;</span>
+    <span class="pl-c">/// Represents a thread-safe hash-based unique collection.</span>
+    <span class="pl-c">/// &lt;/<span class="pl-ent">summary</span>&gt;</span>
+    <span class="pl-c">/// &lt;<span class="pl-ent">typeparam</span> <span class="pl-e">name</span>=<span class="pl-s">"T"</span>&gt;The type of the items in the collection.&lt;/<span class="pl-ent">typeparam</span>&gt;</span>
+    <span class="pl-c">/// &lt;<span class="pl-ent">remarks</span>&gt;</span>
+    <span class="pl-c">/// All public members of &lt;<span class="pl-ent">see</span> <span class="pl-e">cref</span>="ConcurrentHashSet{T}"/&gt; are thread-safe and may be used</span>
+    <span class="pl-c">/// concurrently from multiple threads.</span>
+    <span class="pl-c">/// &lt;/<span class="pl-ent">remarks</span>&gt;</span>
+    [<span class="pl-e">DebuggerDisplay</span>(<span class="pl-s">"Count = {Count}"</span>)]
+    <span class="pl-k">public</span> <span class="pl-k">sealed</span> <span class="pl-k">class</span> <span class="pl-e">ConcurrentHashSet</span><<span class="pl-en">T</span>> : <span class="pl-en">IReadOnlyCollection</span><<span class="pl-en">T</span>>, <span class="pl-v">ICollection</span><<span class="pl-en">T</span>>
+    {
+        <span class="pl-k">private</span> <span class="pl-k">const</span> <span class="pl-k">int</span> <span class="pl-v">DefaultCapacity</span> = <span class="pl-c1">31</span>;
+        <span class="pl-k">private</span> <span class="pl-k">const</span> <span class="pl-k">int</span> <span class="pl-v">MaxLockNumber</span> = <span class="pl-c1">1024</span>;
+
+        <span class="pl-k">private</span> <span class="pl-k">readonly</span> <span class="pl-en">IEqualityComparer</span><<span class="pl-en">T</span>> <span class="pl-v">_comparer</span>;
+        <span class="pl-k">private</span> <span class="pl-k">readonly</span> <span class="pl-k">bool</span> <span class="pl-v">_growLockArray</span>;
+
+        <span class="pl-k">private</span> <span class="pl-k">int</span> <span class="pl-v">_budget</span>;
+        <span class="pl-k">private</span> <span class="pl-k">volatile</span> <span class="pl-en">Tables</span> <span class="pl-v">_tables</span>;
+
+        <span class="pl-k">private</span> <span class="pl-k">static</span> <span class="pl-k">int</span> <span class="pl-v">DefaultConcurrencyLevel</span> => <span class="pl-v">PlatformHelper</span>.<span class="pl-e">ProcessorCount</span>;
+	}
+}</pre>
+</body>
+</html>

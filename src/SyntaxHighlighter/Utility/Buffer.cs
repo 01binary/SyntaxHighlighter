@@ -258,6 +258,27 @@ namespace SyntaxHighlighter
         }
 
         /// <summary>
+        /// Determines if the character at the specified position in the buffer is a token separator.
+        /// </summary>
+        /// <param name="externalData">An external buffer to check.</param>
+        /// <param name="pos">The position in the buffer.</param>
+        /// <returns>Whether the character (possibly including next character) is a token separator.</returns>
+        public bool IsTokenSeparator(string externalData, int pos)
+        {
+            int maxLength = pos + 2 >= externalData.Length ? 1 : 2;
+            Match match = this.Separators.Match(externalData, pos, maxLength);
+
+            if (match.Success && match.Index == pos)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Performs a transform replacement.
         /// </summary>
         /// <param name="match">The raw token to replace.</param>
